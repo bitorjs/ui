@@ -1,5 +1,6 @@
 import D from 'bitorjs-decorators';
-import Index from '../view/index';
+import loading from '../view/loading';
+import button from '../view/button';
 
 @D.namespace('/')
 class IndexController {
@@ -9,7 +10,17 @@ class IndexController {
 
   @D.Get('/')
   index() {
-    this.ctx.render(Index)
+    // this.ctx.render(Index)
+  }
+
+  @D.Get('/loading')
+  loading() {
+    this.ctx.render(loading)
+  }
+
+  @D.Get('/button')
+  button() {
+    this.ctx.render(button)
   }
 
 }

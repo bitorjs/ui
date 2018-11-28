@@ -21,8 +21,8 @@
 </template>
 <script>
 export default {
-  name: 'Button',
-  props:{
+  name: "Button",
+  props: {
     text: String,
     block: Boolean,
     plain: Boolean,
@@ -34,23 +34,23 @@ export default {
     bottomAction: Boolean,
     type: {
       type: String,
-      default: 'default'
+      default: "default"
     },
     size: {
       type: String,
-      default: 'normal'
+      default: "normal"
     }
   },
-  methods:{
-    classes(){
-      let cls = []
+  methods: {
+    classes() {
+      let cls = [];
       return cls;
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../style/theme';
+@import "../style/theme";
 
 .button {
   position: relative;
@@ -81,65 +81,65 @@ export default {
   }
 
   &:active::before {
-    opacity: .15;
+    opacity: 0.15;
   }
 
-  &--unclickable::before {
+  &.unclickable::before {
     display: none;
   }
 
-  &--default {
+  &.default {
     color: @button-default-color;
     background-color: @button-default-background-color;
     border: 1px solid @button-default-border-color;
   }
 
-  &--primary {
+  &.primary {
     color: @button-primary-color;
     background-color: @button-primary-background-color;
     border: 1px solid @button-primary-border-color;
   }
 
-  &--danger {
+  &.danger {
     color: @button-danger-color;
     background-color: @button-danger-background-color;
     border: 1px solid @button-danger-border-color;
   }
 
-  &--warning {
+  &.warning {
     color: @button-warning-color;
     background-color: @button-warning-background-color;
     border: 1px solid @button-warning-border-color;
   }
 
-  &--plain {
+  &.plain {
     background-color: @white;
 
-    &.van-button--primary {
+    &.primary {
       color: @button-primary-background-color;
     }
 
-    &.van-button--danger {
+    &.danger {
       color: @button-danger-background-color;
     }
 
-    &.van-button--warning {
+    &.warning {
       color: @button-warning-background-color;
     }
   }
 
-  &--large {
+  &.large {
     width: 100%;
     height: 50px;
     line-height: 48px;
   }
 
-  &--normal {
+  &.normal {
     padding: 0 15px;
     font-size: 14px;
   }
 
-  &--small {
+  &.small {
     height: 30px;
     padding: 0 8px;
     min-width: 60px;
@@ -147,31 +147,31 @@ export default {
     line-height: 28px;
   }
 
-  &--loading {
+  &.loading {
     .van-loading {
       display: inline-block;
     }
   }
 
   /* mini图标默认宽度50px，文字不能超过4个 */
-  &--mini {
+  &.mini {
     display: inline-block;
     width: 50px;
     height: 22px;
     line-height: 20px;
     font-size: 10px;
 
-    & + .van-button--mini {
+    & + .mini {
       margin-left: 5px;
     }
   }
 
-  &--block {
+  &.block {
     width: 100%;
     display: block;
   }
 
-  &--bottom-action {
+  &.bottom-action {
     width: 100%;
     height: 50px;
     line-height: 50px;
@@ -181,20 +181,20 @@ export default {
     color: @button-bottom-action-default-color;
     background-color: @button-bottom-action-default-background-color;
 
-    &.van-button--primary {
+    &.primary {
       background-color: @button-bottom-action-primary-background-color;
     }
   }
 
-  &--disabled {
-    opacity: .5;
+  &.disabled {
+    opacity: 0.5;
   }
 
-  &--round {
+  &.round {
     border-radius: 10em;
   }
 
-  &--square {
+  &.square {
     border-radius: 0;
   }
 }
