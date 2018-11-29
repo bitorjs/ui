@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import VueToast from './Toast';
-// import { isObj, isServer } from '../utils';
-const isObj = () => {
-  return true;
+const isObj = (obj) => {
+  return Object.prototype.toString.call(obj) === '[object Object]'
 };
 const isServer = false;
 
@@ -33,7 +32,8 @@ function createInstance() {
   }
 
   if (!queue.length || !singleton) {
-    const toast = new(Vue.extend(VueToast))({
+    let newVue = Vue.extend(VueToast);
+    const toast = new newVue({
       el: document.createElement('div')
     });
     document.body.appendChild(toast.$el);
@@ -105,7 +105,8 @@ Toast.setDefaultOptions = options => {
 };
 
 Toast.resetDefaultOptions = () => {
-  currentOptions = { ...defaultOptions
+  currentOptions = {
+    ...defaultOptions
   };
 };
 

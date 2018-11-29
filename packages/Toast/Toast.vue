@@ -1,28 +1,26 @@
 <template>
   <transition name="fade">
-    <div v-show="value" :class="[style, position]">
+    <div class="toast" v-show="value" :class="[style, position]">
       <!-- text only -->
       <div v-if="style === 'text'">{{ message }}</div>
       <div v-if="style === 'html'" v-html="message"/>
-
       <!-- with icon -->
       <template v-if="style === 'default'">
         <loading v-if="type === 'loading'" color="white" :type="loadingType"/>
         <icon v-else :class="'icon'" :name="type"/>
-        <!-- <div v-if="isDef(message)" :class="'text'">{{ message }}</div> -->
+        <div v-if="message" :class="'text'">{{ message }}</div>
       </template>
     </div>
   </transition>
 </template>
 
 <script>
-// import Popup from "../mixins/popup";
 const STYLE_LIST = ["success", "fail", "loading"];
 export default {
   name: "Toast",
-  // mixins: [Popup],
   props: {
     forbidClick: Boolean,
+    value: String,
     message: [String, Number],
     type: {
       type: String,
@@ -71,7 +69,7 @@ export default {
       if (this.clickable !== clickable) {
         this.clickable = clickable;
         const action = clickable ? "add" : "remove";
-        document.body.classList[action]("toast--unclickable");
+        document.body.classList[action]("unclickable");
       }
     }
   }
@@ -119,7 +117,7 @@ export default {
     padding: @toast-default-padding;
     min-height: @toast-default-min-height;
 
-    .toast__icon {
+    .icon {
       font-size: @toast-icon-size;
     }
 
@@ -127,7 +125,7 @@ export default {
       margin: 10px 0;
     }
 
-    .toast__text {
+    .text {
       padding-top: 5px;
     }
   }

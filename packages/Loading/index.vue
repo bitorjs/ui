@@ -128,6 +128,16 @@ export default {
   }
 }
 
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes circular {
   0% {
     stroke-dasharray: 1, 200;
