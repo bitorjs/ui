@@ -1,4 +1,5 @@
 import D from 'bitorjs-decorators';
+import icon from '../view/icon';
 import loading from '../view/loading';
 import button from '../view/button';
 import toast from '../view/toast';
@@ -9,16 +10,16 @@ class IndexController {
     this.ctx = ctx;
   }
 
-  @D.Get('/')
-  index() {
-    // this.ctx.render(Index)
-    console.log(this.ctx)
-    // this.ctx.redirect('/loading')
-  }
+
 
   @D.Get('/loading')
   loading() {
     this.ctx.render(loading)
+  }
+
+  @D.Get('/icon')
+  loading() {
+    this.ctx.render(icon)
   }
 
   @D.Get('/button')
@@ -31,6 +32,12 @@ class IndexController {
     this.ctx.render(toast)
   }
 
+  @D.Get('/:page')
+  index() {
+    // this.ctx.render(import(this.ctx.params.page))
+    // console.log(this.ctx)
+    // this.ctx.redirect('/loading')
+  }
 }
 
 export default IndexController;

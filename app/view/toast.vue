@@ -4,7 +4,6 @@
   </PageRootContainer>
 </template>
 <script>
-import Toast from "../../packages/Toast";
 export default {
   name: "toast",
   mounted() {
