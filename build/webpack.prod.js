@@ -7,9 +7,12 @@ const cwd = process.cwd();
 
 module.exports = WebpackMerge(base, {
   mode: 'production',
-  entry: './app.js',
+  entry: {
+    demo: './app.js',
+    ui: './packages/index.js'
+  },
   output: {
-    filename: 'build.min.js',
+    filename: '[name].min.js',
     path: path.resolve(cwd, 'dist'),
   },
   module: {
@@ -17,13 +20,13 @@ module.exports = WebpackMerge(base, {
       test: /\.(le|c)ss$/,
       use: [
         MiniCssExtractPlugin.loader,
-        'css-loader', 'less-loader', 'postcss-loader'
+        'css-loader', 'postcss-loader', 'less-loader'
       ]
     }]
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'app.min.css'
+      filename: '[name].min.css'
     })
   ]
 })

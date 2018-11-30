@@ -18,7 +18,7 @@ class IndexController {
   }
 
   @D.Get('/icon')
-  loading() {
+  icon() {
     this.ctx.render(icon)
   }
 
@@ -32,8 +32,9 @@ class IndexController {
     this.ctx.render(toast)
   }
 
-  @D.Get('/:page')
-  index() {
+  @D.Get('/:page?')
+  a() {
+    this.ctx.render(button)
     // this.ctx.render(import(this.ctx.params.page))
     // console.log(this.ctx)
     // this.ctx.redirect('/loading')

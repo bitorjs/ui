@@ -28,7 +28,6 @@ let client = app => {
     Vue.use({
       install(Vue) {
         Object.keys(ui).forEach(item => {
-          console.log('--')
           Vue.component(item, ui[item])
         });
       }
