@@ -3,6 +3,8 @@ import icon from '../view/icon';
 import loading from '../view/loading';
 import button from '../view/button';
 import toast from '../view/toast';
+import layout from '../view/layout';
+import cell from '../view/cell';
 
 @D.namespace('/')
 class IndexController {
@@ -30,6 +32,16 @@ class IndexController {
   @D.Get('/toast')
   toast() {
     this.ctx.render(toast)
+  }
+
+  @D.Get('/layout')
+  layout() {
+    this.ctx.render(layout)
+  }
+
+  @D.Get('/cell')
+  cell() {
+    this.ctx.render(cell)
   }
 
   @D.Get('/:page?')

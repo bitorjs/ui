@@ -74,7 +74,7 @@ export default {
 
     &.gradient-circle {
       background-size: contain;
-      background-image: url("https://img.yzcdn.cn/vant/gradient-circle-black.png");
+      background-image: url("./gradient-circle-black.png");
     }
 
     &.spinner {
@@ -123,7 +123,7 @@ export default {
     }
 
     .gradient-circle {
-      background-image: url("https://img.yzcdn.cn/vant/gradient-circle-white.png");
+      background-image: url("./gradient-circle-white.png");
     }
   }
 }

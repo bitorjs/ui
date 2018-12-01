@@ -1,11 +1,22 @@
 import Icon from './Icon';
 import Loading from './Loading';
 import Button from './Button';
+import Row from './Layout/Row';
+import Col from './Layout/Col';
+import Cell from './Cell';
+import CellGroup from './Cell/group';
+
+
 import './Toast';
+import './Dialog';
 
 
 export default {
   Icon,
   Loading,
-  Button
+  Button,
+  Col,
+  Cell,
+  CellGroup,
+  Row
 }
