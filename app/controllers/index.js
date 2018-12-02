@@ -5,6 +5,7 @@ import button from '../view/button';
 import toast from '../view/toast';
 import layout from '../view/layout';
 import cell from '../view/cell';
+import navbar from '../view/navbar';
 
 @D.namespace('/')
 class IndexController {
@@ -42,6 +43,11 @@ class IndexController {
   @D.Get('/cell')
   cell() {
     this.ctx.render(cell)
+  }
+
+  @D.Get('/navbar')
+  cell() {
+    this.ctx.render(navbar)
   }
 
   @D.Get('/:page?')

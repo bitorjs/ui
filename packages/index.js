@@ -3,6 +3,7 @@ import Loading from './Loading';
 import Button from './Button';
 import Row from './Layout/Row';
 import Col from './Layout/Col';
+import NavBar from './NavBar';
 import Cell from './Cell';
 import CellGroup from './Cell/group';
 
@@ -18,5 +19,6 @@ export default {
   Col,
   Cell,
   CellGroup,
-  Row
+  Row,
+  NavBar
 }
