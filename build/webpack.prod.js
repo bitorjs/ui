@@ -28,5 +28,5 @@ module.exports = WebpackMerge(base, {
     new MiniCssExtractPlugin({
       filename: '[name].min.css'
     })
-  ]
+  ],
 })

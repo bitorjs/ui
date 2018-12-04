@@ -16,52 +16,57 @@ class IndexController {
 
 
 
-  @D.Get('/loading')
-  loading() {
-    this.ctx.render(loading)
-  }
+  // @D.Get('/loading')
+  // async loading() {
+  //   const s = await import('../view/loading')
+  //   console.log(s.default)
+  //   console.log(loading)
+  //   this.ctx.render(s.default)
+  // }
 
-  @D.Get('/icon')
-  icon() {
-    this.ctx.render(icon)
-  }
+  // @D.Get('/icon')
+  // icon() {
+  //   this.ctx.render(icon)
+  // }
 
-  @D.Get('/button')
-  button() {
-    this.ctx.render(button)
-  }
+  // @D.Get('/button')
+  // button() {
+  //   this.ctx.render(button)
+  // }
 
-  @D.Get('/toast')
-  toast() {
-    this.ctx.render(toast)
-  }
+  // @D.Get('/toast')
+  // toast() {
+  //   this.ctx.render(toast)
+  // }
 
-  @D.Get('/layout')
-  layout() {
-    this.ctx.render(layout)
-  }
+  // @D.Get('/layout')
+  // layout() {
+  //   this.ctx.render(layout)
+  // }
 
-  @D.Get('/cell')
-  cell() {
-    this.ctx.render(cell)
-  }
+  // @D.Get('/cell')
+  // cell() {
+  //   this.ctx.render(cell)
+  // }
 
-  @D.Get('/navbar')
-  navbar() {
-    this.ctx.render(navbar)
-  }
+  // @D.Get('/navbar')
+  // navbar() {
+  //   this.ctx.render(navbar)
+  // }
 
-  @D.Get('/dialog')
-  dialog() {
-    this.ctx.render(dialog)
-  }
+  // @D.Get('/dialog')
+  // dialog() {
+  //   this.ctx.render(dialog)
+  // }
 
   @D.Get('/:page?')
   a() {
-    this.ctx.render(button)
-    // this.ctx.render(import(this.ctx.params.page))
-    // console.log(this.ctx)
-    // this.ctx.redirect('/loading')
+    const asyncView = import(`../view/${this.ctx.params.page}`)
+    asyncView.then(res => {
+      this.ctx.render(res.default)
+    }).catch(res => {
+      this.ctx.render(button)
+    })
   }
 }
 
