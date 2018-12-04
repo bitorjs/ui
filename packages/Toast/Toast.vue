@@ -15,9 +15,12 @@
 </template>
 
 <script>
+import Popup from "../common/mixins/popup";
+
 const STYLE_LIST = ["success", "fail", "loading"];
 export default {
   name: "Toast",
+  mixins: [Popup],
   props: {
     forbidClick: Boolean,
     value: String,
@@ -76,7 +79,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../style/theme";
+@import "../common/style/theme";
 
 .toast {
   position: fixed;

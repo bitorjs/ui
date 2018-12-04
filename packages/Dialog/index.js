@@ -1,7 +1,9 @@
 import Vue from 'vue';
-import VanDialog from './index.vue';
+import VanDialog from './dialog.vue';
 
-const isServer = false;
+import {
+  isServer
+} from '../common/utils';
 
 let instance;
 

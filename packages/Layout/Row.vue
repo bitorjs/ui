@@ -41,7 +41,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../style/theme";
+@import "../common/style/theme";
 
 .row {
   &::after {

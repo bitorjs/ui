@@ -113,7 +113,7 @@ export default {
         on(document, 'touchmove', this.onTouchMove);
 
         if (!context.lockCount) {
-          document.body.classList.add('van-overflow-hidden');
+          document.body.classList.add('overflow-hidden');
         }
         context.lockCount++;
       }
@@ -130,7 +130,7 @@ export default {
         off(document, 'touchmove', this.onTouchMove);
 
         if (!context.lockCount) {
-          document.body.classList.remove('van-overflow-hidden');
+          document.body.classList.remove('overflow-hidden');
         }
       }
 

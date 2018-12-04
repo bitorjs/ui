@@ -45,7 +45,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../style/theme";
+@import "../common/style/theme";
 
 .nav-bar {
   height: 46px;

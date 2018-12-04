@@ -1,5 +1,5 @@
 <template>
-  <transition name="van-dialog-bounce">
+  <transition name="dialog-bounce">
     <div v-show="value" :class="['dialog', className]">
       <div
         v-if="title"
@@ -12,7 +12,7 @@
         </slot>
       </div>
       <div
-        class="van-hairline--top"
+        class="hairline--top"
         :class="['footer', { 'buttons': showCancelButton && showConfirmButton }]"
       >
         <Button
@@ -20,14 +20,14 @@
           :loading="loading.cancel"
           size="large"
           :class="'cancel'"
-          @click="handleAction('cancel')"
+          @click.native="handleAction('cancel')"
         >{{ cancelButtonText || 'cancel' }}</Button>
         <Button
           v-show="showConfirmButton"
           size="large"
           :loading="loading.confirm"
-          :class="['confirm', { 'van-hairline--left': showCancelButton && showConfirmButton }]"
-          @click="handleAction('confirm')"
+          :class="['confirm', { 'hairline--left': showCancelButton && showConfirmButton }]"
+          @click.native="handleAction('confirm')"
         >{{ confirmButtonText || 'confirm' }}</Button>
       </div>
     </div>
@@ -36,15 +36,16 @@
 
 <script>
 import Button from "../Button";
-// import Popup from "../mixins/popup";
+import Popup from "../common/mixins/popup";
+
 export default {
   name: "Dialog",
+  mixins: [Popup],
   components: {
     Button
   },
   // mixins: [Popup],
   props: {
-    value: String,
     title: String,
     message: String,
     callback: Function,
@@ -97,7 +98,8 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../style/theme";
+@import "../common/style/theme";
+@import "../common/style/hairline";
 
 .dialog {
   position: fixed;

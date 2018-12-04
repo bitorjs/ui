@@ -3,7 +3,9 @@ import VueToast from './Toast';
 const isObj = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
 };
-const isServer = false;
+import {
+  isServer
+} from '../common/utils';
 
 const defaultOptions = {
   type: 'text',
