@@ -40,18 +40,7 @@
 <script>
 export default {
   name: "cell",
-  mounted() {
-    Dialog.confirm({
-      title: "标题",
-      message: "弹窗内容"
-    })
-      .then(() => {
-        // on confirm
-      })
-      .catch(() => {
-        // on cancel
-      });
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

@@ -51,10 +51,13 @@ export default {
       this.$toast.loading({ mask: true, message: "loading" + "..." });
     },
     showSuccessToast() {
-      this.$toast.success("text2");
+      this.$toast.success("<p>text2<p><p>444</p>");
     },
     showFailToast() {
-      this.$toast.fail("text3");
+      this.$toast.fail({
+        mask: true,
+        message: "<p>text2sdfsdfadfadfasfesfsae<p><p>444</p>"
+      });
     },
     showCustomizedToast(duration) {
       const toast = this.$toast.loading({

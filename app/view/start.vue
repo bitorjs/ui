@@ -1,12 +1,21 @@
 <template>
   <PageRootContainer>
-    <Header border>头部</Header>
+    <NavBar :title="title" :left-arrow="back" @click-left="onClickLeft"/>
     <webview-container></webview-container>
   </PageRootContainer>
 </template>
 <script>
 export default {
-  nane: "StartPage"
+  nane: "StartPage",
+  props: {
+    title: { type: String, default: "所有组件" }, //,
+    back: { type: Boolean, default: true } // false
+  },
+  methods: {
+    onClickLeft() {
+      this.$bitor.redirect("/");
+    }
+  }
 };
 </script>
 <style lang="less">

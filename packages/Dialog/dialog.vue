@@ -40,11 +40,10 @@ import Popup from "../common/mixins/popup";
 
 export default {
   name: "Dialog",
-  mixins: [Popup],
   components: {
     Button
   },
-  // mixins: [Popup],
+  mixins: [Popup],
   props: {
     title: String,
     message: String,

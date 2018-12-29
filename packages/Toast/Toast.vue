@@ -2,13 +2,13 @@
   <transition name="fade">
     <div class="toast" v-show="value" :class="[style, position]">
       <!-- text only -->
-      <div v-if="style === 'text'">{{ message }}</div>
+      <div v-if="style === 'text'" v-html="message"></div>
       <div v-if="style === 'html'" v-html="message"/>
       <!-- with icon -->
       <template v-if="style === 'default'">
         <loading v-if="type === 'loading'" color="white" :type="loadingType"/>
         <icon v-else :class="'icon'" :name="type"/>
-        <div v-if="message" :class="'text'">{{ message }}</div>
+        <div v-if="message" :class="'text'" v-html="message"></div>
       </template>
     </div>
   </transition>
@@ -116,7 +116,7 @@ export default {
   }
 
   &.default {
-    width: @toast-default-width;
+    min-width: @toast-default-width;
     padding: @toast-default-padding;
     min-height: @toast-default-min-height;
 

@@ -15,8 +15,12 @@
         unclickable: disabled || loading,
         'bottom-action': bottomAction
       }]"
+    @click="onClick"
   >
-    <slot></slot>
+    <loading v-if="loading" size="20px" :color="type === 'default' ? void 0 : ''"/>
+    <span v-else class="text">
+      <slot>{{text}}</slot>
+    </span>
   </div>
 </template>
 <script>
@@ -45,6 +49,11 @@ export default {
     classes() {
       let cls = [];
       return cls;
+    },
+    onClick(event) {
+      if (!this.loading && !this.disabled) {
+        this.$emit("click", event);
+      }
     }
   }
 };

@@ -2,7 +2,7 @@
   <transition name="fade">
     <div
       v-show="visible"
-      class="mask"
+      class="overlay"
       :class="className"
       :style="style"
       @touchmove.prevent.stop
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "Mask",
+  name: "Overlay",
   props: {
     zIndex: Number,
     visible: Boolean,
@@ -33,13 +33,13 @@ export default {
 <style lang="less" scoped>
 @import "../style/theme";
 
-.mask {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: @mask-background-color;
+  background-color: @overlay-background-color;
 }
 
 @keyframes fade-in {

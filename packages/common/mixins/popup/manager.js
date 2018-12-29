@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import context from './context';
-import Overlay from '../../Mask';
+import Overlay from '../../Overlay';
 
 const defaultConfig = {
   className: '',

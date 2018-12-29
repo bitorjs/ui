@@ -1,12 +1,5 @@
 import D from 'bitorjs-decorators';
-import icon from '../view/icon';
-import loading from '../view/loading';
-import button from '../view/button';
-import toast from '../view/toast';
-import layout from '../view/layout';
-import cell from '../view/cell';
-import navbar from '../view/navbar';
-import dialog from '../view/dialog';
+import index from '../view/index';
 
 @D.namespace('/')
 class IndexController {
@@ -15,57 +8,47 @@ class IndexController {
   }
 
 
-
-  // @D.Get('/loading')
-  // async loading() {
-  //   const s = await import('../view/loading')
-  //   console.log(s.default)
-  //   console.log(loading)
-  //   this.ctx.render(s.default)
-  // }
-
-  // @D.Get('/icon')
-  // icon() {
-  //   this.ctx.render(icon)
-  // }
-
-  // @D.Get('/button')
-  // button() {
-  //   this.ctx.render(button)
-  // }
-
-  // @D.Get('/toast')
-  // toast() {
-  //   this.ctx.render(toast)
-  // }
-
-  // @D.Get('/layout')
-  // layout() {
-  //   this.ctx.render(layout)
-  // }
-
-  // @D.Get('/cell')
-  // cell() {
-  //   this.ctx.render(cell)
-  // }
-
-  // @D.Get('/navbar')
-  // navbar() {
-  //   this.ctx.render(navbar)
-  // }
-
-  // @D.Get('/dialog')
-  // dialog() {
-  //   this.ctx.render(dialog)
-  // }
+  @D.Get('/')
+  icon() {
+    this.ctx.render(index, {
+      data: [{
+        name: 'loading',
+        label: '加载'
+      }, {
+        name: 'icon',
+        label: '图标'
+      }, {
+        name: 'button',
+        label: '按钮'
+      }, {
+        name: 'layout',
+        label: '布局'
+      }, {
+        name: 'cell',
+        label: 'Cell'
+      }, {
+        name: 'navbar',
+        label: 'navbar'
+      }, {
+        name: 'dialog',
+        label: '弹框'
+      }, {
+        name: 'toast',
+        label: 'Toast'
+      }]
+    })
+  }
 
   @D.Get('/:page?')
   a() {
-    const asyncView = import(`../view/${this.ctx.params.page}`)
+    // console.log('虎皮', md52('虎皮'))
+    // console.log('虎皮', md5Hex('虎皮'))
+    // console.log('虎皮', md5Hex2('虎皮'))
+    const asyncView = import(`../view/src/${this.ctx.params.page}`)
     asyncView.then(res => {
       this.ctx.render(res.default)
     }).catch(res => {
-      this.ctx.render(button)
+      this.ctx.render(index)
     })
   }
 }
