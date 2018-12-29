@@ -157,7 +157,7 @@ export default {
   }
 
   &.loading {
-    .van-loading {
+    .loading {
       display: inline-block;
     }
   }
