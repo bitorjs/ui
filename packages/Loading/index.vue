@@ -1,6 +1,6 @@
 <template>
-  <div class="loading" :class="[type, colorType]" :style="style">
-    <span :class="type?type:'spinner'">
+  <div class="loading" :class="[`loading--${type}`, colorType]" :style="style">
+    <span :class="['loading__spinner',type]">
       <i v-for="(item, index) in (type === 'spinner' ? 12 : 0)" :key="index"/>
       <svg v-if="type === 'circular'" :class="'circular'" viewBox="25 25 50 50">
         <circle cx="50" cy="50" r="20" fill="none"></circle>
@@ -51,12 +51,16 @@ export default {
   position: relative;
   vertical-align: middle;
 
-  &.circle {
+  .circle {
     width: 16px;
     height: 16px;
+
+    .circular {
+      animation-duration: 2s;
+    }
   }
 
-  .spinner {
+  &__spinner {
     z-index: -1;
     width: 100%;
     height: 100%;
