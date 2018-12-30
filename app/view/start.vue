@@ -1,6 +1,7 @@
 <template>
   <PageRootContainer>
     <NavBar :title="title" :left-arrow="back" @click-left="onClickLeft"/>
+    <p>{{$store.state.count}}</p>
     <webview-container></webview-container>
   </PageRootContainer>
 </template>

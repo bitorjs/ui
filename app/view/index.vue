@@ -5,7 +5,7 @@
         :title="item.label"
         v-for="item in data"
         :key="item.name"
-        v-redirect="item.name"
+        @click.native="go(item.name)"
         is-link
       />
     </PageContainer>
@@ -17,7 +17,16 @@ export default {
   props: {
     data: Array
   },
-  mounted() {}
+  mounted() {
+    console.log(this.$store);
+  },
+  methods: {
+    go(url) {
+      console.log(this.$bitor.store);
+      this.$bitor.store.setItem("a", 1);
+      this.$bitor.redirect(url);
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

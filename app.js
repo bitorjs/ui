@@ -4,9 +4,11 @@ import classloader from './.classloader';
 import Start from './app/view/start';
 import ui from './packages';
 import Vue from 'vue';
+import store from './app/store/index';
 
 let client = app => {
   app.on('ready', () => {
+    app.store = store;
     // 自动注入 controller
     const ctrls = classloader['controllers'];
     for (const key in ctrls) {
