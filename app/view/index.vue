@@ -26,7 +26,6 @@ export default {
       // this.$bitor.store.setItem("title", label);
       // this.$store.setItem("title", label);
       this.$bitor.store.root.setItem("title", label);
-      this.$bitor.store.mmm.pushItem("data", label);
       this.$bitor.redirect(url);
       console.log(url, label);
     }
