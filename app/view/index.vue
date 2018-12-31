@@ -17,17 +17,11 @@ export default {
   props: {
     data: Array
   },
-  mounted() {
-    console.log(this.$store);
-  },
   methods: {
     go(url, label) {
-      console.log(this.$bitor.store);
-      // this.$bitor.store.setItem("title", label);
-      // this.$store.setItem("title", label);
       this.$bitor.store.root.setItem("title", label);
+      this.$bitor.store.ttt.commit("ttt/increate", label);
       this.$bitor.redirect(url);
-      console.log(url, label);
     }
   }
 };

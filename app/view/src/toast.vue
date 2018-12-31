@@ -17,7 +17,8 @@
 Toast.allowMultiple();
 
 const toast1 = Toast('第一个 Toast');
-const toast2 = Toast.success('第二个 Toast');
+const toast2 = 
+  Toast.success('第二个 Toast');
 
 toast1.clear();
 toast2.clear();

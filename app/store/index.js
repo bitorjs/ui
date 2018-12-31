@@ -20,5 +20,5 @@ new Vuex.Store('mmm', {
     // data: []
   },
 });
-Vue.prototype.$store = store;
+
 export default store;

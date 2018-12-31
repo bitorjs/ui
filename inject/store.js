@@ -23,16 +23,21 @@ class Store extends Vuex.Store {
       Store.instance = super(generOption({
         plugins: [vuexLocal.plugin]
       }))
+      Vue.prototype.$store = Store.instance;
     }
 
     options.namespaced = true;
     Store.instance.registerModule(namespace, options);
 
-
     let proxy = new Proxy(Store.instance, {
       get: function (obj, prop) {
         if (prop in obj) {
-          return obj[prop];
+          if (prop == 'commit' && _namespace !== '') {
+            return obj[prop];
+          } else {
+            return obj[prop];
+          }
+
         } else {
           if (prop === 'root') {
             _namespace = ''
