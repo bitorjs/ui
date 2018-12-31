@@ -24,6 +24,13 @@ class Store extends Vuex.Store {
         plugins: [vuexLocal.plugin]
       }))
       Vue.prototype.$store = Store.instance;
+
+      let commit = Store.instance.commit;
+      console.log(commit)
+      Store.instance.commit = function (type, payload, options) {
+        commit.call(Store.instance, `${_namespace}${type}`, payload, options)
+        // console.log(1)
+      }
     }
 
     options.namespaced = true;
@@ -32,12 +39,7 @@ class Store extends Vuex.Store {
     let proxy = new Proxy(Store.instance, {
       get: function (obj, prop) {
         if (prop in obj) {
-          if (prop == 'commit' && _namespace !== '') {
-            return obj[prop];
-          } else {
-            return obj[prop];
-          }
-
+          return obj[prop];
         } else {
           if (prop === 'root') {
             _namespace = ''

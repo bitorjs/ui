@@ -46,7 +46,7 @@ class IndexController {
     let item = this.data.filter(item => {
       return item.name == this.ctx.params.page;
     })
-    this.ctx.app.store.setItem("title", item[0].label);
+    // this.ctx.app.store.setItem("title", item[0].label);
     const asyncView = import(`../view/src/${this.ctx.params.page}`)
     asyncView.then(res => {
       this.ctx.render(res.default)

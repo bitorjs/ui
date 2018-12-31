@@ -20,7 +20,10 @@ export default {
   methods: {
     go(url, label) {
       this.$bitor.store.root.setItem("title", label);
-      this.$bitor.store.ttt.commit("ttt/increate", label);
+      // this.$bitor.store.commit("increate");
+      // this.$bitor.store.root.commit("increate");
+      this.$bitor.store.ttt.commit("increate");
+      // this.$bitor.store.mmm.commit("increate");
       this.$bitor.redirect(url);
     }
   }
