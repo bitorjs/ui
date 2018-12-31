@@ -1,7 +1,6 @@
 <template>
   <PageRootContainer>
-    <NavBar :title="title" :left-arrow="back" @click-left="onClickLeft"/>
-    <p>{{$store.state.count}}</p>
+    <NavBar :title="$store.state.title||title" :left-arrow="back" @click-left="onClickLeft"/>
     <webview-container></webview-container>
   </PageRootContainer>
 </template>
@@ -14,6 +13,7 @@ export default {
   },
   methods: {
     onClickLeft() {
+      this.$bitor.store.root.setItem("title", "所有组件");
       this.$bitor.redirect("/");
     }
   }

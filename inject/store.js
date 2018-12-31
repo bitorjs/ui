@@ -1,28 +1,61 @@
+import Vue from 'vue';
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage
+})
 
-class Store extends Vuex.Store {
-  constructor(options = {}) {
-    options['mutations']['SYS:SET'] = function (state, payload) {
-      state.count++;
-      console.log(payload)
-    }
-    super(options);
-
-    console.log(this)
+function generOption(options) {
+  options['mutations'] = options['mutations'] || {}
+  options['mutations']['SYS:SET'] = function (state, payload) {
+    Vue.set(state, payload.key, payload.value);
   }
+
+  return options;
+}
+
+let _namespace = '';
+class Store extends Vuex.Store {
+  static instance = null;
+  constructor(namespace, options = {}) {
+    options = generOption(options)
+    if (Store.instance == null) {
+      Store.instance = super(generOption({
+        plugins: [vuexLocal.plugin]
+      }))
+    }
+
+    options.namespaced = true;
+    Store.instance.registerModule(namespace, options);
+
+
+    let proxy = new Proxy(Store.instance, {
+      get: function (obj, prop) {
+        if (prop in obj) {
+          return obj[prop];
+        } else {
+          if (prop === 'root') {
+            _namespace = ''
+          } else {
+            _namespace = `${prop}/`;
+          }
+
+          return proxy;
+        }
+      }
+    })
+
+    return proxy;
+  }
+
+
 
   setItem(key, value) {
-    this.commit('SYS:SET', key, value)
-    // this.commit(type, payload, options)
-    // console.log(this._modules['root']['state'].count++)
-  }
-
-  pushItem(key, value) {
-
-  }
-
-  getItem(key) {
-
+    this.commit(`${_namespace}SYS:SET`, {
+      key,
+      value
+    })
+    _namespace = ''
   }
 }
 

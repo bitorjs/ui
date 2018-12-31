@@ -60,7 +60,8 @@
     "normalize.css": "^8.0.1",
     "vue": "^2.5.17",
     "vue-loader": "^15.4.2",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-persist": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

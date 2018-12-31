@@ -2,24 +2,23 @@ import Vuex from '../../inject/store';
 import Vue from 'vue';
 // import Vuex from 'vuex';
 Vue.use(Vuex);
-const store = new Vuex.Store({
+const store = new Vuex.Store('ttt', {
   state: {
-    count: 0
+    count: 0,
+    // data: []
   },
   mutations: {
     increate(state, payload) {
       state.count++;
     }
   },
-  modules: {
-    a: {
-      mutations: {
-        ffa(state, payload) {
-          state.count++;
-        }
-      },
-    }
-  }
+});
+
+new Vuex.Store('mmm', {
+  state: {
+    count: 0,
+    // data: []
+  },
 });
 Vue.prototype.$store = store;
 export default store;
