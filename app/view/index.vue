@@ -24,7 +24,9 @@ export default {
       // this.$bitor.store.root.commit("increate");
       this.$bitor.store.ttt.commit("increate");
       // this.$bitor.store.mmm.commit("increate");
+      this.$bitor.store.ttt.dispatch("increment");
       this.$bitor.redirect(url);
+      console.log(this.$bitor.store);
     }
   }
 };

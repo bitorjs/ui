@@ -12,6 +12,12 @@ const store = new Vuex.Store('ttt', {
       state.count++;
     }
   },
+  actions: {
+    increment(context) {
+      // context.commit('increment')
+      console.log(context)
+    }
+  }
 });
 
 new Vuex.Store('mmm', {

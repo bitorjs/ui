@@ -26,10 +26,13 @@ class Store extends Vuex.Store {
       Vue.prototype.$store = Store.instance;
 
       let commit = Store.instance.commit;
-      console.log(commit)
       Store.instance.commit = function (type, payload, options) {
         commit.call(Store.instance, `${_namespace}${type}`, payload, options)
-        // console.log(1)
+      }
+
+      let dispatch = Store.instance.dispatch;
+      Store.instance.dispatch = function (type, payload) {
+        dispatch.call(Store.instance, `${_namespace}${type}`, payload)
       }
     }
 
