@@ -1,8 +1,8 @@
 {
-  "name": "ui",
+  "name": "@bitorjs/ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "packages/index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./build/webpack.dev.js --watch --color --progress",
     "dev": "webpack --config ./build/webpack.dev.js --watch --progress --color",

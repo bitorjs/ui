@@ -42,7 +42,8 @@ class IndexController {
   }
 
   @D.Get('/:page?')
-  a() {
+  a(a, b, c) {
+    console.log(a, b, c)
     let item = this.data.filter(item => {
       return item.name == this.ctx.params.page;
     })

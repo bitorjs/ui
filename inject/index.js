@@ -23,7 +23,7 @@ export default class extends Application {
       let route = routes[0];
       if (route) {
         ctx.params = route.params;
-        route.handle(route.params)
+        route.handle(route.params, ctx.url)
       }
     })
   }
@@ -40,7 +40,7 @@ export default class extends Application {
         console.log(routes)
         let route = routes[0];
         if (route && !route.params['0']) {
-          return route.handle(route.params)
+          return route.handle(route.params, url, method)
         } else {
           return null;
         }
