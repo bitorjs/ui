@@ -4,8 +4,8 @@ import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'
 
 export default class extends Application {
-  constructor() {
-    super()
+  constructor(options = {}) {
+    super(options)
 
     this.mountVue();
     this.createDirectives(this, Vue);
@@ -18,7 +18,8 @@ export default class extends Application {
 
     this.use((ctx) => {
       ctx.params = {};
-      let routes = this.match(ctx.url);
+      let arr = ctx.url.split('?')
+      let routes = this.match(arr[0]);
       console.log(routes)
       let route = routes[0];
       if (route) {

@@ -37,4 +37,6 @@ let client = app => {
   })
 }
 
-new VueApplication().start(client, null, Start);
+new VueApplication({
+  // mode: 'history'
+}).start(client, null, Start);
