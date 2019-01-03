@@ -1,6 +1,8 @@
 const WebpackMerge = require('webpack-merge');
 const base = require('./webpack.base');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const DropConsoleWebpackPlugin = require('drop-console-webpack-plugin');
+
 
 var path = require('path');
 const cwd = process.cwd();
@@ -24,7 +26,36 @@ module.exports = WebpackMerge(base, {
       ]
     }]
   },
+  optimization: {
+    splitChunks: {
+      // chunks: 'async',
+      // minSize: 30000,
+      // minChunks: 1,
+      // maxAsyncRequests: 5,
+      // maxInitialRequests: 3,
+      cacheGroups: {
+        commons: {
+          name: "commons",
+          chunks: "async",
+          minChunks: 1
+        },
+        styles: {
+          name: 'styles',
+          test: /\.scss|css$/,
+          chunks: 'async', // 将多个css chunk合并成一个css文件
+          enforce: true
+        }
+      }
+    }
+  },
   plugins: [
+    new DropConsoleWebpackPlugin({
+      drop_log: true,
+      drop_info: true,
+      drop_warn: false,
+      drop_error: false,
+      exclude: ['manifest'], //排除不必要的chunk，减少build时间
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].min.css'
     })

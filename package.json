@@ -54,6 +54,7 @@
     "bitorjs-application": "^1.0.7",
     "bitorjs-decorators": "^1.0.0",
     "bitorjs-store": "^1.0.3",
+    "drop-console-webpack-plugin": "^4.0.0",
     "md5": "^2.2.1",
     "md5-hex": "^2.0.0",
     "md5.js": "^1.3.5",
