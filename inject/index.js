@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import Vue from 'vue'
 import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'
+import directives from './directive';
 
 export default class extends Application {
   constructor(options = {}) {
@@ -9,12 +10,6 @@ export default class extends Application {
 
     this.mountVue();
     this.createDirectives(this, Vue);
-
-    this.ctx.render = (webview, props) => {
-      this.$vue.webview = webview;
-      this.$vue.props = props;
-      this.$vue.__update = 0;
-    }
 
     this.use((ctx) => {
       ctx.params = {};
@@ -31,10 +26,11 @@ export default class extends Application {
 
   mountVue() {
     Vue.prototype.$bitor = this;
-    this.mountRequest();
-  }
-
-  mountRequest() {
+    this.ctx.render = (webview, props) => {
+      this.$vue.webview = webview;
+      this.$vue.props = props;
+      this.$vue.__update = 0;
+    }
     decorators.methods.forEach((method) => {
       this.ctx[method] = Vue.prototype[method] = (url) => {
         let routes = this.match(url, method);
@@ -78,36 +74,7 @@ export default class extends Application {
   }
 
   createDirectives(app, Vue) {
-
-    ['redirect', 'replace', 'reload'].forEach(name => {
-      Vue.directive(name, {
-        bind(el, binding) {
-          if (el.__click_Callback__) el.removeEventListener('click', el.__click_Callback__);
-          el.__click_Callback__ = () => {
-            const url = el.url;
-            switch (name) {
-              case 'reload':
-                app.reload && app.reload();
-                break;
-              default:
-                app[name](url);
-            }
-          };
-          el.addEventListener('click', el.__click_Callback__);
-          el.url = binding.value;
-        },
-        unbind(el) {
-          if (el.__click_Callback__) el.removeEventListener('click', el.__click_Callback__);
-          if (el.url) delete el.url;
-        },
-        update(el, binding) {
-          el.url = binding.value;
-        },
-        componentUpdated(el, binding) {
-          el.url = binding.value;
-        }
-      });
-    })
+    directives(app, Vue);
   }
 
   start(client, htmlElementId, vueRootComponent) {

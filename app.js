@@ -5,9 +5,11 @@ import Start from './app/view/start';
 import ui from './packages';
 import Vue from 'vue';
 import store from './app/store/index';
+import env from './config/env';
 
 let client = app => {
   app.on('ready', () => {
+    app.config = env;
     app.store = store;
     // 自动注入 controller
     const ctrls = classloader['controllers'];
