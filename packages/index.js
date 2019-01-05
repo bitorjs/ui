@@ -13,6 +13,11 @@ import Uploader from './Uploader';
 import './Toast';
 import './Dialog';
 
+// 
+import {
+  dateFormate
+} from './utils'
+
 
 export default {
   Icon,
@@ -24,5 +29,6 @@ export default {
   Row,
   Flex,
   NavBar,
-  Uploader
+  Uploader,
+  dateFormate,
 }
