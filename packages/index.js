@@ -7,6 +7,7 @@ import Flex from './Layout/Flex';
 import NavBar from './NavBar';
 import Cell from './Cell';
 import CellGroup from './Cell/group';
+import Uploader from './Uploader';
 
 
 import './Toast';
@@ -22,5 +23,6 @@ export default {
   CellGroup,
   Row,
   Flex,
-  NavBar
+  NavBar,
+  Uploader
 }

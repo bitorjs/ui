@@ -10,6 +10,9 @@ class IndexController {
       name: 'loading',
       label: '加载'
     }, {
+      name: 'uploader',
+      label: '上传'
+    }, {
       name: 'icon',
       label: '图标'
     }, {
