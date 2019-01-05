@@ -20,6 +20,13 @@
         </p>
       </div>
     </PageContainer>
+    <PageContainer>
+      <div class="demo">
+        文件上传的兼容性问题：
+        1、Android 中打开 相机 + 相册、相册
+        2、IOS 中 打开 相册 + 相册
+      </div>
+    </PageContainer>
   </PageRootContainer>
 </template>
 <script>

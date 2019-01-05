@@ -7,20 +7,6 @@
 
       <h3>{{confirm}}</h3>
       <Button type="primary" plain @click.native="onClickConfirm">{{confirm }}</Button>
-
-      <!-- <van-dialog v-model="show" show-cancel-button :before-close="beforeClose">
-        <van-field
-          v-model="username"
-          :label="$t('username')"
-          :placeholder="$t('usernamePlaceholder')"
-        />
-        <van-field
-          v-model="password"
-          type="password"
-          :label="$t('password')"
-          :placeholder="$t('passwordPlaceholder')"
-        />
-      </van-dialog>-->
     </PageContainer>
   </PageRootContainer>
 </template>
