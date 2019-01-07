@@ -6,11 +6,18 @@ import ui from './packages';
 import Vue from 'vue';
 import store from './app/store/index';
 import env from './config/env';
+import plugin from 'ui-test';
+console.log(plugin)
 
 let ctrls = require.context('./app/controllers', false, /\.js$/)
 let comps = require.context('./app/components', false, /\.vue$/)
 
 // let appSource = require.context('./app', true, /\.vue|js$/) // 深层子目前在开发环境没有问题，但打包即生产环境时会识别不到子目录文件
+// let requireAll = requireContext => requireContext.keys().map(key => {
+//   requireContext(key).default;
+//   console.log()
+// })
+// requireAll(appSource)
 
 let client = app => {
   app.on('ready', () => {

@@ -10,7 +10,8 @@ var path = require('path');
 const cwd = process.cwd();
 
 module.exports = WebpackMerge(base, {
-  mode: 'production',
+  // mode: 'production',
+  mode: 'development',
   entry: {
     demo: './app.js',
     ui: './packages/index.js'
