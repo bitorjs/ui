@@ -2,6 +2,8 @@ const WebpackMerge = require('webpack-merge');
 const base = require('./webpack.base');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const DropConsoleWebpackPlugin = require('drop-console-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 
 
 var path = require('path');
@@ -54,10 +56,12 @@ module.exports = WebpackMerge(base, {
       drop_info: true,
       drop_warn: false,
       drop_error: false,
-      exclude: ['manifest'], //排除不必要的chunk，减少build时间
+      exclude: [], //排除不必要的chunk，减少build时间
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].min.css'
-    })
+      filename: '[name].min.css',
+      chunkFilename: '[hash].css',
+    }),
+    new OptimizeCSSAssetsPlugin()
   ],
 })

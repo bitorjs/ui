@@ -7,6 +7,9 @@ import Vue from 'vue';
 import store from './app/store/index';
 import env from './config/env';
 
+let ctrls = require.context('./app/controllers', false, /\.js$/)
+let comps = require.context('./app/components', false, /\.vue$/)
+
 let client = app => {
   app.on('ready', () => {
     app.config = env;
@@ -20,7 +23,7 @@ let client = app => {
     //   }
     // }
 
-    let ctrls = require.context('./app/controllers', false, /\.js$/)
+
     ctrls.keys().map((key) => {
       const c = ctrls(key).default;
       app.registerController(c);
@@ -34,7 +37,7 @@ let client = app => {
     //     app.registerComponent(c);
     //   }
     // }
-    let comps = require.context('./app/components', false, /\.vue$/)
+
     comps.keys().map((key) => {
       const c = comps(key).default;
       app.registerComponent(c);

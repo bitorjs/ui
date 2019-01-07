@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     showLoadingToast() {
-      console.log("rr");
       this.$toast.loading({ mask: true, message: "loading" + "..." });
     },
     showSuccessToast() {
