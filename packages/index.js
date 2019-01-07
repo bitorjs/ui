@@ -13,11 +13,9 @@ import Croper from './Croper';
 
 import './Toast';
 import './Dialog';
+import './filters/slice';
+import './filters/formateDate';
 
-// 
-import {
-  dateFormate
-} from './utils'
 
 
 export default {
@@ -31,6 +29,5 @@ export default {
   Flex,
   NavBar,
   Uploader,
-  dateFormate,
   Croper
 }
