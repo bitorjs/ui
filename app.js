@@ -6,7 +6,7 @@ import ui from './packages';
 import Vue from 'vue';
 import store from './app/store/index';
 import env from './config/env';
-import plugin from './plugins/ui-test/index';
+import plugin from 'ui-test/index';
 
 let ctrls = require.context('./app/controllers', false, /\.js$/)
 let comps = require.context('./app/components', false, /\.vue$/)
