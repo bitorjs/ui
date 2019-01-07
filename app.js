@@ -7,23 +7,6 @@ import Vue from 'vue';
 import store from './app/store/index';
 import env from './config/env';
 
-
-// let requireAll = requireContext => requireContext.keys().map(requireContext)
-
-
-// try {
-//   let req = require.context('./test', false, /\.js$/)
-//   let req2 = require.context('./test2', false, /\.js$/)
-let req = require.context('./app/controllers', false, /\.js$/)
-console.log(req, req.keys(), req("./index.js"), req("./index.js").default)
-// console.log(req('index.js'))
-// } catch (error) {
-//   console.warn(error)
-// }console.log(req.keys())
-// requireAll(req)
-
-
-
 let client = app => {
   app.on('ready', () => {
     app.config = env;
