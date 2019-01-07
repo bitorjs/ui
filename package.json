@@ -56,7 +56,7 @@
     "bitorjs-store": "^1.0.3",
     "drop-console-webpack-plugin": "^4.0.0",
     "normalize.css": "^8.0.1",
-    "ui-test": "file:../ui-test",
+    "ui-test": "file:plugins/ui-test",
     "vue": "^2.5.21",
     "vue-loader": "^15.4.2",
     "vuex": "^3.0.1",
