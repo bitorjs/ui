@@ -10,6 +10,8 @@ import env from './config/env';
 let ctrls = require.context('./app/controllers', false, /\.js$/)
 let comps = require.context('./app/components', false, /\.vue$/)
 
+// let appSource = require.context('./app', true, /\.vue|js$/) // 深层子目前在开发环境没有问题，但打包即生产环境时会识别不到子目录文件
+
 let client = app => {
   app.on('ready', () => {
     app.config = env;
@@ -22,6 +24,15 @@ let client = app => {
     //     app.registerController(c);
     //   }
     // }
+
+    // appSource.keys().map((key) => {
+    //   let c = appSource(key).default;
+    //   if (key.match(/components\/.*\.vue$/) != null) {
+    //     app.registerComponent(c);
+    //   } else if (key.match(/controllers\/.*\.js$/) != null) {
+    //     app.registerController(c);
+    //   }
+    // })
 
 
     ctrls.keys().map((key) => {
