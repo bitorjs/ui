@@ -12,11 +12,9 @@ import Uploader from './Uploader';
 
 import './Toast';
 import './Dialog';
+import './filters/slice';
+import './filters/formateDate';
 
-// 
-import {
-  dateFormate
-} from './utils'
 
 
 export default {
@@ -29,6 +27,5 @@ export default {
   Row,
   Flex,
   NavBar,
-  Uploader,
-  dateFormate,
+  Uploader
 }

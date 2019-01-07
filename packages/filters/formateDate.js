@@ -88,6 +88,7 @@ function formateDate(date, fmt) {
   return fmt;
 }
 
+
 Vue.filter('formateDate', formateDate);
 
 // console.log(formateDate(null, 'yyyy-MM-dd hh:mm:ss.S'))
