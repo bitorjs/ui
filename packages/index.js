@@ -8,6 +8,7 @@ import NavBar from './NavBar';
 import Cell from './Cell';
 import CellGroup from './Cell/group';
 import Uploader from './Uploader';
+import Croper from './Croper';
 
 
 import './Toast';
@@ -31,4 +32,5 @@ export default {
   NavBar,
   Uploader,
   dateFormate,
+  Croper
 }

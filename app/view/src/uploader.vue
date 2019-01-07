@@ -21,6 +21,30 @@
       </div>
     </PageContainer>
     <PageContainer>
+      <Croper
+        :height="100"
+        :canvas-color="'red'"
+        :placeholder="'Choose an image'"
+        :placeholder-font-size="0"
+        :placeholder-color="'default'"
+        :accept="'image/*'"
+        :file-size-limit="0"
+        :quality="2"
+        :zoom-speed="3"
+        :disabled="false"
+        :disable-drag-and-drop="false"
+        :disable-click-to-choose="false"
+        :disable-drag-to-move="false"
+        :disable-scroll-to-zoom="false"
+        :disable-rotation="false"
+        :prevent-white-space="false"
+        :reverse-scroll-to-zoom="false"
+        :show-remove-button="true"
+        :remove-button-color="'red'"
+        :remove-button-size="0"
+      ></Croper>
+    </PageContainer>
+    <PageContainer>
       <div class="demo">
         文件上传的兼容性问题：
         1、Android 中打开 相机 + 相册、相册

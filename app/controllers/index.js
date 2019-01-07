@@ -6,34 +6,7 @@ class IndexController {
   constructor(ctx) {
     this.ctx = ctx;
     this.app = ctx.app;
-    this.data = [{
-      name: 'loading',
-      label: '加载'
-    }, {
-      name: 'uploader',
-      label: '上传'
-    }, {
-      name: 'icon',
-      label: '图标'
-    }, {
-      name: 'button',
-      label: '按钮'
-    }, {
-      name: 'layout',
-      label: '布局'
-    }, {
-      name: 'cell',
-      label: 'Cell'
-    }, {
-      name: 'navbar',
-      label: 'navbar'
-    }, {
-      name: 'dialog',
-      label: '弹框'
-    }, {
-      name: 'toast',
-      label: 'Toast'
-    }]
+    this.data = ctx.app.store.state.ttt.data;
   }
 
 
