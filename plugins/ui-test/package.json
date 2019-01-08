@@ -11,5 +11,8 @@
   "dependencies": {
     "bitorjs-decorators": "^1.0.0",
     "vue": "^2.5.21"
+  },
+  "devDependencies": {
+    "reflect-metadata": "^0.1.12"
   }
 }

@@ -26,6 +26,7 @@
     "drop-console-webpack-plugin": "^4.0.0",
     "normalize.css": "^8.0.1",
     "object-assign": "^4.1.1",
+    "qs": "^6.6.0",
     "reflect-metadata": "^0.1.12",
     "ui-test": "file:../ui-test",
     "vue": "^2.5.21",

@@ -106,6 +106,15 @@ export default class extends Application {
     })
   }
 
+  // registerComponents(url, subdire) {
+  //   let comps = require.context(url, subdire, /\.vue$/)
+
+  //   comps.keys().map((key) => {
+  //     const c = comps(key).default;
+  //     this.registerComponent(c);
+  //   })
+  // }
+
   registerComponent(component) {
     if (!(component instanceof Object)) {
       throw new TypeError('component must be Vue instance')
