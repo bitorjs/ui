@@ -8,6 +8,8 @@ var config = require('../config/watcher')
 var path = require('path');
 const cwd = process.cwd();
 
+const postcss = require(path.join(cwd, 'postcss.config'));
+
 module.exports = WebpackMerge(base, {
   mode: 'development',
   entry: './app.js',
@@ -16,11 +18,27 @@ module.exports = WebpackMerge(base, {
     path: path.resolve(cwd, 'dist'),
   },
   module: {
+    // // 解决动态js url警告错误
+    // // require
+    // unknownContextRegExp: /$^/,
+    // unknownContextCritical: false,
+
+    // // require(expr)
+    // exprContextRegExp: /$^/,
+    // exprContextCritical: false,
+
+    // // require("prefix" + expr + "surfix")
+    // wrappedContextRegExp: /$^/,
+    // wrappedContextCritical: false,
+
     rules: [{
       test: /\.(le|c)ss$/,
       use: [
         'vue-style-loader',
-        'css-loader', 'postcss-loader', 'less-loader'
+        'css-loader', {
+          loader: 'postcss-loader',
+          options: postcss
+        }, 'less-loader'
       ]
     }, ]
   },

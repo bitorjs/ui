@@ -6,6 +6,8 @@ const autoprefixer = require('autoprefixer');
 var path = require('path');
 const cwd = process.cwd();
 
+const babel = require(path.join(cwd, '.babelrc.js'));
+
 module.exports = {
   plugins: [
     new htmlPlugin({
@@ -28,10 +30,11 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: "babel-loader",
+        options: babel
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        use: 'vue-loader',
       },
       {
         test: /\.(jpe?g|png|gif)$/,

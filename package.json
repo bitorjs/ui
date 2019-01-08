@@ -18,38 +18,6 @@
     "url": "https://github.com/bitorjs/ui/issues"
   },
   "homepage": "https://github.com/bitorjs/ui#readme",
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "browsers": [
-              "last 1 Chrome versions"
-            ]
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-export-default-from",
-      "@babel/plugin-proposal-export-namespace-from",
-      "@babel/plugin-syntax-export-namespace-from",
-      "@babel/plugin-syntax-dynamic-import",
-      [
-        "@babel/plugin-proposal-decorators",
-        {
-          "legacy": true
-        }
-      ],
-      [
-        "@babel/plugin-proposal-class-properties",
-        {
-          "loose": true
-        }
-      ]
-    ]
-  },
   "dependencies": {
     "bitorjs-application": "^1.0.7",
     "bitorjs-decorators": "^1.0.0",
@@ -58,7 +26,8 @@
     "drop-console-webpack-plugin": "^4.0.0",
     "normalize.css": "^8.0.1",
     "object-assign": "^4.1.1",
-    "ui-test": "file:plugins/ui-test",
+    "reflect-metadata": "^0.1.12",
+    "ui-test": "file:../ui-test",
     "vue": "^2.5.21",
     "vue-loader": "^15.4.2",
     "vuex": "^3.0.1",
@@ -76,6 +45,7 @@
     "autoprefixer": "^9.4.3",
     "babel-loader": "^8.0.4",
     "bitorjs-watcher": "^1.0.1",
+    "clean-webpack-plugin": "^1.0.0",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.1",
     "file-loader": "^2.0.0",
@@ -85,7 +55,6 @@
     "mini-css-extract-plugin": "^0.4.5",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
-    "reflect-metadata": "^0.1.12",
     "url-loader": "^1.1.2",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.5.21",

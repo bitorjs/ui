@@ -115,6 +115,6 @@ export default class extends Application {
   }
 
   registerPlugin(plugin) {
-    plugin(this);
+    plugin(this)
   }
 }

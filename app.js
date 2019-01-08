@@ -6,7 +6,8 @@ import ui from './packages';
 import Vue from 'vue';
 import store from './app/store/index';
 import env from './config/env';
-import plugin from 'ui-test/index';
+import plugin from 'ui-test';
+
 
 let ctrls = require.context('./app/controllers', false, /\.js$/)
 let comps = require.context('./app/components', false, /\.vue$/)
@@ -71,7 +72,9 @@ let client = app => {
 
 
     app.registerPlugin(plugin);
+    // 
   })
+
 }
 
 new VueApplication({

@@ -3,15 +3,30 @@ const base = require('./webpack.base');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const DropConsoleWebpackPlugin = require('drop-console-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
-
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var path = require('path');
 const cwd = process.cwd();
 
+
+// the path(s) that should be cleaned
+let pathsToClean = [
+  'dist'
+]
+
+// the clean options to use
+let cleanOptions = {
+  root: cwd,
+  exclude: ['shared.js'],
+  verbose: true,
+  dry: false
+}
+
+
+const postcss = require(path.join(cwd, 'postcss.config'));
+
 module.exports = WebpackMerge(base, {
-  // mode: 'production',
-  mode: 'development',
+  mode: 'production',
   entry: {
     demo: './app.js',
     ui: './packages/index.js'
@@ -25,7 +40,10 @@ module.exports = WebpackMerge(base, {
       test: /\.(le|c)ss$/,
       use: [
         MiniCssExtractPlugin.loader,
-        'css-loader', 'postcss-loader', 'less-loader'
+        'css-loader', {
+          loader: 'postcss-loader',
+          options: postcss
+        }, 'less-loader'
       ]
     }]
   },
@@ -52,6 +70,7 @@ module.exports = WebpackMerge(base, {
     }
   },
   plugins: [
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
     new DropConsoleWebpackPlugin({
       drop_log: true,
       drop_info: true,

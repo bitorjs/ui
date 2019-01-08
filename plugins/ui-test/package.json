@@ -2,9 +2,14 @@
   "name": "ui-test",
   "version": "1.0.0",
   "description": "",
+  "module": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bitorjs-decorators": "^1.0.0",
+    "vue": "^2.5.21"
+  }
 }
