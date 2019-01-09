@@ -19,7 +19,7 @@ class IndexController {
 
   @D.Get('/:page?')
   a(a, b, c) {
-    console.log(a, b, c)
+    console.log('Indexcontroller ', a, b, c)
     let item = this.data.filter(item => {
       return item.name == this.ctx.params.page;
     })
@@ -28,7 +28,9 @@ class IndexController {
     asyncView.then(res => {
       this.ctx.render(res.default)
     }).catch(res => {
-      this.ctx.render(index)
+      this.ctx.render(index, {
+        data: this.data
+      })
     })
   }
 }

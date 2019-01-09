@@ -65,9 +65,7 @@ module.exports = WebpackMerge(base, {
         {
           loader: "sass-loader",
           options: {
-            data: JSON.stringify({
-              "boxWidth": '200px'
-            })
+            data: ""
           }
         } // compiles Sass to CSS, using Node Sass by default
       ]

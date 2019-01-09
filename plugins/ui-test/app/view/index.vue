@@ -1,5 +1,5 @@
 <template>
-  <center>dd</center>
+  <center class="plugin">dd</center>
 </template>
 <script>
 export default {
@@ -7,10 +7,15 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.plugin {
-  center {
-    font-size: 18px;
-  }
+.plugin2 {
+  font-size: 18px;
+  height: @boxWidth;
 }
 </style>
+<style lang="scss" scoped>
+.plugin {
+  font-size: 18px;
+}
+</style>
+
 

@@ -9,22 +9,21 @@ import env from './config/env';
 import plugin from 'ui-test';
 
 
-
-
-// let appSource = require.context('./app', true, /\.vue|js$/) // 深层子目前在开发环境没有问题，但打包即生产环境时会识别不到子目录文件
-// let requireAll = requireContext => requireContext.keys().map(key => {
-//   requireContext(key).default;
-//   console.log()
-// })
-// requireAll(appSource)
+let appSource = require.context('./app', true, /\.vue|js$/) // 深层子目前在开发环境没有问题，但打包即生产环境时会识别不到子目录文件
 
 let client = app => {
-  let ctrls = require.context('./app/controllers', false, /\.js$/)
-  let comps = require.context('./app/components', false, /\.vue$/)
+  // let ctrls = require.context('./app/controllers', false, /\.js$/)
+  // let comps = require.context('./app/components', false, /\.vue$/)
+  app.config = env;
+  app.store = store;
+  app.registerRequireContext(appSource);
+  app.registerPlugin(plugin)
+  // plugins.forEach(plugin => {
+  //   // app.registerPlugin(require(`node_modules/${plugin}`).default);
+  // })
 
   app.on('ready', () => {
-    app.config = env;
-    app.store = store;
+
     // 自动注入 controller
     // const ctrls = classloader['controllers'];
     // for (const key in ctrls) {
@@ -35,19 +34,29 @@ let client = app => {
     // }
 
     // appSource.keys().map((key) => {
-    //   let c = appSource(key).default;
-    //   if (key.match(/components\/.*\.vue$/) != null) {
-    //     app.registerComponent(c);
-    //   } else if (key.match(/controllers\/.*\.js$/) != null) {
-    //     app.registerController(c);
-    //   }
+    // let c = appSource(key).default;
+    // if (key.match(/components\/.*\.vue$/) != null) {
+    //   app.registerComponent(c);
+    // } else if (key.match(/controllers\/.*\.js$/) != null) {
+    //   app.registerController(c);
+    // }
     // })
 
+    // requireAll(appSource, app)
 
-    ctrls.keys().map((key) => {
-      const c = ctrls(key).default;
-      app.registerController(c);
-    })
+
+
+    // ctrls.keys().map((key) => {
+    //   const c = ctrls(key).default;
+    //   app.registerController(c);
+    //   console.log('/33', c)
+    // })
+
+    // comps.keys().map((key) => {
+    //   const c = comps(key).default;
+    //   app.registerComponent(c);
+    //   console.log('/33', c)
+    // })
 
     // // 自动注入 全局组件
     // const comps = classloader['components'];
@@ -58,10 +67,7 @@ let client = app => {
     //   }
     // }
 
-    comps.keys().map((key) => {
-      const c = comps(key).default;
-      app.registerComponent(c);
-    })
+
 
 
     Vue.use({
@@ -73,7 +79,7 @@ let client = app => {
     })
 
 
-    app.registerPlugin(plugin);
+
     // 
   })
 

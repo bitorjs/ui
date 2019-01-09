@@ -4,6 +4,8 @@ import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'
 import directives from './directive';
 
+const path = require('path')
+
 export default class extends Application {
   constructor(options = {}) {
     super(options)
@@ -106,14 +108,16 @@ export default class extends Application {
     })
   }
 
-  // registerComponents(url, subdire) {
-  //   let comps = require.context(url, subdire, /\.vue$/)
-
-  //   comps.keys().map((key) => {
-  //     const c = comps(key).default;
-  //     this.registerComponent(c);
-  //   })
-  // }
+  registerRequireContext(requireContext) {
+    return requireContext.keys().map(key => {
+      let c = requireContext(key).default;
+      if (key.match(/components\/.*\.vue$/) != null) {
+        this.registerComponent(c);
+      } else if (key.match(/controllers\/.*\.js$/) != null) {
+        this.registerController(c);
+      }
+    })
+  }
 
   registerComponent(component) {
     if (!(component instanceof Object)) {
