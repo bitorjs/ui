@@ -35,12 +35,43 @@ module.exports = WebpackMerge(base, {
       test: /\.(le|c)ss$/,
       use: [
         'vue-style-loader',
-        'css-loader', {
+        'css-loader',
+        {
           loader: 'postcss-loader',
           options: postcss
-        }, 'less-loader'
+        },
+        {
+          loader: 'less-loader',
+          query: {
+            sourceMap: true,
+            globalVars: {
+              "boxWidth": '200px'
+            },
+            modifyVars: {
+              "boxHeight": '200px'
+            }
+          }
+        }
       ]
-    }, ]
+    }, {
+      test: /\.s(c|a)ss$/,
+      use: [
+        'vue-style-loader', // creates style nodes from JS strings
+        "css-loader", // translates CSS into CommonJS
+        {
+          loader: 'postcss-loader',
+          options: postcss
+        },
+        {
+          loader: "sass-loader",
+          options: {
+            data: JSON.stringify({
+              "boxWidth": '200px'
+            })
+          }
+        } // compiles Sass to CSS, using Node Sass by default
+      ]
+    }]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
