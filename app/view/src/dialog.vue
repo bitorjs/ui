@@ -28,7 +28,10 @@ export default {
   methods: {
     onClickAlert() {
       this.$dialog.alert({
-        title: "title",
+        title: `
+        <center><span style="color:red;">TTT</span></center>
+        <p style="border-bottom: 1px solid #ebedf0;padding-bottom: 10px;">ssssss</p>
+        `,
         message: "content"
       });
     },

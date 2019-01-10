@@ -3,7 +3,7 @@
     <div v-show="value" :class="['dialog', className]">
       <div
         v-if="title"
-        v-text="title"
+        v-html="title"
         :class="['header', { isolated: !message && !$slots.default }]"
       />
       <div :class="'content'" v-if="message || $slots.default">
@@ -104,7 +104,9 @@ export default {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 85%;
+  // width: 85%;
+  max-width: 85%;
+  min-width: 300px;
   font-size: 16px;
   overflow: hidden;
   transition: 0.3s;
