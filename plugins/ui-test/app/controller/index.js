@@ -3,7 +3,7 @@ import D from "bitorjs-decorators";
 import index from '../view/index';
 
 
-@D.namespace('/plugin')
+@D.Controller('/plugin')
 class Controller {
   constructor(ctx) {
     this.ctx = ctx;
