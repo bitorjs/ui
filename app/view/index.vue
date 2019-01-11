@@ -17,6 +17,13 @@ export default {
   props: {
     data: Array
   },
+  beforeRouteEnter() {},
+  beforeRouteLeave() {},
+  mounted() {
+    this.$bitor.ctx.get("/api/data").then(res => {
+      console.log(res);
+    });
+  },
   methods: {
     go(url, label) {
       this.$bitor.store.root.setItem("title", label);

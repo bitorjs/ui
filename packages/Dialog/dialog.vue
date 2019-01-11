@@ -4,11 +4,15 @@
       <div
         v-if="title"
         v-html="title"
-        :class="['header', { isolated: !message && !$slots.default }]"
+        :class="['header', { isolated: !message && !$slots.default, 'no-padding':!padding }]"
       />
       <div :class="'content'" v-if="message || $slots.default">
         <slot>
-          <div v-if="message" v-html="message" :class="['message', { 'has-title': title }]"/>
+          <div
+            v-if="message"
+            v-html="message"
+            :class="['message', { 'has-title': title, 'no-padding':!padding }]"
+          />
         </slot>
       </div>
       <div
@@ -47,6 +51,7 @@ export default {
   props: {
     title: String,
     message: String,
+    padding: { type: Boolean, default: true },
     callback: Function,
     className: [String, Object, Array],
     beforeClose: Function,
@@ -119,6 +124,10 @@ export default {
     padding-top: 25px;
     text-align: center;
 
+    &.no-padding {
+      padding: 0;
+    }
+
     &.isolated {
       padding: 25px 0;
     }
@@ -131,6 +140,10 @@ export default {
     max-height: 60vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+
+    &.no-padding {
+      padding: 0;
+    }
 
     &.has-title {
       padding-top: 12px;

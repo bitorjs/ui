@@ -51,6 +51,7 @@ Dialog.defaultOptions = {
   showConfirmButton: true,
   showCancelButton: false,
   closeOnClickOverlay: false,
+  padding: true,
   callback: action => {
     instance[action === 'confirm' ? 'resolve' : 'reject'](action);
   }

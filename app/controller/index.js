@@ -1,7 +1,7 @@
 import D from 'bitorjs-decorators';
 import index from '../view/index';
 
-@D.namespace('/')
+@D.Controller('/')
 class IndexController {
   constructor(ctx) {
     this.ctx = ctx;
@@ -17,12 +17,16 @@ class IndexController {
     })
   }
 
+  @D.Get('/api/data')
+  async b() {
+    return this.data;
+  }
+
   @D.Get('/:page?')
-  a(a, b, c) {
-    console.log('Indexcontroller ', a, b, c)
-    let item = this.data.filter(item => {
-      return item.name == this.ctx.params.page;
-    })
+  async a(a, b, c) {
+    let r = await this.ctx.Service.ff.aa();
+    console.log('Indexcontroller ', a, b, c, r)
+
     // this.ctx.app.store.setItem("title", item[0].label);
     const asyncView = import(`../view/src/${this.ctx.params.page}`)
     asyncView.then(res => {
@@ -33,6 +37,8 @@ class IndexController {
       })
     })
   }
+
+
 }
 
 export default IndexController;

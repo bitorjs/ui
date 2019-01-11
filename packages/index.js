@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Icon from './Icon';
 import Loading from './Loading';
 import Button from './Button';
@@ -18,7 +19,7 @@ import './filters/formateDate';
 
 
 
-export default {
+const ui = {
   Icon,
   Loading,
   Button,
@@ -31,3 +32,14 @@ export default {
   Uploader,
   Croper
 }
+
+Vue.use({
+  install(Vue) {
+    Object.keys(ui).forEach(item => {
+      Vue.component(item, ui[item])
+    });
+  }
+})
+
+
+export default ui;

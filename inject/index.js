@@ -26,6 +26,14 @@ export default class extends Application {
     })
   }
 
+  beforeEach(fn) {
+    // fn = (to, from, next)=>{}
+  }
+
+  afterEach(fn) {
+    // fn = (to, from)=>{}
+  }
+
   mountVue() {
     Vue.prototype.$bitor = this;
     this.ctx.render = (webview, props) => {
@@ -88,6 +96,17 @@ export default class extends Application {
     this.emit('after-server');
   }
 
+  registerService(service) {
+    const instance = new service(this.ctx);
+    let name = decorators.getServiceName(service);
+    if (name) {
+      this.ctx.Service = this.ctx.Service || {};
+      this.ctx.Service[name] = instance;
+    } else {
+      console.error('Service ', service, 'use @Service(name)')
+    }
+  }
+
 
   registerController(controller) {
     const instance = new controller(this.ctx)
@@ -111,10 +130,12 @@ export default class extends Application {
   registerRequireContext(requireContext) {
     return requireContext.keys().map(key => {
       let c = requireContext(key).default;
-      if (key.match(/components\/.*\.vue$/) != null) {
+      if (key.match(/component\/.*\.vue$/) != null) {
         this.registerComponent(c);
-      } else if (key.match(/controllers\/.*\.js$/) != null) {
+      } else if (key.match(/controller\/.*\.js$/) != null) {
         this.registerController(c);
+      } else if (key.match(/service\/.*\.js$/) != null) {
+        this.registerService(c);
       }
     })
   }
