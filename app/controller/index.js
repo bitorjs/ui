@@ -28,7 +28,8 @@ class IndexController {
     console.log('Indexcontroller ', a, b, c, r)
 
     // this.ctx.app.store.setItem("title", item[0].label);
-    const asyncView = import(`../view/src/${this.ctx.params.page}`)
+    // const asyncView = import(`../view/src/${this.ctx.params.page}`)
+    const asyncView = Promise.resolve(require(`../view/src/${this.ctx.params.page}`))
     asyncView.then(res => {
       this.ctx.render(res.default)
     }).catch(res => {

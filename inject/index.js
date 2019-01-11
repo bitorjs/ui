@@ -129,7 +129,8 @@ export default class extends Application {
 
   registerRequireContext(requireContext) {
     return requireContext.keys().map(key => {
-      let c = requireContext(key).default;
+      let m = requireContext(key);
+      let c = m.default || m;
       if (key.match(/component\/.*\.vue$/) != null) {
         this.registerComponent(c);
       } else if (key.match(/controller\/.*\.js$/) != null) {

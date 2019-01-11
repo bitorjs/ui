@@ -26,7 +26,7 @@ let cleanOptions = {
 const postcss = require(path.join(cwd, 'postcss.config'));
 
 module.exports = WebpackMerge(base, {
-  mode: 'production',
+  mode: 'development', //'production',
   entry: {
     demo: './app.js',
     ui: './packages/index.js'
@@ -68,9 +68,7 @@ module.exports = WebpackMerge(base, {
         {
           loader: "sass-loader",
           options: {
-            data: {
-
-            }
+            data: ''
           }
         } // compiles Sass to CSS, using Node Sass by default
       ]
