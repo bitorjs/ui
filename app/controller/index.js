@@ -26,8 +26,11 @@ class IndexController {
   async a(a, b, c) {
     let r = await this.ctx.Service.ff.aa();
     console.log('Indexcontroller ', a, b, c, r)
+    let items = this.data.filter(item => {
+      return item.name == this.ctx.params.page;
+    })
 
-    // this.ctx.app.store.setItem("title", item[0].label);
+    this.ctx.app.store.root.setItem("title", items[0].label);
     // const asyncView = import(`../view/src/${this.ctx.params.page}`)
     const asyncView = Promise.resolve(require(`../view/src/${this.ctx.params.page}`))
     asyncView.then(res => {

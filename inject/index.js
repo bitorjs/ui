@@ -24,19 +24,23 @@ export default class extends Application {
         route.handle(route.params, ctx.url)
       }
     })
-  }
 
-  beforeEach(fn) {
-    // fn = (to, from, next)=>{}
-  }
-
-  afterEach(fn) {
-    // fn = (to, from)=>{}
+    this.beforeEach((to, from, next) => {
+      let vn = this.$vue._upvn;
+      if (vn && vn.$options && vn.$options.beforeRouteLeave) {
+        vn.$options.beforeRouteLeave.call(vn, to, from, next)
+      } else {
+        next()
+      }
+    })
   }
 
   mountVue() {
     Vue.prototype.$bitor = this;
     this.ctx.render = (webview, props) => {
+      props = props || {}
+      props.ref = 'innerPage';
+      // this.$vue.main = 'myRef';
       this.$vue.webview = webview;
       this.$vue.props = props;
       this.$vue.__update = 0;
@@ -60,12 +64,22 @@ export default class extends Application {
     const innerPage = {
       name: 'webview-container',
       render(h) {
+        let vn = null;
         if (Object.prototype.toString.call(this.$root.webview) === '[object String]') {
-          return h('span', this.$root.webview);
+          vn = h('span', this.$root.webview, {
+            props: this.$root.props,
+            ref: '_upvn'
+          });
+        } else {
+          vn = h(this.$root.webview, {
+            props: this.$root.props,
+            ref: '_upvn'
+          });
         }
-        return h(this.$root.webview, {
-          props: this.$root.props
-        });
+
+        // console.log()
+        this.$root._upvn = vn.context && vn.context.$refs._upvn;
+        return vn;
       }
     }
 

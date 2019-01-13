@@ -42,7 +42,7 @@ const store = new Vuex.Store('ttt', {
   actions: {
     increment(context) {
       // context.commit('increment')
-      console.log(context)
+      // console.log(context)
     }
   }
 });

@@ -17,23 +17,27 @@ export default {
   props: {
     data: Array
   },
-  beforeRouteEnter() {},
-  beforeRouteLeave() {},
+  data() {
+    return {
+      ss: 0
+    };
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log(this.ss);
+    next();
+  },
   mounted() {
-    this.$bitor.ctx.get("/api/data").then(res => {
-      console.log(res);
-    });
+    this.$bitor.ctx.get("/api/data").then(res => {});
   },
   methods: {
     go(url, label) {
-      this.$bitor.store.root.setItem("title", label);
+      // this.$bitor.store.root.setItem("title", label);
       // this.$bitor.store.commit("increate");
       // this.$bitor.store.root.commit("increate");
       this.$bitor.store.ttt.commit("increate");
       // this.$bitor.store.mmm.commit("increate");
       this.$bitor.store.ttt.dispatch("increment");
       this.$bitor.redirect(`/${url}`);
-      console.log(this.$bitor.store);
     }
   }
 };
