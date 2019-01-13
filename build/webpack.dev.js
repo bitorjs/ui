@@ -105,14 +105,15 @@ module.exports = WebpackMerge(base, {
   devServer: {
     contentBase: path.join(cwd, 'dist'),
     open: true,
+    host: '0.0.0.0',
     port: 9011,
     hot: true,
     compress: false,
     inline: true,
     https: {
-      cert: fs.readFileSync("./localhost+3.pem"),
-      key: fs.readFileSync("./localhost+3-key.pem"),
-      cacert: fs.readFileSync("./localhost+3.pem")
+      cert: fs.readFileSync("./localhost+4.pem"),
+      key: fs.readFileSync("./localhost+4-key.pem"),
+      cacert: fs.readFileSync("./localhost+4.pem")
     }
   },
   watchOptions: {
