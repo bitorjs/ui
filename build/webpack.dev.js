@@ -4,7 +4,7 @@ const BitorPlugin = require('bitorjs-watcher');
 const base = require('./webpack.base');
 var config = require('../config/watcher')
 
-
+const fs = require('fs');
 var path = require('path');
 const cwd = process.cwd();
 
@@ -109,6 +109,11 @@ module.exports = WebpackMerge(base, {
     hot: true,
     compress: false,
     inline: true,
+    https: {
+      cert: fs.readFileSync("./localhost+3.pem"),
+      key: fs.readFileSync("./localhost+3-key.pem"),
+      cacert: fs.readFileSync("./localhost+3.pem")
+    }
   },
   watchOptions: {
     ignored: [path.resolve(cwd, 'dist/**/*.*'), path.resolve(cwd, 'node_modules')]
