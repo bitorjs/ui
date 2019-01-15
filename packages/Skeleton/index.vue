@@ -6,11 +6,9 @@ export default {
   name: 'Skeleton',
   inheritAttrs:true,
   mounted(){
-    console.log(this, this.$attrs)
     let $attrs = this.$attrs;
     for(let key in this.$attrs) {
       this.$refs.ske.setAttribute(key, $attrs[key])
-      console.log(key)
     }
     
   }

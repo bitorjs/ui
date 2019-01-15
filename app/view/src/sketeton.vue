@@ -10,7 +10,7 @@
       <Flex align='center'>
         <Skeleton class="bar"></Skeleton>
       </Flex>
-      <Flex direction='column' valign='center'>
+      <Flex direction='column' valign='middle'>
         <Skeleton class="line"></Skeleton>
         <Skeleton class="line"></Skeleton>
         <Skeleton class="line"></Skeleton>

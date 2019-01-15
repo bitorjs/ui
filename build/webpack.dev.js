@@ -10,9 +10,12 @@ const postcss = require(path.join(cwd, 'postcss.config'));
 
 module.exports = WebpackMerge(base, {
   mode: 'development',
-  entry: './app.js',
+  entry: {
+    app:'./app.js', 
+    admin: './admin.js'
+  },
   output: {
-    filename: 'build.js',
+    filename: '[name].build.js',
     path: path.resolve(cwd, 'dist'),
   },
   module: {

@@ -135,6 +135,7 @@ export default class extends Application {
         path = `${subroute.path}`
       }
 
+      console.log(path)
       this.registerRoute(path, {
         method: subroute.method.toLowerCase()
       }, instance[subroute.prototype].bind(instance))

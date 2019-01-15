@@ -12,6 +12,7 @@ let appSource = require.context('./app', true, /\.(vue|js)$/) // 深层子目前
 let client = app => {
   app.config = config;
   app.store = store;
+  console.log(appSource)
   app.registerRequireContext(appSource, config.mock);
   app.registerPlugin(plugin)
 

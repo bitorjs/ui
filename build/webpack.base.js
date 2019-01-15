@@ -11,8 +11,12 @@ const babel = require(path.join(cwd, '.babelrc.js'));
 module.exports = {
   plugins: [
     new htmlPlugin({
-      filename: 'index.html',
-      template: path.resolve(cwd, 'index.html'),
+      filename: 'app.html',
+      template: path.resolve(cwd, 'app.html'),
+    }),
+    new htmlPlugin({
+      filename: 'admin.html',
+      template: path.resolve(cwd, 'admin.html'),
     }),
     new VueLoaderPlugin(),
     autoprefixer
