@@ -28,12 +28,9 @@ const postcss = require(path.join(cwd, 'postcss.config'));
 module.exports = WebpackMerge(base, {
   mode: 'development', //'production',
   entry: {
-    demo: './app.js',
+    app: './app.js',
+    admin: './admin.js',
     ui: './packages/index.js'
-  },
-  output: {
-    filename: '[name].min.js',
-    path: path.resolve(cwd, 'dist'),
   },
   module: {
     rules: [{

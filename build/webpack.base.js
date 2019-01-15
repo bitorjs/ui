@@ -9,14 +9,26 @@ const cwd = process.cwd();
 const babel = require(path.join(cwd, '.babelrc.js'));
 
 module.exports = {
+  entry: {
+    app: './app.js',
+    admin: './admin.js'
+  },
+  output: {
+    filename: '[name].build.js',
+    path: path.resolve(cwd, 'dist'),
+  },
   plugins: [
     new htmlPlugin({
       filename: 'app.html',
       template: path.resolve(cwd, 'app.html'),
+      title: "app",
+      chunks: ['app']
     }),
     new htmlPlugin({
       filename: 'admin.html',
       template: path.resolve(cwd, 'admin.html'),
+      title: "admin",
+      chunks: ['admin']
     }),
     new VueLoaderPlugin(),
     autoprefixer

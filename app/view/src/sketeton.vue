@@ -1,24 +1,24 @@
 <template>
   <PageRootContainer>
     <PageContainer>
-      <Flex align='between'>
+      <Flex align="between">
         <Skeleton class="icon"></Skeleton>
         <Skeleton class="icon"></Skeleton>
         <Skeleton class="icon"></Skeleton>
         <Skeleton class="icon"></Skeleton>
       </Flex>
-      <Flex align='center'>
+      <Flex align="center">
         <Skeleton class="bar"></Skeleton>
       </Flex>
-      <Flex direction='column' valign='middle'>
+      <Flex direction="column" valign="middle">
         <Skeleton class="line"></Skeleton>
         <Skeleton class="line"></Skeleton>
         <Skeleton class="line"></Skeleton>
         <Skeleton class="line"></Skeleton>
         <Skeleton class="line"></Skeleton>
       </Flex>
-     
-      <Flex align='center'>
+
+      <Flex align="center">
         <Skeleton class="bar"></Skeleton>
       </Flex>
 
@@ -26,43 +26,40 @@
       <center>
         <Skeleton class="button"></Skeleton>
       </center>
-
-
     </PageContainer>
   </PageRootContainer>
 </template>
 
 <script>
 export default {
-  name: 'ss'
-}
+  name: "ss"
+};
 </script>
 <style lang="less" scoped>
 .icon {
-  height: 50px;
-  width: 50px;
+  height: 50px !important;
+  width: 50px !important;
 }
 
 .line {
-  width: 80%;
-  margin: 15px;
+  width: 80% !important;
+  margin: 15px !important;
 }
 
 .bar {
-  height: 18px;
+  height: 18px !important;
 }
 
 .block {
-  margin-top: 5px;
-  height: 100px;
+  margin-top: 5px !important;
+  height: 100px !important;
 }
 
 .button {
-  height: 42px;
-  width: 80%;
-  border-radius: 100px;
-  background: #eee;
-  margin-top: 1rem;
+  height: 42px !important;
+  width: 80% !important;
+  border-radius: 100px !important;
+  margin-top: 1rem !important;
 }
 </style>
 
