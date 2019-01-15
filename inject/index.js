@@ -141,15 +141,17 @@ export default class extends Application {
     })
   }
 
-  registerRequireContext(requireContext) {
+  registerRequireContext(requireContext, mock) {
     return requireContext.keys().map(key => {
       let m = requireContext(key);
       let c = m.default || m;
-      if (key.match(/component\/.*\.vue$/) != null) {
+      if (key.match(/\/component\/.*\.vue$/) != null) {
         this.registerComponent(c);
-      } else if (key.match(/controller\/.*\.js$/) != null) {
+      } else if (key.match(/\/controller\/.*\.js$/) != null) {
         this.registerController(c);
-      } else if (key.match(/service\/.*\.js$/) != null) {
+      } else if (key.match(/\/service\/.*\.js$/) != null && mock!==true) {
+        this.registerService(c);
+      } else if (key.match(/\/mock\/.*\.js$/) != null) {
         this.registerService(c);
       }
     })

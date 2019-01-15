@@ -32,6 +32,9 @@ const store = new Vuex.Store('ttt', {
     }, {
       name: 'toast',
       label: 'Toast'
+    }, {
+      name: 'sketeton',
+      label: '骨架'
     }]
   },
   mutations: {

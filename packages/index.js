@@ -10,6 +10,7 @@ import Cell from './Cell';
 import CellGroup from './Cell/group';
 import Uploader from './Uploader';
 import Croper from './Croper';
+import Skeleton from './Skeleton';
 
 
 import './Toast';
@@ -30,7 +31,8 @@ const ui = {
   Flex,
   NavBar,
   Uploader,
-  Croper
+  Croper,
+  Skeleton
 }
 
 Vue.use({

@@ -1,7 +1,7 @@
-import D from 'bitorjs-decorators';
+import {Controller, Get, Post} from 'bitorjs-decorators';
 import index from '../view/index';
 
-@D.Controller('/')
+@Controller('/')
 class IndexController {
   constructor(ctx) {
     this.ctx = ctx;
@@ -10,22 +10,22 @@ class IndexController {
   }
 
 
-  @D.Get('/')
+  @Get('/')
   icon() {
     this.ctx.render(index, {
       data: this.data
     })
   }
 
-  @D.Get('/api/data')
+  @Get('/api/data')
   async b() {
     return this.data;
   }
 
-  @D.Get('/:page?')
-  async a(a, b, c) {
+  @Get('/:page?')
+  async a(...params) {
     let r = await this.ctx.Service.ff.aa();
-    console.log('Indexcontroller ', a, b, c, r)
+    console.log('Indexcontroller ', ...params, r)
     let items = this.data.filter(item => {
       return item.name == this.ctx.params.page;
     })

@@ -19,7 +19,6 @@ export default {
   },
   watch: {
     "$store.state.title"(oldTitle, newTitle) {
-      console.log(oldTitle, newTitle);
       document.title = newTitle;
     }
   }
