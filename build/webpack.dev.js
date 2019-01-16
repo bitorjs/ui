@@ -10,28 +10,7 @@ const postcss = require(path.join(cwd, 'postcss.config'));
 
 module.exports = WebpackMerge(base, {
   mode: 'development',
-  entry: {
-    app:'./app.js', 
-    admin: './admin.js'
-  },
-  output: {
-    filename: '[name].build.js',
-    path: path.resolve(cwd, 'dist'),
-  },
   module: {
-    // // 解决动态js url警告错误
-    // // require
-    // unknownContextRegExp: /$^/,
-    // unknownContextCritical: false,
-
-    // // require(expr)
-    // exprContextRegExp: /$^/,
-    // exprContextCritical: false,
-
-    // // require("prefix" + expr + "surfix")
-    // wrappedContextRegExp: /$^/,
-    // wrappedContextCritical: false,
-
     rules: [{
       test: /\.(le|c)ss$/,
       use: [
@@ -83,11 +62,11 @@ module.exports = WebpackMerge(base, {
     hot: true,
     compress: false,
     inline: true,
-    https: {
-      cert: fs.readFileSync("./localhost+4.pem"),
-      key: fs.readFileSync("./localhost+4-key.pem"),
-      cacert: fs.readFileSync("./localhost+4.pem")
-    }
+    // https: {
+    //   cert: fs.readFileSync("./localhost+4.pem"),
+    //   key: fs.readFileSync("./localhost+4-key.pem"),
+    //   cacert: fs.readFileSync("./localhost+4.pem")
+    // }
   },
   watchOptions: {
     ignored: [path.resolve(cwd, 'dist/**/*.*'), path.resolve(cwd, 'node_modules')]
