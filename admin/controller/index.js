@@ -1,7 +1,7 @@
 import {Controller, Get, Post} from 'bitorjs-decorators';
 import index from '../view/index';
 
-@Controller('/admin')
+@Controller('/')
 class IndexController {
   constructor(ctx) {
     this.ctx = ctx;
