@@ -14,7 +14,7 @@ function generOption(options) {
   return options;
 }
 
-let _namespace = '';
+let _namespace = '', storeProxy = null;
 class Store extends Vuex.Store {
   static instance = null;
   constructor(namespace, options = {}) {
@@ -34,31 +34,29 @@ class Store extends Vuex.Store {
       Store.instance.dispatch = function (type, payload) {
         dispatch.call(Store.instance, `${_namespace}${type}`, payload)
       }
+
+      storeProxy = new Proxy(Store.instance, {
+        get: function (obj, prop) {
+          if (prop in obj) {
+            return obj[prop];
+          } else {
+            if (prop === 'root') {
+              _namespace = ''
+            } else {
+              _namespace = `${prop}/`;
+            }
+  
+            return storeProxy;
+          }
+        }
+      })
     }
 
     options.namespaced = true;
     Store.instance.registerModule(namespace, options);
 
-    let proxy = new Proxy(Store.instance, {
-      get: function (obj, prop) {
-        if (prop in obj) {
-          return obj[prop];
-        } else {
-          if (prop === 'root') {
-            _namespace = ''
-          } else {
-            _namespace = `${prop}/`;
-          }
-
-          return proxy;
-        }
-      }
-    })
-
-    return proxy;
+    return storeProxy;
   }
-
-
 
   setItem(key, value) {
     this.commit(`${_namespace}SYS:SET`, {
@@ -70,5 +68,5 @@ class Store extends Vuex.Store {
 }
 
 Vuex.Store = Store;
-
+Vue.use(Vuex);
 export default Vuex;

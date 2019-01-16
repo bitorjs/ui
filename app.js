@@ -2,7 +2,6 @@ import "normalize.css";
 import VueApplication from './inject';
 import Start from './app/view/start';
 import ui from './packages';
-import store from './app/store/index';
 import plugin from 'ui-test';
 
 import config from './config/app';
@@ -10,7 +9,6 @@ let appSource = require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/) /
 
 let client = app => {
   app.config = config;
-  app.store = store;
   app.registerRequireContext(appSource, config.mock);
   app.registerPlugin(plugin)
 
@@ -19,7 +17,6 @@ let client = app => {
   })
 
   app.afterEach((to, from, next) => {
-
     next(-1)
   })
 

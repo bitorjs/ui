@@ -8,6 +8,7 @@
         @click.native="go(item.name, item.label)"
         is-link
       />
+      {{$store.state.test.info}}
     </PageContainer>
   </PageRootContainer>
 </template>
@@ -23,7 +24,6 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    console.log(this.ss);
     next();
   },
   mounted() {

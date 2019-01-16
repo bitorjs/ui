@@ -3,6 +3,7 @@ import Vue from 'vue'
 import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'
 import directives from './directive';
+import Vuex from './vuex';
 
 const path = require('path')
 
@@ -40,7 +41,6 @@ export default class extends Application {
     this.ctx.render = (webview, props) => {
       props = props || {}
       props.ref = 'innerPage';
-      // this.$vue.main = 'myRef';
       this.$vue.webview = webview;
       this.$vue.props = props;
       this.$vue.__update = 0;
@@ -142,7 +142,12 @@ export default class extends Application {
     })
   }
 
-  registerRequireContext(requireContext, mock) {
+  registerStore(store) {
+    let s = store(Vuex.Store);
+    this.store = s;
+  }
+
+  registerRequireContext(requireContext, mock=true) {
     return requireContext.keys().map(key => {
       console.log(key)
       let m = requireContext(key);
@@ -155,6 +160,8 @@ export default class extends Application {
         this.registerService(c);
       } else if (key.match(/\/mock\/.*\.js$/) != null) {
         this.registerService(c);
+      } else if (key.match(/\/store\/.*\.js$/) != null) {
+        this.registerStore(c);
       }
     })
   }

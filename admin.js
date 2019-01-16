@@ -2,7 +2,6 @@ import "normalize.css";
 import VueApplication from './inject';
 import Start from './admin/view/start';
 import ui from './packages';
-import store from './app/store/index';
 
 import config from './config/app';
 
