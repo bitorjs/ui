@@ -22,6 +22,8 @@ module.exports = {
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-syntax-export-namespace-from",
     "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-spread",
+    "@babel/plugin-syntax-object-rest-spread",
     ["@babel/plugin-proposal-object-rest-spread", {
       "loose": true,
       "useBuiltIns": true
