@@ -144,6 +144,7 @@ export default class extends Application {
 
   registerRequireContext(requireContext, mock) {
     return requireContext.keys().map(key => {
+      console.log(key)
       let m = requireContext(key);
       let c = m.default || m;
       if (key.match(/\/component\/.*\.vue$/) != null) {

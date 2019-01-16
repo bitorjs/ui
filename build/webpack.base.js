@@ -16,11 +16,12 @@ module.exports = {
   output: {
     filename: '[name].build.js',
     path: path.resolve(cwd, 'dist'),
+    chunkFilename:'[chunkhash].chunk.js'
   },
   plugins: [
     new htmlPlugin({
-      filename: 'app.html',
-      template: path.resolve(cwd, 'app.html'),
+      filename: 'index.html',
+      template: path.resolve(cwd, 'index.html'),
       title: "app",
       chunks: ['app']
     }),

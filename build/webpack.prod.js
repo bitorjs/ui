@@ -26,10 +26,8 @@ let cleanOptions = {
 const postcss = require(path.join(cwd, 'postcss.config'));
 
 module.exports = WebpackMerge(base, {
-  mode: 'development', //'production',
+  mode: 'production',
   entry: {
-    app: './app.js',
-    admin: './admin.js',
     ui: './packages/index.js'
   },
   module: {
@@ -73,11 +71,11 @@ module.exports = WebpackMerge(base, {
   },
   optimization: {
     splitChunks: {
-      // chunks: 'async',
-      // minSize: 30000,
-      // minChunks: 1,
-      // maxAsyncRequests: 5,
-      // maxInitialRequests: 3,
+      chunks: 'async',
+      minSize: 30000,
+      minChunks: 2,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
       cacheGroups: {
         commons: {
           name: "commons",
@@ -103,8 +101,8 @@ module.exports = WebpackMerge(base, {
       exclude: [], //排除不必要的chunk，减少build时间
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].min.css',
-      chunkFilename: '[hash].css',
+      filename: '[chunkhash].min.css',
+      chunkFilename: '[chunkhash].css',
     }),
     new OptimizeCSSAssetsPlugin()
   ],
