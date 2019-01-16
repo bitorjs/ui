@@ -5,8 +5,6 @@ import Application from 'bitorjs-application'
 import directives from './directive';
 import Vuex from './vuex';
 
-const path = require('path')
-
 export default class extends Application {
   constructor(options = {}) {
     super(options)
@@ -147,7 +145,7 @@ export default class extends Application {
     this.store = s;
   }
 
-  registerRequireContext(requireContext, mock=true) {
+  registerRequireContext(requireContext, mock = true) {
     return requireContext.keys().map(key => {
       console.log(key)
       let m = requireContext(key);
@@ -156,7 +154,7 @@ export default class extends Application {
         this.registerComponent(c);
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
         this.registerController(c);
-      } else if (key.match(/\/service\/.*\.js$/) != null && mock!==true) {
+      } else if (key.match(/\/service\/.*\.js$/) != null && mock !== true) {
         this.registerService(c);
       } else if (key.match(/\/mock\/.*\.js$/) != null) {
         this.registerService(c);

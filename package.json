@@ -7,7 +7,8 @@
     "start": "webpack-dev-server --config ./build/webpack.dev.js --watch --color --progress",
     "dev": "webpack --config ./build/webpack.dev.js --watch --progress --color",
     "build": "webpack --config ./build/webpack.prod.js --progress --color",
-    "cert": "brew install mkcert && mkcert localhost 127.0.0.1 192.168.8.102 0.0.0.0 ::1 && mkcert -install"
+    "install_cert": "brew install mkcert && npm run cert",
+    "cert": "mkcert localhost 127.0.0.1 192.168.8.102 0.0.0.0 ::1 && mkcert -install"
   },
   "repository": {
     "type": "git",
