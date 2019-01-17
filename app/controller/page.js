@@ -4,6 +4,7 @@ import {
   Post
 } from 'bitorjs-decorators';
 import index from '../view/index';
+import Toast from '../../packages/Toast';
 
 @Controller('/')
 class IndexController {
@@ -27,9 +28,8 @@ class IndexController {
       this.ctx.app.store.root.setItem("title", items[0].label);
       this.ctx.render(res.default)
     }).catch(res => {
-      this.ctx.render(index, {
-        data,
-      })
+      Toast.fail('未找到页面')
+      this.ctx.app.redirect('/')
     })
   }
 

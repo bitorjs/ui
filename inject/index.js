@@ -5,6 +5,7 @@ import Application from 'bitorjs-application'
 import directives from './directive';
 import Vuex from './vuex';
 
+
 export default class extends Application {
   constructor(options = {}) {
     super(options)
@@ -107,6 +108,9 @@ export default class extends Application {
     this.emit('vue-mounted');
     this.startServer()
     this.emit('after-server');
+
+    // const source = require.context(``, false, /\.js$/);
+    // console.error(source.keys())
   }
 
   registerService(service) {
@@ -174,6 +178,24 @@ export default class extends Application {
   }
 
   registerPlugin(plugin) {
-    plugin(this)
+    const modules = [plugin];
+    
+    this.config = this.config || {};
+    const configs = require.context('../config', false, /\.js$/)
+    configs.keys().map(key => {
+      let m = configs(key);
+      let c = m.default || m;
+
+      if (key.match(/\/plugin\.js$/) != null) {
+        c.forEach(item=>{
+          if(item.enable === true) modules.push(item.module||item.module.default);
+        })
+      } else {
+        this.config = Object.assign(this.config, c)
+      }
+    })
+    modules.forEach(m=>{
+      m(this)
+    })
   }
 }

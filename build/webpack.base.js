@@ -2,7 +2,7 @@ const htmlPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const autoprefixer = require('autoprefixer');
-
+const webpack = require('webpack');
 var path = require('path');
 const cwd = process.cwd();
 
@@ -13,12 +13,22 @@ module.exports = {
     app: './app.js',
     admin: './admin.js'
   },
+  externals:[{
+    a: './postcss.config.js'
+  }],
   output: {
     filename: '[name].build.js',
     path: path.resolve(cwd, 'dist'),
     chunkFilename:'[chunkhash].chunk.js'
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        development: true,
+        production: true
+      },
+      IS_DEV: JSON.stringify(false),
+    }),
     new htmlPlugin({
       filename: 'index.html',
       template: path.resolve(cwd, 'index.html'),

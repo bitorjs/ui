@@ -34,6 +34,9 @@ export default Store=>{
       }, {
         name: 'sketeton',
         label: '骨架'
+      }, {
+        name: 'waterfall',
+        label: '骨架'
       }]
     },
     mutations: {

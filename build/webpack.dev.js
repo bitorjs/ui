@@ -1,3 +1,4 @@
+var vConsolePlugin = require('vconsole-webpack-plugin'); 
 const webpack = require('webpack');
 const WebpackMerge = require('webpack-merge');
 const base = require('./webpack.base');
@@ -52,6 +53,10 @@ module.exports = WebpackMerge(base, {
     }]
   },
   plugins: [
+    new vConsolePlugin({
+      filter: [],  // 需要过滤的入口文件
+      enable: false // 发布代码前记得改回 false
+    }),
     new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
@@ -62,6 +67,15 @@ module.exports = WebpackMerge(base, {
     hot: true,
     compress: false,
     inline: true,
+    proxy: {
+      '/xxxx/*': {
+        target: 'http://xxx.xxx.cn',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/yyyy': '/'
+        }
+      },
+    }
     // https: {
     //   cert: fs.readFileSync("./localhost+4.pem"),
     //   key: fs.readFileSync("./localhost+4-key.pem"),
