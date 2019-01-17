@@ -11,6 +11,10 @@ import CellGroup from './Cell/group';
 import Uploader from './Uploader';
 import Croper from './Croper';
 import Skeleton from './Skeleton';
+import {
+  Waterfall,
+  WaterfallSlot
+} from './Waterfall';
 
 
 import './Toast';
@@ -32,8 +36,11 @@ const ui = {
   NavBar,
   Uploader,
   Croper,
-  Skeleton
+  Skeleton,
+  Waterfall,
+  WaterfallSlot
 }
+
 
 Vue.use({
   install(Vue) {

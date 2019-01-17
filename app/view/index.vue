@@ -8,7 +8,7 @@
         @click.native="go(item.name, item.label)"
         is-link
       />
-      {{$store.state.test.info}}
+      <center>{{$store.state.test.info}}</center>
     </PageContainer>
   </PageRootContainer>
 </template>

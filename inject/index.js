@@ -5,10 +5,11 @@ import Application from 'bitorjs-application'
 import directives from './directive';
 import Vuex from './vuex';
 
-
+const _services = [];
 export default class extends Application {
   constructor(options = {}) {
     super(options)
+
 
     this.mountVue();
     this.createDirectives(this, Vue);
@@ -108,17 +109,19 @@ export default class extends Application {
     this.emit('vue-mounted');
     this.startServer()
     this.emit('after-server');
-
-    // const source = require.context(``, false, /\.js$/);
-    // console.error(source.keys())
   }
 
   registerService(service) {
     const instance = new service(this.ctx);
     let name = decorators.getServiceName(service);
     if (name) {
-      this.ctx.Service = this.ctx.Service || {};
-      this.ctx.Service[name] = instance;
+      if (_services.indexOf(name) === -1) {
+        _services.push(name)
+        this.ctx.Service = this.ctx.Service || {};
+        this.ctx.Service[name] = instance;
+      } else {
+        throw new Error(`Service [${name}] has been declared`)
+      }
     } else {
       console.error('Service ', service, 'use @Service(name)')
     }
@@ -150,7 +153,7 @@ export default class extends Application {
     this.store = s;
   }
 
-  registerRequireContext(requireContext, mock = true) {
+  registerRequireContext(requireContext) {
     return requireContext.keys().map(key => {
       console.log(key)
       let m = requireContext(key);
@@ -159,9 +162,9 @@ export default class extends Application {
         this.registerComponent(c);
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
         this.registerController(c);
-      } else if (key.match(/\/service\/.*\.js$/) != null && mock !== true) {
+      } else if (key.match(/\/service\/.*\.js$/) != null && this.config && this.config.mock !== true) {
         this.registerService(c);
-      } else if (key.match(/\/mock\/.*\.js$/) != null) {
+      } else if (key.match(/\/mock\/.*\.js$/) != null && this.config && this.config.mock === true) {
         this.registerService(c);
       } else if (key.match(/\/store\/.*\.js$/) != null) {
         this.registerStore(c);
@@ -179,7 +182,7 @@ export default class extends Application {
 
   registerPlugin(plugin) {
     const modules = [plugin];
-    
+
     this.config = this.config || {};
     const configs = require.context('../config', false, /\.js$/)
     configs.keys().map(key => {
@@ -187,14 +190,14 @@ export default class extends Application {
       let c = m.default || m;
 
       if (key.match(/\/plugin\.js$/) != null) {
-        c.forEach(item=>{
-          if(item.enable === true) modules.push(item.module||item.module.default);
+        c.forEach(item => {
+          if (item.enable === true) modules.push(item.module || item.module.default);
         })
       } else {
         this.config = Object.assign(this.config, c)
       }
     })
-    modules.forEach(m=>{
+    modules.forEach(m => {
       m(this)
     })
   }

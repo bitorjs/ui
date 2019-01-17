@@ -1,5 +1,4 @@
-
-export default Store=>{
+export default Store => {
 
   return new Store('ttt', {
     state: {
@@ -36,7 +35,7 @@ export default Store=>{
         label: '骨架'
       }, {
         name: 'waterfall',
-        label: '骨架'
+        label: '瀑布流'
       }]
     },
     mutations: {

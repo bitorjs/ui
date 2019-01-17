@@ -5,7 +5,6 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 var path = require('path');
 const cwd = process.cwd();
-
 const babel = require(path.join(cwd, '.babelrc.js'));
 
 module.exports = {
@@ -13,13 +12,13 @@ module.exports = {
     app: './app.js',
     admin: './admin.js'
   },
-  externals:[{
-    a: './postcss.config.js'
+  externals: [{
+    ui: './packages'
   }],
   output: {
     filename: '[name].build.js',
     path: path.resolve(cwd, 'dist'),
-    chunkFilename:'[chunkhash].chunk.js'
+    chunkFilename: '[chunkhash].chunk.js'
   },
   plugins: [
     new webpack.DefinePlugin({

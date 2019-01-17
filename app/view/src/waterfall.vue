@@ -1,34 +1,57 @@
 <template>
-  <div class="wrap">
-    <span class="img-wrap" v-for="src in imgs" :key="src"> <img :src="'https://lfyfly.github.io/vue-waterfall-easy/demo/static/img/'+src+'.jpg'" alt=""></span>
+  <div>
+    <Waterfall
+      :line="line"
+      :line-gap="200"
+      :min-line-gap="100"
+      :max-line-gap="220"
+      :single-max-width="300"
+      :watch="items"
+      @reflowed="reflowed"
+      ref="waterfall"
+    >
+      <!-- each component is wrapped by a waterfall slot -->
+      <WaterfallSlot
+        v-for="(item, index) in items"
+        :width="'100'"
+        :height="'100'"
+        :order="index"
+        :key="item"
+        move-class="item-move"
+      >
+        <!-- <div class="item" :style="item.style" :index="item.index"></div> -->
+        <img :src="'https://lfyfly.github.io/vue-waterfall-easy/demo/static/img/'+item+'.jpg'">
+      </WaterfallSlot>
+    </Waterfall>
   </div>
 </template>
 <script>
 export default {
-  name: '',
-  data(){
+  name: "zg",
+  data() {
     return {
-      imgs:[
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
-      ]
+      line: "h",
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      isBusy: false
+    };
+  },
+  methods: {
+    addItems: function() {
+      if (!this.isBusy && this.items.length < 500) {
+        this.isBusy = true;
+        this.items.push.apply(this.items, ItemFactory.get(50));
+      }
+    },
+    shuffle: function() {
+      this.items.sort(function() {
+        return Math.random() - 0.5;
+      });
+    },
+    reflowed: function() {
+      this.isBusy = false;
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-.wrap {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-}
-.img-wrap{
-  display: inline-block;
-  // max-width: 100px;
-  width: 33.3%;
-
-  img{
-    width: 100%;
-    transition: .8s opacity;
-  }
-}
 </style>
