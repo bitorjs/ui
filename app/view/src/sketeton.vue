@@ -37,29 +37,30 @@ export default {
 </script>
 <style lang="less" scoped>
 .icon {
-  height: 50px !important;
-  width: 50px !important;
+  height: 50px;
+  width: 50px;
 }
 
 .line {
-  width: 80% !important;
-  margin: 15px !important;
+  width: 80%;
+  margin: 15px;
 }
 
 .bar {
-  height: 18px !important;
+  flex: 1;
+  height: 18px;
 }
 
 .block {
-  margin-top: 5px !important;
-  height: 100px !important;
+  margin-top: 5px;
+  height: 100px;
 }
 
 .button {
-  height: 42px !important;
-  width: 80% !important;
-  border-radius: 100px !important;
-  margin-top: 1rem !important;
+  height: 42px;
+  width: 80%;
+  border-radius: 100px;
+  margin-top: 1rem;
 }
 </style>
 

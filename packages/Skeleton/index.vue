@@ -42,9 +42,8 @@ export default {
 .skeleton {
   background: @bg-color;
   animation: w-opacity 2s infinite linear;
-  height: 1px; /*px*/
+  min-height: 1px; /*px*/
   margin: 1px;
-  width: 100%;
 }
 </style>
 

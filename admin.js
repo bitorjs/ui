@@ -1,7 +1,7 @@
 import "normalize.css";
+// import '@babel/polyfill';
 import VueApplication from './inject';
 import Start from './admin/view/start';
-import ui from './packages';
 
 import config from './config/app';
 
