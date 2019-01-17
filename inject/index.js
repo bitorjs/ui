@@ -104,6 +104,7 @@ export default class extends Application {
     this.registerPlugin(client)
     this.emit('ready');
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
+    this.emit('vue-mounted');
     this.startServer()
     this.emit('after-server');
   }
