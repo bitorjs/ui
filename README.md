@@ -1,5 +1,12 @@
 # ui
 
+
+- 多模块开发
+- 自由命名，Service 重名提示
+- mock 支持
+
+
+- [Webpack](https://www.imooc.com/article/details/id/30520)
 --https
 > brew install mkcert
 

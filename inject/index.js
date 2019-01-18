@@ -180,8 +180,12 @@ export default class extends Application {
     Vue.component(component.name, component);
   }
 
+  pos(){
+    
+  }
+
   registerPlugin(plugin) {
-    const modules = [plugin];
+    const modules = [];
 
     this.config = this.config || {};
     const configs = require.context('../config', false, /\.js$/)
@@ -191,14 +195,15 @@ export default class extends Application {
 
       if (key.match(/\/plugin\.js$/) != null) {
         c.forEach(item => {
-          if (item.enable === true) modules.push(item.module || item.module.default);
+          if (item.enable === true) modules.push(item);
         })
       } else {
         this.config = Object.assign(this.config, c)
       }
     })
+    plugin(this);
     modules.forEach(m => {
-      m(this)
+      m.module(this, m)
     })
   }
 }

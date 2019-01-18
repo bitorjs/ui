@@ -36,25 +36,6 @@
         </div>
       </div>
     </div>
-    <div id="album">
-      <article>
-        <div v-for="item in items" :key="item">
-          <figure>
-            <img :src="'https://lfyfly.github.io/vue-waterfall-easy/demo/static/img/'+item+'.jpg'">
-          </figure>
-          <div class="top">
-            <div>
-              <p class="title">sdfad</p>
-            </div>
-          </div>
-          <div class="bottom">
-            <div>
-              <p class="introduction">1 convallis timestamp</p>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
   </div>
 </template>
 <script>
@@ -111,66 +92,5 @@ export default {
   padding-bottom: 1em;
   margin-bottom: 0.5em;
   border-bottom: 1px solid #cccccc;
-}
-</style>
-<style lang="less" scoped>
-#album {
-  height: 100%;
-  width: 100%;
-  font-size: 1em;
-  text-align: center;
-}
-#album > article {
-  column-count: 4;
-  column-gap: 0;
-}
-#album > article > div {
-  position: relative;
-  background: linear-gradient(to top, black 0%, transparent 70%);
-}
-#album > article > div:hover img {
-  opacity: 0.5;
-}
-#album > article > div:hover .introduction {
-  opacity: 1;
-}
-#album > article figure {
-  height: auto;
-  font-size: 0;
-}
-.top {
-  position: absolute;
-  top: 20%;
-  width: 100%;
-}
-.top > div {
-  width: 100%;
-  text-align: center;
-}
-.title {
-  font-size: 3em;
-  color: white;
-  font-weight: 900;
-  margin: 0 auto;
-  opacity: 1;
-}
-.bottom {
-  position: absolute;
-  bottom: 10%;
-  width: 100%;
-}
-.bottom > div {
-  width: 100%;
-  text-align: center;
-}
-.introduction {
-  font-size: 1.5em;
-  color: white;
-  margin: 0 auto;
-  line-height: 1em;
-  opacity: 0;
-}
-img {
-  max-width: 100%;
 }
 </style>
