@@ -23,7 +23,6 @@
   "homepage": "https://github.com/bitorjs/ui#readme",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "axios": "^0.18.0",
     "bitorjs-application": "^1.0.9",
     "bitorjs-decorators": "^1.0.1",
     "bitorjs-store": "^1.0.3",
@@ -33,7 +32,8 @@
     "object-assign": "^4.1.1",
     "qs": "^6.6.0",
     "reflect-metadata": "^0.1.12",
-    "ui-test": "file:../ui-test",
+    "ui-axios": "file:plugins/ui-axios",
+    "ui-test": "file:plugins/ui-test",
     "vue": "^2.5.22",
     "vue-loader": "^15.5.1",
     "vuex": "^3.0.1",
