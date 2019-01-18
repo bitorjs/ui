@@ -64,7 +64,8 @@ export default {
 
 <style lang="less" scoped>
 .waterfall-slot {
-  position: absolute;
+  // position: absolute;
+  float: left;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
