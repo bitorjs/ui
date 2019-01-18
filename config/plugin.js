@@ -7,6 +7,7 @@ export default [{
   },
   {
     module: uiAxios,
-    enable: true
+    enable: true,
+    baseUrl: 'http://localhost:8080'
   }
 ]
