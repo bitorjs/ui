@@ -1,4 +1,5 @@
 const WebpackMerge = require('webpack-merge');
+const webpack = require('webpack');
 const base = require('./webpack.base');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const DropConsoleWebpackPlugin = require('drop-console-webpack-plugin');
@@ -92,6 +93,11 @@ module.exports = WebpackMerge(base, {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        IS_DEV: JSON.stringify(false),
+      },
+    }),
     new CleanWebpackPlugin(pathsToClean, cleanOptions),
     new DropConsoleWebpackPlugin({
       drop_log: true,

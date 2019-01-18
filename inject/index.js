@@ -105,6 +105,7 @@ export default class extends Application {
     htmlElementId = htmlElementId || '#root';
     this.registerPlugin(client)
     this.emit('ready');
+    this.emit('before-mount-vue');
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
     this.emit('vue-mounted');
     this.startServer()
@@ -151,9 +152,10 @@ export default class extends Application {
   registerStore(store) {
     let s = store(Vuex.Store);
     this.store = s;
+    this.ctx.Store = s;
   }
 
-  registerRequireContext(requireContext) {
+  watch(requireContext) {
     return requireContext.keys().map(key => {
       console.log(key)
       let m = requireContext(key);
@@ -180,10 +182,6 @@ export default class extends Application {
     Vue.component(component.name, component);
   }
 
-  pos(){
-    
-  }
-
   registerPlugin(plugin) {
     const modules = [];
 
@@ -192,12 +190,21 @@ export default class extends Application {
     configs.keys().map(key => {
       let m = configs(key);
       let c = m.default || m;
-
       if (key.match(/\/plugin\.js$/) != null) {
         c.forEach(item => {
           if (item.enable === true) modules.push(item);
         })
-      } else {
+
+      }else if(key.match(/\/development\.js$/) != null) {
+        if(process.env.IS_DEV===true) {
+          this.config = Object.assign(this.config, c)
+        }
+      }else if(key.match(/\/production\.js$/) != null) {
+        if(process.env.IS_DEV===false) {
+          this.config = Object.assign(this.config, c)
+        }
+      } else  {
+        console.log(c)
         this.config = Object.assign(this.config, c)
       }
     })

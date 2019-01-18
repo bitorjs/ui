@@ -2,14 +2,10 @@ import "normalize.css";
 import VueApplication from './inject';
 import Start from './admin/view/start';
 
-
-
-let appSource = require.context('./admin', true, /^((?!\/view\/).)+\.(vue|js)$/)
 let client = app => {
-  app.registerRequireContext(appSource, config.mock);
-
+  app.watch(require.context('./admin', true, /^((?!\/view\/).)+\.(vue|js)$/));
   app.on('ready', () => {
-
+    console.log('admin ready')
   })
 }
 

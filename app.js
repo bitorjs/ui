@@ -2,24 +2,24 @@ import "normalize.css";
 import VueApplication from './inject';
 import Start from './app/view/start';
 import ui from './packages';
+import Toast from "./packages/Toast";
 
-let appSource = require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/)
 let client = app => {
-  app.registerRequireContext(appSource);
+  app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
 
   app.beforeEach((to, from, next) => {
     next()
   })
 
   app.afterEach((to, from, next) => {
-    next(-1)
+    next()
   })
 
   app.on('ready', () => {
-
+    console.log('app ready')
   })
 }
 
 new VueApplication({
-  // mode: 'history'
+  // mode: 'hash'
 }).start(client, null, Start);

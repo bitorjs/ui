@@ -2,7 +2,6 @@ const htmlPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const autoprefixer = require('autoprefixer');
-const webpack = require('webpack');
 var path = require('path');
 const cwd = process.cwd();
 const babel = require(path.join(cwd, '.babelrc.js'));
@@ -21,13 +20,6 @@ module.exports = {
     chunkFilename: '[chunkhash].chunk.js'
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        development: true,
-        production: true
-      },
-      IS_DEV: JSON.stringify(false),
-    }),
     new htmlPlugin({
       filename: 'index.html',
       template: path.resolve(cwd, 'index.html'),

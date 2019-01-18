@@ -53,6 +53,11 @@ module.exports = WebpackMerge(base, {
     }]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        IS_DEV: true,
+      },
+    }),
     new vConsolePlugin({
       filter: [],  // 需要过滤的入口文件
       enable: false // 发布代码前记得改回 false

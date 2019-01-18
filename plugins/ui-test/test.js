@@ -1,9 +1,8 @@
-let appSource = require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/)
 const client = app => {
+  app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
   app.on('ready', () => {
-    app.registerRequireContext(appSource);
+    console.log('test ready')
   })
-
 }
 
 export default client;

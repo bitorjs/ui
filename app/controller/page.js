@@ -25,7 +25,7 @@ class IndexController {
         return item.name == this.ctx.params.page;
       })
 
-      this.ctx.app.store.root.setItem("title", items[0].label);
+      this.ctx.Store.root.setItem("title", items[0].label);
       this.ctx.render(res.default)
     }).catch(res => {
       Toast.fail('未找到页面')

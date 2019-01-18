@@ -1,3 +1,4 @@
 module.exports = {
-  mock: false
+  title: 'UI',
+  author: 'HZJ'
 }

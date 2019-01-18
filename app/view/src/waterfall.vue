@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <Waterfall
       :line="line"
       :line-gap="200"
@@ -14,7 +14,7 @@
       <WaterfallSlot
         v-for="(item, index) in items"
         :width="'100'"
-        :height="'auto'"
+        :height="100"
         :order="index"
         :key="item"
         move-class="item-move"

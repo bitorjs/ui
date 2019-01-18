@@ -1,8 +1,8 @@
-import plugin from 'ui-test';
+import uiTest from 'ui-test';
 
 export default [
   {
-    module: plugin,
+    module: uiTest,
     enable: true
   }
 ]
