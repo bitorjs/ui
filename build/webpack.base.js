@@ -9,7 +9,8 @@ const babel = require(path.join(cwd, '.babelrc.js'));
 module.exports = {
   entry: {
     app: './app.js',
-    admin: './admin.js'
+    admin: './admin.js',
+    normalize: 'normalize.css',
   },
   externals: [{
     ui: './packages'

@@ -6,7 +6,6 @@ import Toast from "./packages/Toast";
 
 let client = app => {
   app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
-
   app.beforeEach((to, from, next) => {
     next()
   })

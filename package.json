@@ -23,6 +23,7 @@
   "homepage": "https://github.com/bitorjs/ui#readme",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "axios": "^0.18.0",
     "bitorjs-application": "^1.0.9",
     "bitorjs-decorators": "^1.0.1",
     "bitorjs-store": "^1.0.3",
