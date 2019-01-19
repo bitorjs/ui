@@ -9,9 +9,12 @@ export default class {
   }
   async aa() {
     // console.log(this.ctx.axios)
-    this.ctx.axios.get('/').then(res => {
+    console.warn('09998')
+    this.ctx.ajax.get('/').then(res => {
       console.log(res)
     })
-    return 'from service'
+    const res = await this.ctx.ajax.get('/');
+    console.warn(res)
+    return 'from service2-' + res;
   }
 }

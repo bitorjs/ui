@@ -104,12 +104,16 @@ export default class extends Application {
   start(client, htmlElementId, vueRootComponent) {
     htmlElementId = htmlElementId || '#root';
     this.registerPlugin(client)
-    this.emit('ready');
     this.emit('before-mount-vue');
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
+    this.emit('ready');
     this.emit('vue-mounted');
     this.startServer()
     this.emit('after-server');
+  }
+
+  registerFilter(name, filter){
+    Vue.filter(name, filter)    
   }
 
   registerService(service) {
@@ -155,6 +159,12 @@ export default class extends Application {
     this.ctx.Store = s;
   }
 
+  registerMiddleware(fn){
+    if (typeof fn !== 'function') throw new TypeError('middleware must be a function!');
+    this.middleware.unshift(fn);
+    return this;
+  }
+
   watch(requireContext) {
     return requireContext.keys().map(key => {
       console.log(key)
@@ -162,6 +172,11 @@ export default class extends Application {
       let c = m.default || m;
       if (key.match(/\/component\/.*\.vue$/) != null) {
         this.registerComponent(c);
+      } else if (key.match(/\/filter\/.*\.js$/) != null) {
+        console.warn(1)
+        this.registerFilter(key.replace(/(.*\/)*([^.]+).*/ig,"$2"),c)
+      } else if (key.match(/\/middleware\/.*\.js$/) != null) {
+        this.registerMiddleware(c)
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
         this.registerController(c);
       } else if (key.match(/\/service\/.*\.js$/) != null && this.config && this.config.mock !== true) {

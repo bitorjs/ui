@@ -2,6 +2,7 @@
   <PageRootContainer>
     <NavBar :title="$store.state.title||title" :left-arrow="back" @click-left="onClickLeft"/>
     <webview-container></webview-container>
+    <center>{{1|number}}</center>
   </PageRootContainer>
 </template>
 <script>
