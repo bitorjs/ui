@@ -1,7 +1,14 @@
-import uiTest from 'ui-test';
+import UINI from 'ui-nipi';
 import uiAxios from 'ui-axios';
+import uiTest from 'ui-test';
 
-export default [{
+
+export default [
+  {
+    module: UINI,
+    enable: true
+  },
+  {
     module: uiTest,
     enable: true
   },

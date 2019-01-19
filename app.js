@@ -15,7 +15,7 @@ let client = app => {
   })
 
   app.on('ready', () => {
-    console.log('app ready')
+    console.warn('app ready', app.nipi)
   })
 }
 
