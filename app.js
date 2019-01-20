@@ -24,4 +24,4 @@ let client = app => {
 
 new VueApplication({
   // mode: 'hash'
-}).start(client, null, Start);
+}).start(client, Start);

@@ -11,4 +11,4 @@ let client = app => {
 
 new VueApplication({
   // mode: 'history'
-}).start(client, '#admin', Start);
+}).start(client, Start, '#admin');

@@ -1,65 +1,87 @@
 import Vue from 'vue';
 import Vuex from 'vuex'
+import Qs from 'qs';
 import VuexPersistence from 'vuex-persist'
+
+let _namespace = '',
+  storeProxy = null,
+  commit = null,
+  dispatch = null;
+
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage
 })
 
 function generOption(options) {
   options['mutations'] = options['mutations'] || {}
-  options['mutations']['SYS:SET'] = function (state, payload) {
+  options['mutations']['MUT:SET'] = function (state, payload) {
     Vue.set(state, payload.key, payload.value);
   }
+  options['mutations']['MUT:ASSIGN'] = function (state, payload) {
+    Object.assign(state, payload)
+  }
+  options['mutations']['MUT:QS'] = function (state, payload) {
+    payload = Qs.parse(payload, {
+      depth: 10,
+      allowDots: true
+    });
+    Object.assign(state, payload)
+  }
+
   return options;
 }
 
-let _namespace = '',
-  storeProxy = null,
-  commit = null;
+function overrideMethod(instance) {
+  commit = instance.commit;
+  instance.commit = function (type, payload, options) {
+    type = type.split('/').pop()
+    commit.call(instance, `${_namespace}${type}`, payload, options) //
+  }
+
+  dispatch = instance.dispatch;
+  instance.dispatch = function (type, payload) {
+    dispatch.call(instance, `${_namespace}${type}`, payload)
+  }
+}
+
+function genGetterProxy(getters) {
+  return new Proxy(getters, {
+    get: function (obj, prop) {
+      return obj[`${_namespace}${prop}`];
+    }
+  })
+}
+
+function genProxy(instance) {
+  const proxy = new Proxy(instance, {
+    get: function (obj, prop) {
+      if (prop in obj) {
+        return prop === 'getters' ? genGetterProxy(obj[prop]) : obj[prop];
+      } else {
+        _namespace = prop === 'root' ? '' : `${prop}/`;
+        return proxy;
+      }
+    }
+  })
+
+  return proxy;
+}
+
+
 class Store extends Vuex.Store {
   static instance = null;
   constructor(options = {}, namespace) {
     options = generOption(options)
     if (Store.instance == null) {
-      Store.instance = super(generOption({
+      const instance = super(generOption({
         plugins: [vuexLocal.plugin]
       }))
-      Vue.prototype.$store = Store.instance;
 
-      commit = Store.instance.commit;
-      Store.instance.commit = function (type, payload, options) {
-        type = type.split('/').pop()
-        commit.call(Store.instance, `${_namespace}${type}`, payload, options) //
-      }
+      overrideMethod(instance)
+      storeProxy = genProxy(instance);
 
-      let dispatch = Store.instance.dispatch;
-      Store.instance.dispatch = function (type, payload) {
-        dispatch.call(Store.instance, `${_namespace}${type}`, payload)
-      }
-
-      storeProxy = new Proxy(Store.instance, {
-        get: function (obj, prop) {
-          if (prop in obj) {
-            if (prop === 'getters') {
-              return new Proxy(obj[prop], {
-                get: function (obj, prop) {
-                  return obj[`${_namespace}${prop}`];
-                }
-              })
-            } else {
-              return obj[prop];
-            }
-          } else {
-            if (prop === 'root') {
-              _namespace = ''
-            } else {
-              _namespace = `${prop}/`;
-            }
-
-            return storeProxy;
-          }
-        }
-      })
+      Vue.prototype.$store = instance;
+      Store.instance = instance;
     }
 
     options.namespaced = true;
@@ -69,11 +91,19 @@ class Store extends Vuex.Store {
   }
 
   setItem(key, value) {
-    commit(`${_namespace}SYS:SET`, {
+    commit(`${_namespace}MUT:SET`, {
       key,
       value
     })
-    _namespace = ''
+    // _namespace = ''
+  }
+
+  assign(payload) {
+    commit(`${_namespace}MUT:ASSIGN`, payload)
+  }
+
+  qs(payload) {
+    commit(`${_namespace}MUT:QS`, payload)
   }
 }
 

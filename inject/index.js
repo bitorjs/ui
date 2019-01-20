@@ -5,6 +5,7 @@ import Application from 'bitorjs-application'
 import directives from './directive';
 import Vuex from './vuex';
 
+const _filters = [];
 const _services = [];
 const _webstore = [];
 export default class extends Application {
@@ -102,7 +103,7 @@ export default class extends Application {
     directives(app, Vue);
   }
 
-  start(client, htmlElementId, vueRootComponent) {
+  start(client, vueRootComponent, htmlElementId) {
     htmlElementId = htmlElementId || '#root';
     this.registerPlugin(client)
     this.emit('before-mount-vue');
@@ -114,7 +115,11 @@ export default class extends Application {
   }
 
   registerFilter(name, filter) {
-    Vue.filter(name, filter)
+    if (_filters.indexOf(name) === -1) {
+      Vue.filter(name, filter)
+    } else {
+      throw new Error(`Fliter [${name}] has been declared`)
+    }
   }
 
   registerService(filename, service) {
@@ -162,12 +167,12 @@ export default class extends Application {
   }
 
   registerStore(name, store) {
-    if (_webstore.indexOf(name) > -1) {
-      throw new Error(`Store [${name}] has been declared`)
-    } else {
+    if (_webstore.indexOf(name) === -1) {
       let s = new Vuex.Store(store, name);
       this.store = s;
       this.ctx.Store = s;
+    } else {
+      throw new Error(`Store [${name}] has been declared`)
     }
 
   }
