@@ -6,6 +6,7 @@ import directives from './directive';
 import Vuex from './vuex';
 
 const _services = [];
+const _webstore = [];
 export default class extends Application {
   constructor(options = {}) {
     super(options)
@@ -112,11 +113,11 @@ export default class extends Application {
     this.emit('after-server');
   }
 
-  registerFilter(name, filter){
-    Vue.filter(name, filter)    
+  registerFilter(name, filter) {
+    Vue.filter(name, filter)
   }
 
-  registerService(service) {
+  registerService(filename, service) {
     const instance = new service(this.ctx);
     let name = decorators.getServiceName(service);
     if (name) {
@@ -128,7 +129,14 @@ export default class extends Application {
         throw new Error(`Service [${name}] has been declared`)
       }
     } else {
-      console.error('Service ', service, 'use @Service(name)')
+      if (_services.indexOf(filename) === -1) {
+        _services.push(filename)
+        this.ctx.Service = this.ctx.Service || {};
+        this.ctx.Service[filename] = instance;
+        console.warn('Service ', service, 'use @Service(name)')
+      } else {
+        throw new Error(`Service [${filename}] has been declared`)
+      }
     }
   }
 
@@ -153,13 +161,18 @@ export default class extends Application {
     })
   }
 
-  registerStore(store) {
-    let s = store(Vuex.Store);
-    this.store = s;
-    this.ctx.Store = s;
+  registerStore(name, store) {
+    if (_webstore.indexOf(name) > -1) {
+      throw new Error(`Store [${name}] has been declared`)
+    } else {
+      let s = new Vuex.Store(store, name);
+      this.store = s;
+      this.ctx.Store = s;
+    }
+
   }
 
-  registerMiddleware(fn){
+  registerMiddleware(fn) {
     if (typeof fn !== 'function') throw new TypeError('middleware must be a function!');
     this.middleware.unshift(fn);
     return this;
@@ -170,21 +183,21 @@ export default class extends Application {
       console.log(key)
       let m = requireContext(key);
       let c = m.default || m;
+      let filename = key.replace(/(.*\/)*([^.]+).*/ig, "$2");
       if (key.match(/\/component\/.*\.vue$/) != null) {
         this.registerComponent(c);
       } else if (key.match(/\/filter\/.*\.js$/) != null) {
-        console.warn(1)
-        this.registerFilter(key.replace(/(.*\/)*([^.]+).*/ig,"$2"),c)
+        this.registerFilter(filename, c)
       } else if (key.match(/\/middleware\/.*\.js$/) != null) {
         this.registerMiddleware(c)
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
         this.registerController(c);
       } else if (key.match(/\/service\/.*\.js$/) != null && this.config && this.config.mock !== true) {
-        this.registerService(c);
+        this.registerService(filename, c);
       } else if (key.match(/\/mock\/.*\.js$/) != null && this.config && this.config.mock === true) {
-        this.registerService(c);
+        this.registerService(filename, c);
       } else if (key.match(/\/store\/.*\.js$/) != null) {
-        this.registerStore(c);
+        this.registerStore(filename, c);
       }
     })
   }
@@ -210,15 +223,15 @@ export default class extends Application {
           if (item.enable === true) modules.push(item);
         })
 
-      }else if(key.match(/\/development\.js$/) != null) {
-        if(process.env.IS_DEV===true) {
+      } else if (key.match(/\/development\.js$/) != null) {
+        if (process.env.IS_DEV === true) {
           this.config = Object.assign(this.config, c)
         }
-      }else if(key.match(/\/production\.js$/) != null) {
-        if(process.env.IS_DEV===false) {
+      } else if (key.match(/\/production\.js$/) != null) {
+        if (process.env.IS_DEV === false) {
           this.config = Object.assign(this.config, c)
         }
-      } else  {
+      } else {
         console.log(c)
         this.config = Object.assign(this.config, c)
       }

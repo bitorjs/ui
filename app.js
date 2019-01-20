@@ -1,8 +1,11 @@
 import "normalize.css";
+import Vue from 'vue';
 import VueApplication from './inject';
 import Start from './app/view/start';
 import ui from './packages';
-import Toast from "./packages/Toast";
+Vue.use(ui);
+
+
 
 let client = app => {
   app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));

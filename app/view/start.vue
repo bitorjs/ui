@@ -14,13 +14,12 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$bitor.store.root.setItem("title", "所有组件");
+      // this.$bitor.store.root.setItem("title", "所有组件");
       this.$bitor.redirect("/");
     }
   },
   watch: {
     "$store.state.title"(oldTitle, newTitle) {
-      
       // document.title = newTitle;
     }
   }

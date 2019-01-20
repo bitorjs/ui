@@ -10,8 +10,6 @@ import Toast from '../../packages/Toast';
 class IndexController {
   constructor(ctx) {
     this.ctx = ctx;
-    // this.app = ctx.app;
-    // this.data = ctx.app.store.state.ttt.data;
   }
 
   @Get('/:page?')
@@ -25,7 +23,7 @@ class IndexController {
         return item.name == this.ctx.params.page;
       })
 
-      this.ctx.Store.root.setItem("title", items[0].label);
+      // this.ctx.Store.root.setItem("title", items[0].label);
       this.ctx.render(res.default)
     }).catch(res => {
       Toast.fail('未找到页面')

@@ -6,11 +6,9 @@ import {
 import index from '../view/index';
 
 @Controller('/')
-class IndexController {
+export default class IndexController {
   constructor(ctx) {
     this.ctx = ctx;
-    // this.app = ctx.app;
-    // this.data = ;
   }
 
 
@@ -26,5 +24,3 @@ class IndexController {
     return this.ctx.app.store.state.ttt.data;
   }
 }
-
-export default IndexController;

@@ -10,14 +10,15 @@ function generOption(options) {
   options['mutations']['SYS:SET'] = function (state, payload) {
     Vue.set(state, payload.key, payload.value);
   }
-
   return options;
 }
 
-let _namespace = '', storeProxy = null;
+let _namespace = '',
+  storeProxy = null,
+  commit = null;
 class Store extends Vuex.Store {
   static instance = null;
-  constructor(namespace, options = {}) {
+  constructor(options = {}, namespace) {
     options = generOption(options)
     if (Store.instance == null) {
       Store.instance = super(generOption({
@@ -25,9 +26,10 @@ class Store extends Vuex.Store {
       }))
       Vue.prototype.$store = Store.instance;
 
-      let commit = Store.instance.commit;
+      commit = Store.instance.commit;
       Store.instance.commit = function (type, payload, options) {
-        commit.call(Store.instance, `${_namespace}${type}`, payload, options)
+        type = type.split('/').pop()
+        commit.call(Store.instance, `${_namespace}${type}`, payload, options) //
       }
 
       let dispatch = Store.instance.dispatch;
@@ -38,14 +40,22 @@ class Store extends Vuex.Store {
       storeProxy = new Proxy(Store.instance, {
         get: function (obj, prop) {
           if (prop in obj) {
-            return obj[prop];
+            if (prop === 'getters') {
+              return new Proxy(obj[prop], {
+                get: function (obj, prop) {
+                  return obj[`${_namespace}${prop}`];
+                }
+              })
+            } else {
+              return obj[prop];
+            }
           } else {
             if (prop === 'root') {
               _namespace = ''
             } else {
               _namespace = `${prop}/`;
             }
-  
+
             return storeProxy;
           }
         }
@@ -59,7 +69,7 @@ class Store extends Vuex.Store {
   }
 
   setItem(key, value) {
-    this.commit(`${_namespace}SYS:SET`, {
+    commit(`${_namespace}SYS:SET`, {
       key,
       value
     })

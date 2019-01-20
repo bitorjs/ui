@@ -41,14 +41,10 @@ const ui = {
   WaterfallSlot
 }
 
-
-Vue.use({
+export default {
   install(Vue) {
     Object.keys(ui).forEach(item => {
       Vue.component(item, ui[item])
     });
   }
-})
-
-
-export default ui;
+};

@@ -1,76 +1,40 @@
 export default class {
-  constructor(option={}) {
+  constructor(option = {}) {
     this.navigator = window.navigator;
     this.userAgent = window.navigator.userAgent;
     this.enable = false; // false
     // this.OS = ;
   }
-  
-  openApp() {
-    if (Shell.enable) {
 
-    } else {
+  openApp() {}
+  openCamera() {}
 
-    }
-  }
-  openCamera() {
+  shareMessage() {}
 
-  }
+  setCookie() {}
 
-  shareMessage() {
+  getCookie() {}
 
-  }
+  getAllCookie() {}
 
-  setCookie() {
+  setStoreItem() {}
 
-  }
+  getStoreItem() {}
 
-  getCookie() {
+  getAllStoreItem() {}
 
-  }
+  clearCache() {}
 
-  getAllCookie() {
+  clearStore() {}
 
-  }
+  goUrl() {}
 
-  setStoreItem() {
+  goBack() {}
 
-  }
+  showBack() {}
 
-  getStoreItem() {
+  showHeader() {}
 
-  }
-
-  getAllStoreItem() {
-
-  }
-
-  clearCache() {
-
-  }
-
-  clearStore() {
-
-  }
-
-  goUrl() {
-
-  }
-
-  goBack() {
-
-  }
-
-  showBack(show = false) {
-
-  }
-
-  showHeader(show = false) {
-
-  }
-
-  showFooter(show = false) {
-
-  }
+  showFooter() {}
 
 }
