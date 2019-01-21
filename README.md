@@ -1,5 +1,4 @@
 # BitorJS 应用
-### BitorJS 只专注 SPA 中统一路由和存储，目录是 view 层可以接入 Vue | React ...
 
 > 技术栈： bitorjs + vue2 + vuex + webpack4 + babel7
 
@@ -33,7 +32,7 @@ app:
 options:
 ```
 
-### 配置文件 
+### 配置文件 
 - 插件 config/plugin.js
 ```
 export default [
@@ -45,7 +44,7 @@ export default [
   }
 ]
 ```
-- 开发环境配置 config/development.js
+- 开发环境配置 config/development.js
 ```
 export default {
   mode: 'development',
@@ -53,7 +52,7 @@ export default {
 }
 ```
 
-- 生产环境配置 config/production.js
+- 生产环境配置 config/production.js
 ```
 export default {
   mode: 'production',
