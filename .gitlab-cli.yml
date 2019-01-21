@@ -1,0 +1,19 @@
+variables:
+  USERNAME: ''
+  PASSWD: ''
+
+stages:
+  - pull
+  - build
+  - deploy
+
+job-a:
+  stage: pull
+
+
+job-b: 
+  stage: build
+
+
+job-c:
+  stage: deploy
