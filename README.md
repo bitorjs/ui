@@ -11,16 +11,16 @@
 ### 安装
 
 - npm i -g bitorjs-cli
-- bitor create vue
+- bitor new vue
 
 
 ### 启动应用主入口 client.js
-- import Application from 'app';
+- import Application from '@bitores/vue';
 > new Application().start(client[,component,element-id]);
 ```
 client: app=>{}
 
-component: 应用根组件, 默认可以不写
+component: vue根组件, 默认可以不写
 
 element-id: vue 挂载到html节点,默认值 #root
 ```
@@ -121,24 +121,6 @@ export default class{
 ```
 this.ctx.Service.name.xxx();
 ```
-
-### class
-
-- Application (bitorjs-application) 自定义应用扩展类 入口
-  - startServer   开启路由监听
-  - registerRoute 注入路由
-  - match         查找指定 url 下的路由回调
-  - use           注入中间件
-
-- Decorators (bitorjs-decorators) 注解
-  - Get 
-  - Post
-  - Put
-  - Delete
-  - Controller 
-  - Service 
-
-
 
 ## 如何启动一个应用
 
