@@ -1,13 +1,13 @@
 {
   "name": "@bitorjs/ui",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "",
   "main": "packages/index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./build/webpack.dev.js --watch --color --progress",
     "dev": "webpack --config ./build/webpack.dev.js --watch --progress --color",
     "build": "webpack --config ./build/webpack.prod.js --progress --color",
-    "build-docker":"docker build -t docker-vue . && docker run -p 8089:8089 -d docker-vue",
+    "build-docker": "docker build -t docker-vue . && docker run -p 8089:8089 -d docker-vue",
     "install_cert": "brew install mkcert && npm run cert",
     "cert": "mkcert localhost 127.0.0.1 192.168.8.102 0.0.0.0 ::1 && mkcert -install",
     "push": "git add . && git commit -m 'f' && npm version patch && git push"
