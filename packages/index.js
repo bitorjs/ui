@@ -11,6 +11,7 @@ import CellGroup from './Cell/group';
 import Uploader from './Uploader';
 import Croper from './Croper';
 import Skeleton from './Skeleton';
+import ActionSheet from './ActionSheet';
 import {
   Waterfall,
   WaterfallSlot
@@ -38,7 +39,8 @@ const ui = {
   Croper,
   Skeleton,
   Waterfall,
-  WaterfallSlot
+  WaterfallSlot,
+  ActionSheet
 }
 
 export default {

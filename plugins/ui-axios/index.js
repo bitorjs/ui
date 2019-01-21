@@ -8,7 +8,8 @@ export default (app, option) => {
     timeout: 1000,
 
     // `withCredentials` 表示跨域请求时是否需要使用凭证
-    withCredentials: false, // 默认的
+    withCredentials: false, // 默认的false, true:让ajax携带cookie
+
   });
   setHeaders(instance)
   requestIntercptor(instance);
