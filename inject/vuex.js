@@ -6,7 +6,8 @@ import VuexPersistence from 'vuex-persist'
 let _namespace = '',
   storeProxy = null,
   commit = null,
-  dispatch = null;
+  dispatch = null,
+  Storeinstance = null;
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage
@@ -69,10 +70,9 @@ function genProxy(instance) {
 
 
 class Store extends Vuex.Store {
-  static instance = null;
   constructor(options = {}, namespace) {
     options = generOption(options)
-    if (Store.instance == null) {
+    if (Storeinstance == null) {
       const instance = super(generOption({
         plugins: [vuexLocal.plugin]
       }))
@@ -81,11 +81,11 @@ class Store extends Vuex.Store {
       storeProxy = genProxy(instance);
 
       Vue.prototype.$store = instance;
-      Store.instance = instance;
+      Storeinstance = instance;
     }
 
     options.namespaced = true;
-    Store.instance.registerModule(namespace, options);
+    Storeinstance.registerModule(namespace, options);
 
     return storeProxy;
   }
@@ -95,15 +95,17 @@ class Store extends Vuex.Store {
       key,
       value
     })
-    // _namespace = ''
+    _namespace = ''
   }
 
   assign(payload) {
     commit(`${_namespace}MUT:ASSIGN`, payload)
+    _namespace = ''
   }
 
   qs(payload) {
     commit(`${_namespace}MUT:QS`, payload)
+    _namespace = ''
   }
 }
 

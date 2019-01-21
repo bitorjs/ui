@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+// import 'reflect-metadata';
 import Vue from 'vue'
 import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'
@@ -116,6 +116,7 @@ export default class extends Application {
 
   registerFilter(name, filter) {
     if (_filters.indexOf(name) === -1) {
+      _filters.push(name)
       Vue.filter(name, filter)
     } else {
       throw new Error(`Fliter [${name}] has been declared`)
@@ -168,6 +169,7 @@ export default class extends Application {
 
   registerStore(name, store) {
     if (_webstore.indexOf(name) === -1) {
+      _webstore.push(name)
       let s = new Vuex.Store(store, name);
       this.store = s;
       this.ctx.Store = s;
