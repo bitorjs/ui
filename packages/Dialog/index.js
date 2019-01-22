@@ -1,44 +1,9 @@
 import Vue from 'vue';
+import virtualDialog from '../common/create-dialog';
 import VanDialog from './dialog.vue';
 
-import {
-  isServer
-} from '../common/utils';
 
-let instance;
-
-const initInstance = () => {
-  instance = new(Vue.extend(VanDialog))({
-    el: document.createElement('div')
-  });
-
-  instance.$on('input', value => {
-    instance.value = value;
-  });
-
-  document.body.appendChild(instance.$el);
-};
-
-const Dialog = options => {
-  /* istanbul ignore if */
-  if (isServer) {
-    return Promise.resolve();
-  }
-
-  return new Promise((resolve, reject) => {
-    if (!instance) {
-      initInstance();
-    }
-
-    Object.assign(instance, {
-      resolve,
-      reject,
-      ...options
-    });
-  });
-};
-
-Dialog.defaultOptions = {
+const Dialog = virtualDialog(VanDialog,{
   value: true,
   title: '',
   message: '',
@@ -53,14 +18,11 @@ Dialog.defaultOptions = {
   closeOnClickOverlay: false,
   padding: true,
   callback: action => {
-    instance[action === 'confirm' ? 'resolve' : 'reject'](action);
+    console.log(VanDialog.instance)
+    VanDialog.instance[action === 'confirm' ? 'resolve' : 'reject'](action);
   }
-};
+})
 
-Dialog.alert = options => Dialog({
-  ...Dialog.currentOptions,
-  ...options
-});
 
 Dialog.confirm = options => Dialog({
   ...Dialog.currentOptions,
@@ -68,28 +30,7 @@ Dialog.confirm = options => Dialog({
   ...options
 });
 
-Dialog.close = () => {
-  if (instance) {
-    instance.value = false;
-  }
-};
-
-Dialog.setDefaultOptions = options => {
-  Object.assign(Dialog.currentOptions, options);
-};
-
-Dialog.resetDefaultOptions = () => {
-  Dialog.currentOptions = { ...Dialog.defaultOptions
-  };
-};
-
-Dialog.install = () => {
-  Vue.use(VanDialog);
-};
-
 Vue.prototype.$dialog = Dialog;
-Dialog.resetDefaultOptions();
-
 window.Dialog = Dialog;
 
 export default Dialog;

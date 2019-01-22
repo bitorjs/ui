@@ -11,7 +11,7 @@ import CellGroup from './Cell/group';
 import Uploader from './Uploader';
 import Croper from './Croper';
 import Skeleton from './Skeleton';
-import ActionSheet from './ActionSheet';
+import ActionSheet from './Sheet/action-sheet';
 import {
   Waterfall,
   WaterfallSlot
@@ -20,10 +20,9 @@ import {
 
 import './Toast';
 import './Dialog';
+import './Sheet';
 import './filters/slice';
 import './filters/formateDate';
-
-
 
 const ui = {
   Icon,

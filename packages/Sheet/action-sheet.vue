@@ -3,25 +3,26 @@
     <div v-show="value" :class="['actionsheet', { withtitle: title }]">
       <div :class="['header', 'hairline--top-bottom']" v-if="title">
         {{title}}
-        <Icon name="close" @onClick.native="onCancel"/>
+        <Icon name="close" @click.native="onCancel"/>
       </div>
       <div
         :class="[ 'item', { disabled: item.disabled || item.loading }, item.className, 'hairline--top' ]"
-        @onClick="onClick"
+        @click="event=>{
+          onSelect(event, item);
+        }"
         v-for="(item,key) in actions"
         :key="key"
-        v-else
       >
-        {{item.loading ? (
-        <Loading class="loading" size="20px"/>) : (
-        [
-        <span class="name">{{item.name}}</span>,
-        <span v-if="item.subname" class="subname">{{item.subname}}</span>
-        ]
-        )}}
+      <Loading class="loading" size="20px" v-if="item.loading"/>
+        
+      <span v-if="!item.loading" class="name" >{{item.name}}</span>
+      <span v-if="!item.loading&&item.subname" class="subname">{{item.subname}}</span>
+      
       </div>
-      <div class="cancel" @onClick="onCancel" v-if="cancelText">{{cancelText}}</div>
-      <div class="content" v-else>{{$slots.default}}</div>
+      <div class="cancel" @click="onCancel" v-if="cancelText">{{cancelText}}</div>
+      <div class="content" v-else>
+        <slot></slot>
+      </div>
     </div>
   </transition>
 </template>
@@ -39,7 +40,7 @@ export default {
   mixins: [Popup],
   props: {
     title: String,
-    value: Boolean,
+    value: Boolean, //  用于外部 v-model, v-model 只能绑定到 value属性值，谁有value就可以绑定谁
     actions: Array,
     cancelText: String,
     overlay: {
@@ -49,35 +50,32 @@ export default {
     closeOnClickOverlay: {
       type: Boolean,
       default: true
-    }
-  },
-
-  methods: {
-    onCancel() {},
-    onClick(event) {
-      this.onSelect(event, item);
     },
+    select: Function,
+    cnacel: Function,
+  },
+  methods: {
     onSelect(event, item) {
       event.stopPropagation();
-
       if (!item.disabled && !item.loading) {
         if (item.callback) {
           item.callback(item);
         }
-
-        this.$emit("select", item);
+        this.select?this.select(item):this.$emit("select", item);
       }
     },
-
     onCancel() {
       this.$emit("input", false);
-      this.$emit("cancel");
+      this.cancel?this.cancel():this.$emit("cancel");
     }
   }
 };
 </script>
 <style lang="less" scoped>
 @import "../common/style/theme";
+@import "../common/style/hairline";
+@import '../common/style/animation';
+
 .actionsheet {
   position: fixed;
   left: 0;
@@ -106,7 +104,7 @@ export default {
     }
   }
 
-  .item--disabled {
+  .item.disabled {
     color: @gray;
 
     &:active {

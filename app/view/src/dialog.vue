@@ -53,7 +53,6 @@ export default {
         confirmButtonText: "我要继续",
         cancelButtonText: "暂时放弃",
         beforeClose: (action, done) => {
-          console.log(action);
           done();
           // this.$dialog.close();
         }
