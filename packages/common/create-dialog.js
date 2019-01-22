@@ -53,7 +53,7 @@ const createVirtalDialog = (vueComponent, defaultOptions) => {
   };
 
   virtalDialog.resetDefaultOptions = () => {
-    virtalDialog.currentOptions = Object.assign({},defaultOptions);
+    virtalDialog.currentOptions = Object.assign({}, defaultOptions);
   };
 
   virtalDialog.install = () => {

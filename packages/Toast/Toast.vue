@@ -40,6 +40,14 @@ export default {
     lockScroll: {
       type: Boolean,
       default: false
+    },
+    overlay: {
+      type: Boolean,
+      default: true
+    },
+    closeOnClickOverlay: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -80,6 +88,7 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../common/style/theme";
+@import "../common/style/animation";
 
 .toast {
   position: fixed;

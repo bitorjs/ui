@@ -2,8 +2,8 @@
   <PageRootContainer>
     <PageContainer>
       <h3>文字提示</h3>
-      <Button @click.native="$toast(text)">{{ title1 }}</Button>
-      <Button @click.native="$toast(longText)">{{longTextButton }}</Button>
+      <Button @click.native="$toast.text(text)">{{ title1 }}</Button>
+      <Button @click.native="$toast.text(longText)">{{longTextButton }}</Button>
 
       <h3>加载提示</h3>
       <Button @click.native="showLoadingToast">{{title2 }}</Button>
@@ -73,7 +73,7 @@ export default {
           toast.message = this.$t("text4", second);
         } else {
           clearInterval(timer);
-          this.$toast.clear();
+          this.$toast.close();
         }
       }, 1000);
     }
