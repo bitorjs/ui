@@ -1,35 +1,27 @@
 <template>
   <transition name="slide-up">
-    <div v-show={value} :class='["actionsheet", { withtitle: title }]'>
-      {title ? (
-        <div :class='["header", "hairline--top-bottom"]'>
-          {title}
-          <Icon name="close" onClick={onCancel} />
-        </div>
-      ) : (
-        <div :class='[ "item", { disabled: item.disabled || item.loading }, item.className, "hairline--top" ]'
-          onClick=event => {
-            this.onSelect(event, item);
-          }
-          v-for="item in actions"
-        >
-          {item.loading ? (
-            <Loading class="loading" size="20px" />
-          ) : (
-            [
-              <span class="name">{item.name}</span>,
-              <span v-if="item.subname" class="subname">{item.subname}</span>
-            ]
-          )}
-        </div>
-      )}
-      {cancelText ? (
-        <div class="cancel" onClick={onCancel}>
-          {cancelText}
-        </div>
-      ) : (
-        <div class="content">{$slots.default}</div>
-      )}
+    <div v-show="value" :class="['actionsheet', { withtitle: title }]">
+      <div :class="['header', 'hairline--top-bottom']" v-if="title">
+        {{title}}
+        <Icon name="close" @onClick.native="onCancel"/>
+      </div>
+      <div
+        :class="[ 'item', { disabled: item.disabled || item.loading }, item.className, 'hairline--top' ]"
+        @onClick="onClick"
+        v-for="(item,key) in actions"
+        :key="key"
+        v-else
+      >
+        {{item.loading ? (
+        <Loading class="loading" size="20px"/>) : (
+        [
+        <span class="name">{{item.name}}</span>,
+        <span v-if="item.subname" class="subname">{{item.subname}}</span>
+        ]
+        )}}
+      </div>
+      <div class="cancel" @onClick="onCancel" v-if="cancelText">{{cancelText}}</div>
+      <div class="content" v-else>{{$slots.default}}</div>
     </div>
   </transition>
 </template>
@@ -59,10 +51,12 @@ export default {
       default: true
     }
   },
-  data() {
-    return { onCancel };
-  },
+
   methods: {
+    onCancel() {},
+    onClick(event) {
+      this.onSelect(event, item);
+    },
     onSelect(event, item) {
       event.stopPropagation();
 

@@ -32,6 +32,9 @@ export default {
       name: 'sketeton',
       label: '骨架'
     }, {
+      name: 'action-sheet',
+      label: 'ActionSheet'
+    }, {
       name: 'waterfall',
       label: '瀑布流'
     }]
