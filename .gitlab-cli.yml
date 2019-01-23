@@ -1,19 +1,32 @@
-variables:
-  USERNAME: ''
-  PASSWD: ''
+image: docker:stable
+#指定镜像为docker:stable，有关docker的操作都在本镜像中，如build, push等
+#指定services：docker:dind，启动dockerd并被docker:stable连接作为docker daemon
+#指定runner：添加tags:docker，为注册runner时指定的tag
 
-stages:
-  - pull
-  - build
-  - deploy
+#services指定docker:dind不是必须的。由于docker:stable执行入口不包含启动dockerd的操作，而docker:dind执行入口仅包含启动dockerd的操作，因此使用docker:dind作为services可以使docker:stable快速连接docker daemon而不用考虑如何启动dockerd
 
-job-a:
-  stage: pull
+# 1
+# docker:dind服务启动失败
+# 出现的原因在于，在你的宿主机使用root用户安装docker（执行docker命令需要加上sudo），这种情况下，需要配置runner的privileged为true。
+# gitlab-runner的配置文件在宿主机上的默认位置为/srv/gitlab-runner/config/config.toml，直接修改该文件中的配置项即可。
 
+# 2
+# 无法登录HTTPS的Docker仓库
+# 将证书放置于docker:dind镜像的/etc/docker/certs.d/<domain>/目录下。
+# 实际上，提供docker daemon的就是该镜像，证书理应放在该镜像中
 
-job-b: 
+services:
+  - docker:dind
+
+before_script:
+  - docker login -uityoung -p<PASSWORD>
+
+build:
   stage: build
-
-
-job-c:
-  stage: deploy
+  script:
+    - docker build -t "ityoung/gradle:3.3" .
+    - docker push ityoung/gradle:3.3
+  only:
+    - master
+  tags:
+    - docker
