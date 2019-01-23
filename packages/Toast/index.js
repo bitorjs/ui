@@ -32,7 +32,7 @@ let timer = null;
       clearTimeout(timer);
     }
     timer = setTimeout(() => {
-      // Toast.close();
+      Toast.close();
     }, options.duration || 3000)
   }
 })

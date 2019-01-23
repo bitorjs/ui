@@ -25,13 +25,25 @@ module.exports = {
       filename: 'index.html',
       template: path.resolve(cwd, 'index.html'),
       title: "app",
-      chunks: ['app']
+      chunks: ['app'],
+      minify: {
+        removeComments: true, // 清除注释
+        collapseWhitespace: true, // 清除空格和换行符
+        minifyCSS: true, // 压缩html中的css
+        minifyJS: true, // 压缩html中script
+      }
     }),
     new htmlPlugin({
       filename: 'admin.html',
       template: path.resolve(cwd, 'admin.html'),
       title: "admin",
-      chunks: ['admin']
+      chunks: ['admin'],
+      minify: {
+        removeComments: true, // 清除注释
+        collapseWhitespace: true, // 清除空格和换行符
+        minifyCSS: true, // 压缩html中的css
+        minifyJS: true, // 压缩html中script
+      }
     }),
     new VueLoaderPlugin(),
     autoprefixer
