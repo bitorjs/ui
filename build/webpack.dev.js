@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const WebpackMerge = require('webpack-merge');
 const base = require('./webpack.base');
 
-const fs = require('fs');
 var path = require('path');
 const cwd = process.cwd();
 
@@ -60,7 +59,7 @@ module.exports = WebpackMerge(base, {
     }),
     new vConsolePlugin({
       filter: [],  // 需要过滤的入口文件
-      enable: false // 发布代码前记得改回 false
+      enable: true // 发布代码前记得改回 false
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
