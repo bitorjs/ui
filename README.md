@@ -4,7 +4,7 @@
 
 - 插件 plugin 式开发
 - 多模块开发
-- 自动注入 Service | Controller | Component | Filter | Store | Middleware
+- 自动注入 Controller | Component | Filter | Service | Mock | Store | Middleware
 - mock 支持
 
 
@@ -34,7 +34,7 @@ options:
 
 ### 配置文件 
 - 插件 config/plugin.js
-```
+```javascript
 export default [
   {
     module: plugin,
@@ -45,7 +45,7 @@ export default [
 ]
 ```
 - 开发环境配置 config/development.js
-```
+```javascript
 export default {
   mode: 'development',
   mock: false,
@@ -53,7 +53,7 @@ export default {
 ```
 
 - 生产环境配置 config/production.js
-```
+```javascript
 export default {
   mode: 'production',
   mock: false,
@@ -83,7 +83,7 @@ export default {}
 监听应用目录，注入项目模块
 ```
 e.g.
-```
+```javascript
 app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
 ```
 
@@ -93,7 +93,7 @@ app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
 - @Post：注册 Post 路由
 - @Put：注册 Put 路由
 - @Delete：注册 Delete 路由
-```
+```javascript
 @Controller('/prefix')
 export default class {
   constructor(ctx){}
@@ -109,7 +109,7 @@ export default class {
 ### 服务类 Service
 > @Service 为服务类命名
 - 定义
-```
+```javascript
 @Service('name')
 export default class{
   constructor(ctx){}
@@ -118,7 +118,7 @@ export default class{
 }
 ```
 - 引用
-```
+```javascript
 this.ctx.Service.name.xxx();
 ```
 
@@ -150,7 +150,15 @@ this.ctx.Service.name.xxx();
 ## 如何启动本地 Mock
 
 ```
-本地开发调试中 ,在 config/development.js 配置文件中 mock: true 
+本地开发调试中 ,在 
+config/development.js 配置文件中 mock: true 
+config/production.js 配置文件中 mock: false 
+
+
+mock 为true时， 系统会自动注册 Mock 层数据， Service 层不再注册
+mock 为false时， 系统会自动注册 Service 层数据，Mock 层不注册
+
+即 Service 、Mock 两择一注册
 ```
 
 
