@@ -80,6 +80,12 @@ module.exports = WebpackMerge(base, {
           '^/yyyy': '/'
         }
       },
+    },
+    setup(app){
+      app.use((req, res, next)=>{
+        
+        next()
+      })
     }
     // https: {
     //   cert: fs.readFileSync("./localhost+4.pem"),

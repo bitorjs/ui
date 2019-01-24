@@ -2,7 +2,7 @@ const WebpackMerge = require('webpack-merge');
 const webpack = require('webpack');
 const base = require('./webpack.base');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -72,29 +72,28 @@ module.exports = WebpackMerge(base, {
   },
   optimization: {
     minimizer:[
-      // 自定义js优化配置，将会覆盖默认配置
-      // new UglifyJsPlugin({
-      //   exclude: /\.min\.js$/, // 过滤掉以".min.js"结尾的文件，我们认为这个后缀本身就是已经压缩好的代码，没必要进行二次压缩
-      //   cache: true,
-      //   parallel: true, // 开启并行压缩，充分利用cpu
-      //   sourceMap: false,
-      //   extractComments: false, // 移除注释
-      //   uglifyOptions: {
-      //     compress: {
-      //       // unused: true,
-      //       // warnings: false,
-      //       // drop_debugger: true
-      //       warnings: false, // 去掉warning
-      //       dead_code: true, // 去掉不可达
-      //       pure_funcs: ['console.log'],// 发布时不被打包的函数
-      //       drop_debugger: true,// 发布时去除debugger
-      //       drop_console: true, // 发布时去除console
-      //     },
-      //     output: {
-      //       comments: false
-      //     }
-      //   }
-      // }),
+      new TerserPlugin({
+        terserOptions: {
+          ecma: undefined,
+          warnings: false, // 去掉warning
+          parse: {},
+          compress: {
+            dead_code: true, // 去掉不可达
+            pure_funcs: ['console.log'],// 发布时不被打包的函数
+            drop_debugger: true,// 发布时去除debugger
+            drop_console: true, // 发布时去除console
+          },
+          mangle: true, // Note `mangle.properties` is `false` by default.
+          module: false,
+          output: null,
+          toplevel: false,
+          nameCache: null,
+          ie8: false,
+          keep_classnames: undefined,
+          keep_fnames: false,
+          safari10: false,
+        },
+      }),
       // 用于优化css文件
       new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.css$/g,
