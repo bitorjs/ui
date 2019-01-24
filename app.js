@@ -4,7 +4,12 @@ import VueApplication from './inject';
 import Start from './app/view/start';
 import ui from './packages';
 Vue.use(ui);
-
+try {
+let r = require(`ui-test/${name}\.js`);
+console.log(r)  
+} catch (error) {
+  console.error(error)
+}
 
 
 let client = app => {
