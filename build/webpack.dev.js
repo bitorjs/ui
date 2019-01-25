@@ -51,6 +51,9 @@ module.exports = WebpackMerge(base, {
       ]
     }]
   },
+  optimization: {
+    namedModules: true,
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {

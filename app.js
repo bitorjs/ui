@@ -12,6 +12,18 @@ Vue.use(ui);
 //   console.error(error)
 // }
 
+console.log('*** app start ***');
+
+console.log('***      module.id = ' + module.id + ' ***');
+console.log('***           __filename = ' + __filename + ' ***');
+console.log('***            __dirname = ' + __dirname + ' ***');
+console.log('***        process.cwd() = ' + process.cwd() + ' ***');
+console.log('*** require.main.is= ' , require.main , module);
+
+console.log('*** app end ***');
+
+console.log('');
+
 
 let client = app => {
   app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));

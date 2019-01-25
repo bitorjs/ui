@@ -1,6 +1,27 @@
 import wx from 'weixin-js-sdk';
 
+const path = require('path')
+
+console.log('*** share start ***');
+
+console.log('***      module.id = ' + module.id + ' ***', path.relative(path.dirname(module.id),'./'));
+console.log('***           __filename = ' + __filename + ' ***');
+console.log('***            __dirname = ' + __dirname + ' ***');
+console.log('***        process.cwd() = ' + process.cwd() + ' ***');
+console.log('*** require.main.filename= ' + require.main.filename + ' ***');
+console.log('*** require.main.is= ' , require.main );
+// console.log(require.resolve(`${path.relative(path.dirname(module.id),'./')}/config/a.js`))
+console.log('*** share end ***');
+
+// let t = import(`./${path.relative(module.id,'./')}/test/test-qs.js`);
+// import('./../../config/a.js')
+
+// console.log(require.resolve('/config/a.js'))
+// console.log(require.resolve(process.cwd()))
+
 export default (app, options)=>{
+    debugger
+    console.log(require.cache, require.main.filename, process.installPrefix)
   //wx是引入的微信sdk
   wx.config({
     debug: options.debug||false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -23,7 +44,7 @@ export default (app, options)=>{
           success: options.success ||function() { },// 用户确认分享后执行的回调函数 
           cancel: options.cancel || function() { } // 用户取消分享后执行的回调函数
       });
-          wx.onMenuShareTimeline({ //分享朋友圈
+    wx.onMenuShareTimeline({ //分享朋友圈
           title: options.title||'标题', // 分享标题
           desc: options.desc||'描述', // 分享描述
           link: options.link||'链接',
