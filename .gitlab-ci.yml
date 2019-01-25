@@ -1,0 +1,85 @@
+# 使用的docker镜像
+# image: node
+
+# 执行job的阶段 按顺序串行执行
+stages:
+  - build
+  - cleanup
+  - deploy
+
+# 自定义阶段build的job流程
+build: # 自定义名字
+  stage: build # 指定这阶段操作的名称
+  only: # 指定那些分支会进入该处理流程
+    - master # 正式环境
+    - pre # 预发环境
+    - testN # 测试环境 test1 test2 ... testN
+    - devN # 联调环境 dev1 dev2 ... devN
+  variables:
+    VERSION: 1.0.10 # 除了后面会说到的私密变量 还可以在这里定义变量
+  before_script:
+    # 一些特殊情况需要SSH key的场景，该部分见下文
+    # - ...
+    # 定义变量 如NODE环境变量
+    - NODE_ENV=`if [[ ${CI_COMMIT_REF_NAME:0:3} = "dev" || ${CI_COMMIT_REF_NAME:0:4} = "test" ]]; then echo "development"; else echo "production"; fi`;
+  script:
+    # 为node modules做缓存， 有缓存用缓存，没有则你npm install并添加缓存
+    - PACKAGE_HASH=$(md5sum package.json | awk '{print $1}');
+    - mkdir -p ~/builds/cache/node_modules # 使用docker模式时需要配置volume 保证缓存起作用 在后面runner部分会提到。
+    - NPM_CACHE=~/builds/cache/node_modules/${PACKAGE_HASH}.tar
+    - if [ -f $NPM_CACHE ];
+      then
+        echo "Use Cache";
+        tar xf $NPM_CACHE;
+      else
+        npm install;
+        tar cf - ./node_modules > $NPM_CACHE;
+      fi
+    # npm build
+    - echo "NODE_ENV=$NODE_ENV node build/build.js"
+    - NODE_ENV=$NODE_ENV node build/build.js
+    # upload to CDN
+    # - ...
+    # docker build
+    - echo `docker build -t "$CI_PIPELINE_ID" . | awk -F "Successfully built " '{print $2}'`
+    # docker push
+    - if [ $NODE_ENV = "development" ]; # 如果需要部署的server的runner在同一个机器则可不必push到仓库
+      then
+        docker login dev.hub.xxx.com -u$USERNAME -p$PASSWORD;
+        docker tag $CI_PIPELINE_ID dev.hub.xxx.com/namespace/webapp:$CI_COMMIT_REF_NAME;
+        docker push dev.hub.xxx.com/namespace/webapp:$CI_COMMIT_REF_NAME;
+        docker rmi dev.hub.xxx.com/namespace/webapp:$CI_COMMIT_REF_NAME;
+        echo "--------------------------------------------------------------------------";
+        echo "dev.hub.xxx.com/namespace/webapp:$CI_COMMIT_REF_NAME";
+      else
+        # 参考上面then中脚本
+        "--------------------------------------------------------------------------";
+        echo "hub.prd.xxx.com/namespace/webapp:$DATE.$CI_BUILD_ID";
+      fi
+
+# 开发和测试机部署
+clean_testN:
+  stage: cleanup
+  only:
+    - testN
+  tags:
+    - dc2fe-deploy-testN
+  script:
+    - docker stop webapp
+    - docker rm webapp
+  allow_failure: true
+
+deploy_testN:
+  stage: deploy
+  only:
+    - testN
+  tags:
+    - dc2fe-deploy-testN
+  script:
+    # - ssh root@IP "docker stop webapp; docker rm webapp; docker run --name webapp -d -p 8000:8000 dev.hub.xxx.com/namespace/webapp-testN:latest"
+    # 或者
+    - docker pull dev.hub.xxx.com/namespace/webapp:testN
+    - docker run --name webapp -d -p 8000:8000 dev.hub.xxx.com/namespace/webapp:testN
+
+# clean_dev: # dev或其他环境部署配置与上面test环境配置类似
+# deploy_dev:

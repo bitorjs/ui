@@ -1,4 +1,5 @@
 # BitorJS 应用
+> 可以说这是又一 VUE 脚手架，让你用一种新的方式来写 VUE 应用
 
 > 技术栈： bitorjs + vue2 + vuex + webpack4 + babel7
 
