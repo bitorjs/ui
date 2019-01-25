@@ -20,7 +20,6 @@ console.log('*** share end ***');
 // console.log(require.resolve(process.cwd()))
 
 export default (app, options)=>{
-    debugger
     console.log(require.cache, require.main.filename, process.installPrefix)
   //wx是引入的微信sdk
   wx.config({

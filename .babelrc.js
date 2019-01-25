@@ -20,10 +20,23 @@ module.exports = {
       {
         "targets": {
           "browsers": [
-            "last 1 Chrome versions"
+            // "last 1 Chrome versions",
+            // "Android >= 4.0", "ios >= 6", // 有问题，class 等node 语法未转换
+            'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions',
           ]
         },
-        // "useBuiltIns": "usage" 
+        //是否将ES6的模块化语法转译成其他类型
+        //参数："amd" | "umd" | "systemjs" | "commonjs" | false，默认为'commonjs'
+        "modules": 'commonjs',
+        //是否进行debug操作，会在控
+        //是否进行debug操作，会在控制台打印出所有插件中的log，已经插件的版本
+        debug: true,
+        //babel / preset-env处理polyfill的方式。
+        //参数：usage | entry | false，默认为false.
+        "useBuiltIns": false
+        // entry：在引用程序入口导入一次babel / polyfill，多次导入可能会有全局冲突或其他问题。
+        // usage：自动为每个文件添加特定的polyfill
+        // false：不要为每个文件自动添加polyfill，也不要将“@ babel / polyfill”导入到单个polyfill。
       }
     ]
   ], 
