@@ -5,6 +5,9 @@ export default {
       name: 'loading',
       label: '加载'
     }, {
+      name: 'life',
+      label: 'forceUpdate'
+    }, {
       name: 'uploader',
       label: '上传'
     }, {
