@@ -8,6 +8,9 @@ export default {
       name: 'life',
       label: 'forceUpdate'
     }, {
+      name: 'swipe',
+      label: '轮播图'
+    }, {
       name: 'uploader',
       label: '上传'
     }, {

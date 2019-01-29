@@ -12,6 +12,11 @@ import Uploader from './Uploader';
 import Croper from './Croper';
 import Skeleton from './Skeleton';
 import ActionSheet from './Sheet/action-sheet';
+
+import Swipe from './Swipe/swipe';
+import SwipeItem from './Swipe/swipe-item';
+
+
 import {
   Waterfall,
   WaterfallSlot
@@ -39,7 +44,9 @@ const ui = {
   Skeleton,
   Waterfall,
   WaterfallSlot,
-  ActionSheet
+  ActionSheet,
+  Swipe,
+  SwipeItem
 }
 
 export default {

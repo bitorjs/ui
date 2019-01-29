@@ -55,7 +55,7 @@ $emit 触发
 js中 this.$slots.default 
 ```
 
-- slot-scop 取父组件中 slot 的 props
+- slot-scope 取父组件中 slot 的 props
 ```
 作用域插槽是一种特殊类型的插槽，用作一个 (能被传递数据的) 可重用模板，来代替已经渲染好的元素。 
 
