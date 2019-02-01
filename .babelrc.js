@@ -22,7 +22,7 @@ module.exports = {
           "browsers": [
             // "last 1 Chrome versions",
             // "Android >= 4.0", "ios >= 6", // 有问题，class 等node 语法未转换
-            'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions',
+            'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions',//
           ]
         },
         //是否将ES6的模块化语法转译成其他类型

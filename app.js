@@ -28,11 +28,16 @@ console.log('');
 let client = app => {
   app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
   app.beforeEach((to, from, next) => {
-    next()
+    Toast.loading({ mask: true, message: "loading" + "..." });
+    import('./app/view/src/sketeton').then(res=>{
+      app.ctx.render(res.default)
+      next()
+    })
   })
 
   app.afterEach((to, from, next) => {
     next()
+    Toast.close()
   })
 
   app.on('ready', () => {

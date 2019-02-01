@@ -1,27 +1,26 @@
 <template>
   <div :class="'swipe'">
-        <div
-          :style="trackStyle"
-          :class="'track'"
-          @touchstart="onTouchStart"
-          @touchmove="onTouchMove"
-          @touchend="onTouchEnd"
-          @touchcancel="onTouchEnd"
-          @transitionend="onTransitionend"
-        >
-          <slot></slot>
-        </div>
-        <slot name="indicator">
-          <div v-if="showIndicators&&count>1" :class="['indicators', { vertical: vertical }]" @transitionend="stop">
-            <i
-              :class="['indicator', { active: index === activeIndicator }]"
-              :style="index === activeIndicator ? indicatorStyle : null"
-              v-for="(empty, index) in count" :key="index"
-            />
-          </div>
-        </slot>
-        
+    <div
+      :style="trackStyle"
+      :class="'track'"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd"
+      @touchcancel="onTouchEnd"
+      @transitionend="onTransitionend"
+    >
+      <slot></slot>
+    </div>
+    <slot name="indicator">
+      <div v-if="showIndicators&&count>1" :class="['indicators', { vertical: vertical }]" @transitionend="stop">
+        <i
+          :class="['indicator', { active: index === activeIndicator }]"
+          :style="index === activeIndicator ? indicatorStyle : null"
+          v-for="(empty, index) in count" :key="index"
+        />
       </div>
+    </slot>
+  </div>
 </template>
 <script>
 import Touch from '../common/mixins/touch';

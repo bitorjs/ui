@@ -3,7 +3,6 @@ import {
   Get,
   Post
 } from 'bitorjs-decorators';
-import index from '../view/index';
 import Toast from '../../packages/Toast';
 
 @Controller('/')

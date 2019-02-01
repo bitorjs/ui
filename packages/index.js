@@ -13,8 +13,10 @@ import Croper from './Croper';
 import Skeleton from './Skeleton';
 import ActionSheet from './Sheet/action-sheet';
 
-import Swipe from './Swipe/swipe';
-import SwipeItem from './Swipe/swipe-item';
+import Popup from './Popup';
+
+import Swipe from './Swipe';
+import SwipeItem from './Swipe/item';
 
 
 import {
@@ -46,7 +48,8 @@ const ui = {
   WaterfallSlot,
   ActionSheet,
   Swipe,
-  SwipeItem
+  SwipeItem,
+  Popup
 }
 
 export default {

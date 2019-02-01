@@ -6,7 +6,13 @@ export default {
       label: '加载'
     }, {
       name: 'life',
-      label: 'forceUpdate'
+      label: '强制更新'
+    }, {
+      name: 'pop-up',
+      label: 'Popup'
+    }, {
+      name: 'scroll-header',
+      label: '滚动Header'
     }, {
       name: 'swipe',
       label: '轮播图'
