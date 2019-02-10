@@ -14,6 +14,9 @@ export default {
       name: 'scroll-header',
       label: '滚动Header'
     }, {
+      name: 'up-down',
+      label: 'up-down'
+    }, {
       name: 'swipe',
       label: '轮播图'
     }, {
