@@ -45,7 +45,7 @@ export default {
   background-color: @white;
   transition: .3s ease-out;
   -webkit-overflow-scrolling: touch;
-  transform: translate3d(-50%, -50%, 0);
+  // transform: translate3d(-50%, -50%, 0);
 
   &.top {
     width: 100%;
@@ -53,7 +53,7 @@ export default {
     right: auto;
     bottom: auto;
     left: 50%;
-    transform: translate3d(-50%, 0, 0);
+    // transform: translate3d(-50%, 0, 0);
   }
 
   &.right {
@@ -61,7 +61,7 @@ export default {
     right: 0;
     bottom: auto;
     left: auto;
-    transform: translate3d(0, -50%, 0);
+    // transform: translate3d(0, -50%, 0);
   }
 
   &.bottom {
@@ -70,7 +70,7 @@ export default {
     bottom: 0;
     right: auto;
     left: 50%;
-    transform: translate3d(-50%, 0, 0);
+    // transform: translate3d(-50%, 0, 0);
   }
 
   &.left {
@@ -78,7 +78,7 @@ export default {
     right: auto;
     bottom: auto;
     left: 0;
-    transform: translate3d(0, -50%, 0);
+    // transform: translate3d(0, -50%, 0);
   }
 
   &-slide-top-enter,
