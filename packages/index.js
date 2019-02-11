@@ -14,6 +14,7 @@ import Skeleton from './Skeleton';
 import ActionSheet from './Sheet/action-sheet';
 
 import Popup from './Popup';
+import CountDown from './CountDown';
 
 import Swipe from './Swipe';
 import SwipeItem from './Swipe/item';
@@ -49,7 +50,8 @@ const ui = {
   ActionSheet,
   Swipe,
   SwipeItem,
-  Popup
+  Popup,
+  CountDown
 }
 
 export default {

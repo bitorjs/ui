@@ -18,7 +18,11 @@
     其它: 其它数据类型。。
     xx:{
       type:数据类型首字大写Strin|Number...,多种类型【Number, String】
-      default: 默认值
+      default: 默认值,
+      require: true,
+      validator: function(val){
+        return ['a'].indexOf(val)>-1
+      }
     }
   }
 }

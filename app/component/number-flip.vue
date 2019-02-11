@@ -1,5 +1,5 @@
 <template>
-    <div class="container flip-clock">
+    <div class="flip-clock">
         <template v-for="data in timeData">
             <span v-bind:key="data.label" class="flip-clock__piece" :id="data.elementId">
                 <span class="flip-clock__card flip-card">
@@ -18,8 +18,9 @@ export default {
   name: 'flipCountdown',
   props: {
     // 需显示的数字
-    deadline: {
-      type: Number
+    value: {
+      type: Number,
+      default: 0
     },
     // 一共显示多少位（不能小于deadline长度，多出部分填充0显示）
     length: {
@@ -28,22 +29,18 @@ export default {
   },
   data () {
     return {
-      timeData: [
-      ]
+      timeData: []
     }
   },
   created () {
-    if (!this.deadline) {
-      throw new Error("Missing props 'deadline'")
-    }
     this.changeNum()
   },
   watch: {
-    deadline (value) {
+    value (value) {
       // this.changeNum()
-      let dataList = this.digitize(this.deadline)
+      let dataList = this.digitize(this.value)
       if (this.length < dataList.length) {
-        throw new Error("Props 'deadline' length must be greater than 'length'")
+        throw new Error("Props 'value' length must be greater than 'length'")
       }
       if (dataList.length < this.length) {
         let length = dataList.length
@@ -83,7 +80,7 @@ export default {
       return list
     },
     changeNum () {
-      let List = this.digitize(this.deadline)
+      let List = this.digitize(Math.abs(this.value))
       this.timeData = []
       List.forEach((data, index) => {
         let a = {
@@ -129,7 +126,6 @@ export default {
 
 <style lang="less" scoped>
 .flip-clock {
-  text-align: center;
   perspective: 600px;
   margin: 0 auto;
   *,

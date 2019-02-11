@@ -27,22 +27,6 @@
           {{ current + 1 }}/4
         </div>
     </Swipe>
-    <center>ff</center>
-    <Swipe
-      vertical
-      :autoplay="20"
-      :loop="false"
-      @change="onChange"
-    >
-      <SwipeItem v-for="n in ns" :key="n">
-        {{n}}
-      </SwipeItem>
-      <div
-          class="custom-indicator"
-          slot="indicator"
-        >
-        </div>
-    </Swipe>
   </div>
   
 </template>
@@ -58,21 +42,7 @@ export default {
         'https://img.yzcdn.cn/public_files/2017/09/05/4e3ea0898b1c2c416eec8c11c5360833.jpg',
         'https://img.yzcdn.cn/public_files/2017/09/05/fd08f07665ed67d50e11b32a21ce0682.jpg'
       ],
-      ns:[]
     }
-  },
-  mounted(){
-    setInterval(()=>{
-      let arr = [];
-      let n = parseInt(Math.random() * 10000)
-
-      if(this.ns.length===1) arr.push(this.ns[0]);
-      else if(this.ns.length===2) arr.push(this.ns[1]);
-      arr.push(n)
-      // this.ns.push(n);
-      // if(this.ns.length>2) this.ns.shift();
-      this.ns = arr;
-    },1000)
   },
   methods: {
     onChange(index) {

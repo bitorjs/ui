@@ -1,30 +1,56 @@
 <template>
-  <span>
-    <template v-if="format">
+  <div class="count-down" :style="styles">
+    <template v-if="type=='up'">
+      <span class="numb" :class="ani" v-for="(n,index) in ns" :key="`${n}_${index}`">{{n}}</span>
+    </template>
+    
+    <template v-if="type=='scroll'&&format">
       {{ format(showNumber) }}
     </template>
-    <template v-else>
+    <template v-else-if="type=='scroll'">
       {{ showNumber }}
     </template>
-  </span>
+  </div>
 </template>
-
 <script>
-  export default {
-    name: 'number-scroll',
-    props: [
-      'speed',
-      'times',
-      'startNum',
-      'endNum',
-      'format'
-    ],
-    data() {
-      return {
-          showNumber: 0
+export default {
+  name:'CountDown',
+  props:{
+    type:{
+      type: String,
+      default: 'up',
+      validator: function(val){
+        return ['up','scroll','flip'].indexOf(val)>-1
       }
     },
-    created() {
+    value: {type: Number, default: 0},
+    styles: String,
+    startNum:{
+      default: 0,
+    },
+    endNum:{
+      default: 0,
+    },
+    speed:{
+      // 变换速度(毫秒)
+      default: 20,
+    },
+    times:{
+      // 变换次数
+      default: 10,
+    },
+    format:{
+      default: 0,
+    },
+  },
+  data(){
+    return {
+      ns:[],
+      ani: '',
+      showNumber: 0
+    }
+  },
+  created() {
       this.showNumber = this.startNum || 0
     },
     mounted() {
@@ -35,8 +61,19 @@
         endNum: Number(this.endNum) || 0 // 到达数量
       })
     },
-    watch: {
-      endNum(newValue, oldValue) {
+  watch:{
+    value:{
+      handler(val){
+        let arr = [];
+        if(this.ns.length===1) arr.push(this.ns[0]);
+        else if(this.ns.length===2) arr.push(this.ns[1]);
+        arr.push(val)
+        this.ns = arr;
+        if(arr.length===2) this.ani = 'ani';
+      },
+      immediate: true
+    },
+    endNum(newValue, oldValue) {
         this.JNumberScroll({
           speed: Number(this.speed) || 50, // 变换速度
           times: Number(this.times) || 10, // 变换次数
@@ -44,8 +81,8 @@
           endNum: Number(newValue) || 0 // 到达数量
         })
       }
-    },
-    methods: {
+  },
+  methods: {
       JNumberScroll(params) {
         var defaultParams = {
           speed: 50, // 变换速度(毫秒)
@@ -94,5 +131,35 @@
         }, defaultParams.speed)
       }
     }
-  }
+}
 </script>
+<style lang="less" scoped>
+.count-down {
+  height: 2rem;
+  overflow: hidden;
+
+  .numb {
+    display: inherit;
+    width: inherit;
+    height: inherit;
+    
+    &.ani {
+      animation-name:move;
+      animation-duration: .3s;
+      animation-timing-function:ease;
+      animation-delay:0s;
+      animation-fill-mode:both;
+    }
+  }
+}
+
+@keyframes move {
+  0%{
+    transform: translateY(0);
+  }
+
+  100%{
+    transform: translateY(-100%);
+  }
+}
+</style>
