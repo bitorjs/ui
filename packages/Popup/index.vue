@@ -1,6 +1,6 @@
 <template>
   <transition :name="transitionName" v-if="shouldRender">
-    <div v-show="value" :class="['popup',{[position]: position}]">
+    <div v-show="value" :class="['popup',{[`popup--${position}`]: position}]">
       <slot></slot>
     </div>
   </transition>
@@ -46,6 +46,44 @@ export default {
   transition: 0.3s ease-out;
   -webkit-overflow-scrolling: touch;
   transform: translate3d(-50%, -50%, 0);
+
+  // &.top 转化为此则transition 失效
+  // &.right
+
+  &--top {
+    width: 100%;
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  &--right {
+    top: 50%;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    transform: translate3d(0, -50%, 0);
+  }
+
+  &--bottom {
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    right: auto;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  &--left {
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: 0;
+    transform: translate3d(0, -50%, 0);
+  }
+
 
   &-slide-top-enter,
   &-slide-top-leave-active {
