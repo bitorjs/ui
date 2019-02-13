@@ -34,7 +34,7 @@ html,
 body {
   display: inline-block;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   overflow-x: hidden;
 }
 div,

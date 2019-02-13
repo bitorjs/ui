@@ -6,10 +6,10 @@
   </transition>
 </template>
 <script>
-import Popup from '../common/mixins/popup';
+import Popup from "../common/mixins/popup";
 
 export default {
-  name: 'Popup',
+  name: "Popup",
   mixins: [Popup],
 
   props: {
@@ -25,16 +25,16 @@ export default {
     }
   },
 
-  computed:{
-    transitionName(){
-      const { position ,transition} = this;
-      return transition || (position ? `popup-slide-${position}` : 'fade');
+  computed: {
+    transitionName() {
+      const { position, transition } = this;
+      return transition || (position ? `popup-slide-${position}` : "fade");
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../common/style/theme';
+@import "../common/style/theme";
 
 .popup {
   position: fixed;
@@ -43,44 +43,9 @@ export default {
   max-height: 100%;
   overflow-y: auto;
   background-color: @white;
-  transition: .3s ease-out;
+  transition: 0.3s ease-out;
   -webkit-overflow-scrolling: touch;
   transform: translate3d(-50%, -50%, 0);
-  
-
-  &.top {
-    width: 100%;
-    top: 0;
-    right: auto;
-    bottom: auto;
-    left: 50%;
-    transform: translate3d(-50%, 0, 0);
-  }
-
-  &.right {
-    top: 50%;
-    right: 0;
-    bottom: auto;
-    left: auto;
-    transform: translate3d(0, -50%, 0);
-  }
-
-  &.bottom {
-    width: 100%;
-    top: auto;
-    bottom: 0;
-    right: auto;
-    left: 50%;
-    transform: translate3d(-50%, 0, 0);
-  }
-
-  &.left {
-    top: 50%;
-    right: auto;
-    bottom: auto;
-    left: 0;
-    transform: translate3d(0, -50%, 0);
-  }
 
   &-slide-top-enter,
   &-slide-top-leave-active {
