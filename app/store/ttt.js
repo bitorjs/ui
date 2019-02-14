@@ -2,6 +2,9 @@ export default {
   state: {
     count: 0,
     data: [{
+      name: 'nginx',
+      label: 'Nginx 配置'
+    }, {
       name: 'loading',
       label: '加载'
     }, {

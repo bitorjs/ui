@@ -10,6 +10,7 @@ module.exports = {
   entry: {
     app: './app.js',
     admin: './admin.js',
+    nginx: './nginx.js',
   },
   externals: [{
     ui: './packages'
@@ -25,6 +26,18 @@ module.exports = {
       template: path.resolve(cwd, 'index.html'),
       title: "app",
       chunks: ['app'],
+      minify: {
+        removeComments: true, // 清除注释
+        collapseWhitespace: true, // 清除空格和换行符
+        minifyCSS: true, // 压缩html中的css
+        minifyJS: true, // 压缩html中script
+      }
+    }),
+    new htmlPlugin({
+      filename: 'nginx.html',
+      template: path.resolve(cwd, 'nginx.html'),
+      title: "Nginx 配置",
+      chunks: ['nginx'],
       minify: {
         removeComments: true, // 清除注释
         collapseWhitespace: true, // 清除空格和换行符
