@@ -1,4 +1,4 @@
 module.exports = {
   mode: 'development',
-  mock: false,
+  mock: true,
 }
