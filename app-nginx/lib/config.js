@@ -1,5 +1,5 @@
 export default `
-
+# sdfsdfsdf
 #user  nobody;
 worker_processes  1;
 #error_log  logs/error.log;
