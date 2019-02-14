@@ -4,6 +4,7 @@ import {
   Post
 } from 'bitorjs-decorators';
 import index from '../view/index';
+import config from '../lib/parse';
 
 @Controller('/')
 export default class IndexC{
@@ -13,6 +14,9 @@ export default class IndexC{
 
   @Get('/')
   i() {
+
+
+
     this.ctx.render(index)
   }
 }
