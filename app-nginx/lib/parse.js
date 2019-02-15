@@ -1,11 +1,8 @@
-import config from './config';
-
 const CommenteReg = /\n*\s*#.*/g;
 const NewLineReg= /\s*\n+\s*/g
 const SpaceReg = /\s+/g;
 const LocationReg = /\blocation\s[^{]*{[^}]*}/g;
-const ServerReg = /\bserver\s?{.*({[^{}]*})+}/g;///server\s?{([^{}]+\s{[^{}]*})+}/g;
-const HeaderReg = /(events\s?{[^}]*})|(http\s?{.*{.*{.*}.*}.*})/g;
+const ServerReg = /\bserver\s?{.*({[^{}]*})+[^{}]*}/g;
 const HttpReg = /\bhttp\s?{.*{.*{.*}.*}.*}/g;
 const EventReg = /\bevents\s?{[^{}]*}/g;
 
@@ -36,7 +33,7 @@ function parseSingle(recored, initObj){
 }
 
 
-export default () => {
+export default (config) => {
   let responce = {
     events: {},
     http: {
@@ -53,8 +50,8 @@ export default () => {
   let events = m.match(EventReg)[0];
   let http = m.match(HttpReg)[0]
   let http_left = http.replace(ServerReg,'');
-  let header = m.replace(HeaderReg, '');
-  let servers = http.match(ServerReg) || [];
+  let header = m.replace(EventReg, '').replace(HttpReg,'');
+  let servers = m.match(ServerReg) || [];
 
   servers.map(server => {
     let serv = {},locs = {}

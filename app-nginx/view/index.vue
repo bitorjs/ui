@@ -8,6 +8,7 @@
 <script>
 import config from '../lib/config';
 import parse from '../lib/parse';
+import write from '../lib/write';
 export default {
   name:'',
   data(){
@@ -24,6 +25,13 @@ export default {
     parse(){
       let p = parse(this.nginx);
       this.ret = p;
+      write(JSON.parse(p))
+      
+    }
+  },
+  watch:{
+    nginx(){
+      this.parse()
     }
   }
 }
