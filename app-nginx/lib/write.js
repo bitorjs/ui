@@ -2,7 +2,7 @@
 
 
 function composeObject(json, k) {
-  let obj = k == 'location'?'':`\n${k} {\n`;
+  let obj = k == 'location'?'':k===''?`\n${k}\n`:`\n${k} {\n`;
   for (const key in json) {
     if (json.hasOwnProperty(key)) {
       const item = json[key];
@@ -23,7 +23,7 @@ function composeObject(json, k) {
       }
     }
   }
-  obj+=  k == 'location'?'':"}\n";
+  obj+=  k == 'location'?'':k===''?'\n': "}\n";
   return obj;
 }
 
@@ -31,4 +31,5 @@ function composeObject(json, k) {
 export default (configJson)=>{
   let responce = `\n${composeObject(configJson, '')}\n`;
   console.log(responce) 
+  return responce;
 }
