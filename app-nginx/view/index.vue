@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <textarea v-model="nginx" name="" id="" cols="30" rows="20"></textarea>
-    <center>解析后</center>    
+  <div class="container">
+    <textarea v-model="nginx" name="" id="" cols="30" rows="50"></textarea>
     <pre>{{ret}}</pre>
   </div>
 </template>
@@ -37,16 +36,30 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.container {
+  width: 100vw;
+  height: 100vh;
+}
 textarea {
-  width: 100%;
-  height: 50%;
+  display: inline-block;
+  width: 49%;
+  height: 100%;
+   overflow-y: auto;
   outline: none;
   border: none;
   background: beige;
+  vertical-align: top;
 }
 center{
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
+}
+pre {
+  display: inline-block;
+  width: 49%;
+  height: 100%;
+  overflow: scroll;
+  vertical-align: top;
 }
 </style>
