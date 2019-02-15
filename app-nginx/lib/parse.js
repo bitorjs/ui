@@ -1,58 +1,70 @@
 import config from './config';
 
-let responce = {
-  events: {},
-  http: {
-    server: [{
-      location: []
-    }]
+const CommenteReg = /\n*\s*#.*/g;
+const NewLineReg= /\s*\n+\s*/g
+const SpaceReg = /\s+/g;
+const LocationReg = /\blocation\s[^{]*{[^}]*}/g;
+const ServerReg = /server\s{([^{}]+\s{[^{}]*})+}/g;
+const HeaderReg = /(events\s{[^}]*})|(http\s{.*{.*{.*}.*}.*})/g;
+const HttpReg = /http\s{.*{.*{.*}.*}.*}/g;
+const EventReg = /events\s{[^{}]*}/g;
+
+
+function parseSingle(recored, initObj){
+  let list = recored.match(/[^;]+/g);
+  if (list) {
+    list.reduce((ret, item)=>{
+      item.match(/(\S+)\s([^;]+)/);
+      let k = RegExp.$1;
+      let v = RegExp.$2;
+      ret[k] = v;
+      return ret;
+    }, initObj)
   }
-};
 
-let r = config.replace(/\n*\s*#.*/g, '');
-let t = r.replace(/\s*\n+\s*/g, '');
-let m = t.replace(/\s+/g, " ")
-let header = m.replace(/events\s{[^}]*}/g, '').replace(/http\s{.*}+/g, '');
-let events = m.match(/(events)\s{[^}]*}/g)[0]
-let http = m.replace(/events\s{[^}]*}/g, '').match(/(http)\s{.*/g)[0]
-let servers = http.match(/server\s{([^{}]*{[^{}]*}[^{}]*({[^{}]*})*)}/g);
-servers.map(server => {
-  let serv = {}
-  let locations = server.match(/location\s[^{]*{[^}]*}/g);
-  let locs = {}
-  locations.map(str => {
-    str.match(/location\s([\w\/=]+)\s(([\w\/\.=]+)\s)?(.*)/);
-
-
-    let arr = [];
-    if (RegExp.$1) arr.push(RegExp.$1)
-    if (RegExp.$3) arr.push(RegExp.$3)
-
-    let loc = {};
-    let a = recored(RegExp.$4);
-    if (a) {
-      a.map(rec => {
-        let b = rec.slice(0, -1).split(/\s/);
-        let k = b.shift();
-        loc[k] = b.join(' ');
-      })
-    }
-    locs[`${arr.join(' ')}`] = loc;
-  })
-
-  let serv_left = server.replace(/location\s[^{]*{[^}]*}/g, '');
-  debugger
-  serv.location = locs;
-  responce.http.server.push(serv)
-})
-
-
-
-function recored(str) {
-  // key key key;
-  return str.match(/((\w+_?)+\s)+[\w\.\*\/-]+;/g, '')
+  return initObj;
 }
 
-// /{[^{}]*}/g
-// /([^{}]*{[^{}]*}[^{}]*)/
-// /([^{}]*{[^{}]*}[^{}]*({[^{}]*})*)/
+
+export default () => {
+  let responce = {
+    events: {},
+    http: {
+      server: []
+    }
+  };
+
+  let m = config.replace(CommenteReg, '').replace(NewLineReg, '').replace(SpaceReg, " ");
+  let events = m.match(EventReg)[0];
+  let http = m.match(HttpReg)[0]
+  let http_left = http.replace(ServerReg,'');
+  let header = m.replace(HeaderReg, '');
+  let servers = http.match(ServerReg)
+
+  servers.map(server => {
+    let serv = {},locs = {}
+    let locations = server.match(LocationReg);
+
+    locations.map(str => {
+      str.match(/\blocation\s(\S+)\s((\S+)\s)?{([^{}]*)}/);
+      let arr = [];
+      if (RegExp.$1) arr.push(RegExp.$1)
+      if (RegExp.$3) arr.push(RegExp.$3)
+      locs[`${arr.join(' ')}`] = parseSingle(RegExp.$4, {});
+    })
+    serv.location = locs;
+    server.replace(LocationReg, '').match(/server\s{([^{}]*)}/);
+    responce.http.server.push(parseSingle(RegExp.$1,serv))
+  })
+
+
+  http_left.match(/http\s{([^{}]*)}/)
+  parseSingle(RegExp.$1, responce.http)
+
+  events.match(/events\s{([^{}]*)}/)
+  parseSingle(RegExp.$1, responce.events)
+  parseSingle(header, responce)
+
+
+  return JSON.stringify( responce, null, ' ');
+}
