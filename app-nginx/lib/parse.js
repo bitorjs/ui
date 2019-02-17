@@ -59,11 +59,7 @@ export default (config) => {
 
   m = m.replace(/"server":({[^{}]*([^{}]+{[^{}]*})+[^{}]*})/g, `"server":[${server}]`);
 
-
   m = m.replace(/;/g, ',')
   responce = (new Function(`return {${m}}`))();
-
-
-
   return JSON.stringify(responce, null, ' ');
 }
