@@ -1,34 +1,63 @@
 <template>
   <Flex blocked fulled valign="stretch">
-    <textarea v-model="nginx" name id cols="30" rows="50"></textarea>
+    <textarea hidden v-model="nginx" name id cols="30" rows="50"></textarea>
+    <MonacoEditor
+      ref="editor"
+      width="50%"
+      language="nginx"
+      :code="nginx"
+      :editorOptions="options"
+      @mounted="onMounted"
+      @codeChange="onCodeChange"
+    ></MonacoEditor>
+
     <pre>{{ret}}</pre>
   </Flex>
 </template>
 <script>
+import MonacoEditor from "./Monaco";
 import config from "../lib/config";
 import parse from "../lib/parse";
 import write from "../lib/write";
+import nginx from "../lib/nginx";
+
 export default {
   name: "",
+  components: {
+    MonacoEditor
+  },
   data() {
     return {
       nginx: config,
-      ret: ""
+      ret: "",
+      options: {
+        selectOnLineNumbers: true,
+        roundedSelection: false,
+        readOnly: false,
+        cursorStyle: "line",
+        automaticLayout: false,
+        glyphMargin: true,
+        minimap: {
+          enabled: true
+        }
+      }
     };
   },
   mounted() {
+    // this.nginx = config;
     this.parse();
   },
 
   methods: {
     parse() {
-      let p = parse(this.nginx);
+      let p = parse(this.editor.getValue());
       this.ret = p;
       write(JSON.parse(p));
-    }
-  },
-  watch: {
-    nginx() {
+    },
+    onMounted(editor) {
+      this.editor = editor;
+    },
+    onCodeChange(editor) {
       this.parse();
     }
   }
