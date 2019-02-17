@@ -180,7 +180,7 @@ export default {
   align-items: baseline;
 }
 .ui-flex-align-content-start {
-  align-content: flex-start;
+  align-items: flex-start;
 }
 .ui-flex-align-content-end {
   align-items: flex-end;

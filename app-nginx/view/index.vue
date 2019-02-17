@@ -1,65 +1,75 @@
 <template>
-  <div class="container">
-    <textarea v-model="nginx" name="" id="" cols="30" rows="50"></textarea>
+  <Flex blocked fulled valign="stretch">
+    <textarea v-model="nginx" name id cols="30" rows="50"></textarea>
     <pre>{{ret}}</pre>
-  </div>
+  </Flex>
 </template>
 <script>
-import config from '../lib/config';
-import parse from '../lib/parse';
-import write from '../lib/write';
+import config from "../lib/config";
+import parse from "../lib/parse";
+import write from "../lib/write";
 export default {
-  name:'',
-  data(){
+  name: "",
+  data() {
     return {
       nginx: config,
-      ret:''
-    }
+      ret: ""
+    };
   },
-  mounted(){
-    this.parse()
+  mounted() {
+    this.parse();
   },
 
-  methods:{
-    parse(){
+  methods: {
+    parse() {
       let p = parse(this.nginx);
       this.ret = p;
-      write(JSON.parse(p))
-      
+      write(JSON.parse(p));
     }
   },
-  watch:{
-    nginx(){
-      this.parse()
+  watch: {
+    nginx() {
+      this.parse();
     }
   }
-}
+};
 </script>
-<style lang="less" scoped>
-.container {
-  width: 100vw;
-  height: 100vh;
+<style lang="less">
+* {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
 }
-textarea {
+html,
+body {
   display: inline-block;
-  width: 49%;
-  height: 100%;
-   overflow-y: auto;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+div,
+p,
+center {
+  box-sizing: border-box;
+}
+</style>
+
+<style lang="less" scoped>
+textarea {
+  flex: 1;
+  overflow: auto;
   outline: none;
   border: none;
   background: beige;
-  vertical-align: top;
+  padding: 1rem;
+  resize: none;
 }
-center{
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
+.icon {
+  width: 10px;
 }
 pre {
-  display: inline-block;
-  width: 49%;
-  height: 100%;
+  flex: 1;
   overflow: scroll;
-  vertical-align: top;
+  padding: 1rem;
 }
 </style>
