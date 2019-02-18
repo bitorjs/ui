@@ -56,6 +56,11 @@ export default {
     },
     onMounted(editor) {
       this.editor = editor;
+      window.onresize = function () {
+        if (editor) {
+          editor.layout();
+        }
+      };
     },
     onCodeChange(editor) {
       this.parse();

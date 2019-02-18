@@ -134,6 +134,47 @@ module.exports = {
           return { suggestions: completion };
         }
       });
+      monaco.languages.setLanguageConfiguration('nginx', {
+         comments: {
+            lineComment: "#"
+        },
+        brackets: [["{", "}"], ["[", "]"], ["(", ")"]],
+        autoClosingPairs: [{
+            open: "{",
+            close: "}"
+        }, {
+            open: "[",
+            close: "]"
+        }, {
+            open: "(",
+            close: ")"
+        }, {
+            open: '"',
+            close: '"'
+        }, {
+            open: "'",
+            close: "'"
+        }],
+        surroundingPairs: [{
+            open: "{",
+            close: "}"
+        }, {
+            open: "[",
+            close: "]"
+        }, {
+            open: "(",
+            close: ")"
+        }, {
+            open: '"',
+            close: '"'
+        }, {
+            open: "'",
+            close: "'"
+        }],
+        folding: {
+            offSide: !0
+        }
+      })
 
       this.editor = monaco.editor.create(this.$el, this.editorOptions);
       this.editorHasLoaded(this.editor, window.monaco);
