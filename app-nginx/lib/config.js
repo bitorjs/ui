@@ -49,7 +49,20 @@ http    　　　　　　　　　　　　　　　　    #HTTP区块开始
   gzip_vary on;
   #limit_zone crawler $binary_remote_addr 10m;　　 #开启限制IP连接数的时候需要使用
 
+  upstream favresin{ 
+    ip_hash; 
+    server 10.0.0.10:8080; 
+    server 10.0.0.11:8080; 
+  }
 
+  upstream favresin2{ 
+    
+    ip_hash; 
+    server 10.0.0.11:9090 down; 
+    server 10.0.0.11:8080 weight=2; 
+    server 10.0.0.11:6060; 
+    server 10.0.0.11:7070 backup; 
+  }
 
   #虚拟主机的配置
   server

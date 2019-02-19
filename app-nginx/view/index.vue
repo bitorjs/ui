@@ -1,5 +1,5 @@
 <template>
-  <Flex blocked fulled valign="stretch">
+  <Flex blocked fulled valign="stretch" hidden>
     <textarea hidden v-model="nginx" name id cols="30" rows="50"></textarea>
     <MonacoEditor
       ref="editor"
@@ -12,7 +12,9 @@
     ></MonacoEditor>
 
     <pre>{{ret}}</pre>
+    <button style="position:fixed;left:0;top:0;">保存</button>
   </Flex>
+  
 </template>
 <script>
 import MonacoEditor from "./Monaco";

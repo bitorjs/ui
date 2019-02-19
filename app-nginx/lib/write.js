@@ -1,26 +1,24 @@
 function composeObject(json, k) {
-  let obj = k == 'location' ? '\t' : k === '' ? `\n${k}\n` : `\n${k} {\n`;
+  let obj =  k === '' ? `\n${k}\n` : `\n${k} {\n`;
   for (const key in json) {
     if (json.hasOwnProperty(key)) {
       const item = json[key];
       if (Object.prototype.toString.call(item) === '[object Object]') {
-        // debugger
-        if (k === 'location') {
-          obj += '\t' + composeObject(item, `\t${k} ${key}`)
-        } else {
           obj += '\t' + composeObject(item, key);
-        }
       } else if (Object.prototype.toString.call(item) === '[object Array]') {
-
         item.map(i => {
-          obj += key === 'proxy_set_header' ? `\t${key} ${i};\n` : ('\t' + composeObject(i, key));
+          obj +=  Object.prototype.toString.call(i) === '[object String]' ? `\t${key} ${i};\n` : ('\t' + composeObject(i, key));
         })
       } else {
-        obj += `\t${key} ${item};\n`
+        if(key===item) {
+          obj += `\t${key};\n`
+        } else {
+          obj += `\t${key} ${item};\n`
+        }
       }
     }
   }
-  obj += k == 'location' ? '\t' : k === '' ? '\n' : "}\n";
+  obj += k === '' ? '\n' : "}\n";
   return obj;
 }
 

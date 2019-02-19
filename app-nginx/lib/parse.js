@@ -1,11 +1,14 @@
 function parseSingle(recored, initObj) {
+  // let list = recored.match(/[^{};]+:[^{};]+/g);
   let list = recored.match(/[^{};]+/g);
   if (list) {
     list.reduce((ret, item) => {
       item.match(/(\S+"):("[^;]+)/);
       let k = RegExp.$1;
       let v = RegExp.$2;
-      if (ret[k]) {
+      if(item.indexOf(':')===-1) {
+        ret[item]=item;
+      } else if (ret[k]) {
         let old = ret[k];
         if (Object.prototype.toString.call(old) !== '[object Array]') {
           ret[k] = [old];
@@ -43,13 +46,13 @@ export default (config) => {
   m = m.replace(/\s*`\s*"\s*/g, '"')
   m = m.replace(/\s*"\s*/g, '"')
 
-  let locs = m.match(/{([^{};]+;)*}/g) || []
-  locs.forEach(item => {
+  let signleBlock = m.match(/{([^{};]+;)*}/g) || []
+  // debugger
+  signleBlock.forEach(item => {
     let t = parseSingle(item, {}),
       ret = JSON.stringify(t).replace(/\\"/g, '');
     m = m.replace(item, ret);
   });
-
   let servs = m.match(/"server":({[^{}]*([^{}]+{[^{}]*})+[^{}]*})/g) || [];
   let server = '';
   servs.forEach(s => {
