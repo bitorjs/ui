@@ -35,7 +35,7 @@ module.exports = {
     }),
     new htmlPlugin({
       filename: 'nginx.html',
-      template: path.resolve(cwd, 'nginx.html'),
+      template: path.resolve(cwd, 'index.html'),
       title: "Nginx 配置",
       chunks: ['nginx'],
       minify: {
@@ -47,7 +47,7 @@ module.exports = {
     }),
     new htmlPlugin({
       filename: 'admin.html',
-      template: path.resolve(cwd, 'admin.html'),
+      template: path.resolve(cwd, 'index.html'),
       title: "admin",
       chunks: ['admin'],
       minify: {

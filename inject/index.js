@@ -1,4 +1,3 @@
-// import 'reflect-metadata';
 import Vue from 'vue'
 import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'

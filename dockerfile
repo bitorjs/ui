@@ -1,7 +1,7 @@
 # 设置基础镜像 
 FROM nginx
 # 定义作者
-MAINTAINER huangzj <huangzj@foxmial.com>
+LABEL huangzj <huangzj@foxmial.com>
 
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 

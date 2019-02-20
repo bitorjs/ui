@@ -13,4 +13,4 @@ let client = app => {
 
 new VueApplication({
   // mode: 'history'
-}).start(client, null, '#nginx');
+}).start(client, null, '#root');
