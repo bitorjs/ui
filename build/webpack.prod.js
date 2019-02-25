@@ -88,7 +88,7 @@ module.exports = WebpackMerge(base, {
           output: null,
           toplevel: false,
           nameCache: null,
-          ie8: false,
+          ie8: true,
           keep_classnames: undefined,
           keep_fnames: false,
           safari10: false,

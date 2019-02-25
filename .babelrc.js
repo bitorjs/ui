@@ -26,8 +26,8 @@ module.exports = {
           ]
         },
         //是否将ES6的模块化语法转译成其他类型
-        //参数："amd" | "umd" | "systemjs" | "commonjs" | false，默认为'commonjs'
-        "modules": 'commonjs',
+        //参数："amd" | "umd" | "systemjs" | "commonjs" | false，默认为'commonjs',"modules": false}的配置。此配置会将es6语法转为es5语法，例如let、const转为var。
+        "modules": false,
         //是否进行debug操作，会在控
         //是否进行debug操作，会在控制台打印出所有插件中的log，已经插件的版本
         debug: true,
