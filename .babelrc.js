@@ -23,6 +23,7 @@ module.exports = {
             // "last 1 Chrome versions",
             // "Android >= 4.0", "ios >= 6", // 有问题，class 等node 语法未转换
             'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions',//
+            // "> 1%", "last 2 versions", "ie >= 8"
           ]
         },
         //是否将ES6的模块化语法转译成其他类型
@@ -33,7 +34,7 @@ module.exports = {
         debug: true,
         //babel / preset-env处理polyfill的方式。
         //参数：usage | entry | false，默认为false.
-        "useBuiltIns": false
+        "useBuiltIns": false,//"usage"
         // entry：在引用程序入口导入一次babel / polyfill，多次导入可能会有全局冲突或其他问题。
         // usage：自动为每个文件添加特定的polyfill
         // false：不要为每个文件自动添加polyfill，也不要将“@ babel / polyfill”导入到单个polyfill。
@@ -49,6 +50,12 @@ module.exports = {
         "legacy": true
       }
     ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ],
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-syntax-export-namespace-from",
@@ -59,12 +66,8 @@ module.exports = {
       "loose": true,
       "useBuiltIns": true
     }],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ]
+    
+    // "@babel/plugin-transform-runtime"
   ]
 }
 
