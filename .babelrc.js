@@ -22,13 +22,12 @@ module.exports = {
           "browsers": [
             // "last 1 Chrome versions",
             // "Android >= 4.0", "ios >= 6", // 有问题，class 等node 语法未转换
-            // 'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions',//
-            "ie 8"
+            'last 2 Chrome versions', 'last 2 Safari versions', 'last 2 Firefox versions',//
           ]
         },
         //是否将ES6的模块化语法转译成其他类型
         //参数："amd" | "umd" | "systemjs" | "commonjs" | false，默认为'commonjs',"modules": false}的配置。此配置会将不会转化es6语法为其它，例如let、const转为var。
-        "modules": false,//Setting this to false will not transform modules.
+        "modules": 'commonjs',//Setting this to false will not transform modules.
         //是否进行debug操作，会在控
         //是否进行debug操作，会在控制台打印出所有插件中的log，已经插件的版本
         debug: true,
