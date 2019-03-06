@@ -179,6 +179,57 @@ Store: 数据存储层，启动目录监听后，会自动注册，并挂载到 
 ### 数据流向
 
 
+#### 文件命名
+```css
+
+这是我个人在项目中总结的一些命名规范
+
+文件名统一采用驼峰式
+页面中import引入的名称与注册组件时的名字保持一致，使用首字母大写
+模板中使用组件必须使用短横线式
+```
+
+```javascript
+// 单文件组件的文件名应该要么始终是单词大写开头 (PascalCase)，要么始终是横线连接 (kebab-case)
+
+// 组件命名约定
+// 当注册组件 (或者 prop) 时，可以使用 kebab-case (短横线分隔命名)、camelCase (驼峰式命名) 或 PascalCase (单词首字母大写命名)。
+
+// 在组件定义中
+components: {
+  // 使用 kebab-case 注册
+  'kebab-cased-component': { /* ... */ },
+  // 使用 camelCase 注册
+  'camelCasedComponent': { /* ... */ },
+  // 使用 PascalCase 注册
+  'PascalCasedComponent': { /* ... */ }
+}
+// 在 HTML 模板中，请使用 kebab-case：
+
+// 在 HTML 模板中始终使用 kebab-case
+<kebab-cased-component></kebab-cased-component>
+<camel-cased-component></camel-cased-component>
+<pascal-cased-component></pascal-cased-component>
+// 当使用字符串模式时，可以不受 HTML 大小写不敏感的限制。这意味实际上在模板中，你可以使用下面的方式来引用你的组件：
+
+// kebab-case
+// camelCase 或 kebab-case (如果组件已经被定义为 camelCase)
+// kebab-case、camelCase 或 PascalCase (如果组件已经被定义为 PascalCase)
+components: {
+  'kebab-cased-component': { /* ... */ },
+  camelCasedComponent: { /* ... */ },
+  PascalCasedComponent: { /* ... */ }
+}
+<kebab-cased-component></kebab-cased-component>
+
+<camel-cased-component></camel-cased-component>
+<camelCasedComponent></camelCasedComponent>
+
+<pascal-cased-component></pascal-cased-component>
+<pascalCasedComponent></pascalCasedComponent>
+<PascalCasedComponent></PascalCasedComponent>
+// 这意味着 PascalCase 是最通用的声明约定而 kebab-case 是最通用的使用约定。
+```
 
 
 

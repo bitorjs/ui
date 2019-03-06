@@ -11,6 +11,13 @@ export default class extends Application {
   constructor(options = {}) {
     super(options)
 
+    this.ctx.$config = {}
+    this.$config = this.ctx.$config;
+
+    // this.ctx.$post = this.post;
+    // this.ctx.$post = this.post;
+    // this.ctx.$post = this.post;
+    // this.ctx.$post = this.post;
 
     this.mountVue();
     this.createDirectives(this, Vue);
@@ -38,7 +45,7 @@ export default class extends Application {
   }
 
   mountVue() {
-    Vue.prototype.$bitor = this;
+    Vue.prototype.ctx = this.ctx;
     this.ctx.render = (webview, props) => {
       props = props || {}
       props.ref = 'innerPage';
@@ -63,7 +70,7 @@ export default class extends Application {
   createVueRoot(vueRootComponent, htmlElementId) {
 
     const innerPage = {
-      name: 'webview-container',
+      name: 'router-view',
       render(h) {
         let vn = null;
         if (Object.prototype.toString.call(this.$root.webview) === '[object String]') {
@@ -105,12 +112,10 @@ export default class extends Application {
   start(client, vueRootComponent, htmlElementId) {
     htmlElementId = htmlElementId || '#root';
     this.registerPlugin(client)
-    this.emit('before-mount-vue');
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
     this.emit('ready');
-    this.emit('vue-mounted');
+    console.warn('app ready')
     this.startServer()
-    this.emit('after-server');
   }
 
   registerFilter(name, filter) {
@@ -124,6 +129,7 @@ export default class extends Application {
 
   registerService(filename, service) {
     const instance = new service(this.ctx);
+    instance.ctx = this.ctx;
     let name = decorators.getServiceName(service);
     if (name) {
       if (_services.indexOf(name) === -1) {
@@ -148,10 +154,10 @@ export default class extends Application {
 
   registerController(controller) {
     const instance = new controller(this.ctx)
-
+    instance.ctx = this.ctx;
     decorators.iterator(controller, (prefix, subroute) => {
       let path;
-      if (prefix.path && prefix.path.length > 1) { //:   prefix='/'
+      if (prefix.path && prefix.path.length > 1) {
         subroute.path = subroute.path === '/' ? '(/)?' : subroute.path;
         subroute.path = subroute.path === '*' ? '(.*)' : subroute.path;
         path = `${prefix.path}${subroute.path}`
@@ -169,9 +175,9 @@ export default class extends Application {
   registerStore(name, store) {
     if (_webstore.indexOf(name) === -1) {
       _webstore.push(name)
-      let s = new Vuex.Store(store, name);
-      this.store = s;
-      this.ctx.Store = s;
+      let vuxStore = new Vuex.Store(store, name);
+      this.$store = vuxStore;
+      this.ctx.$store = vuxStore;
     } else {
       throw new Error(`Store [${name}] has been declared`)
     }

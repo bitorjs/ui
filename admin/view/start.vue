@@ -1,6 +1,6 @@
 <template>
   <PageRootContainer>
-    <webview-container></webview-container>
+    <router-view></router-view>
   </PageRootContainer>
 </template>
 <script>

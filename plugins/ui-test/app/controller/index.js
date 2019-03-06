@@ -5,9 +5,6 @@ import index from '../view/index';
 
 @D.Controller('/plugin')
 class Controller {
-  constructor(ctx) {
-    this.ctx = ctx;
-  }
 
   @D.Get('/')
   icon() {

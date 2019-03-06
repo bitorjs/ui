@@ -6,21 +6,17 @@ import {
 import index from '../view/index';
 
 @Controller('/')
-export default class IndexController {
-  constructor(ctx) {
-    this.ctx = ctx;
-  }
-
-
+export default class {
   @Get('/')
   icon() {
     this.ctx.render(index, {
-      data: this.ctx.app.store.state.ttt.data
+      data: this.ctx.$store.state.ttt.data
     })
   }
 
   @Get('/api/data')
   async b() {
-    return this.ctx.app.store.state.ttt.data;
+    console.info('$$$$--',await this.ctx.Service.ff.aa())
+    return this.ctx.$store.state.ttt.data;
   }
 }

@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const WebpackMerge = require('webpack-merge');
 const base = require('./webpack.base');
 
+
 var path = require('path');
 const cwd = process.cwd();
 
@@ -84,10 +85,19 @@ module.exports = WebpackMerge(base, {
       },
     },
     setup(app){
-      app.use((req, res, next)=>{
-        
-        next()
-      })
+      var express = require('express');
+
+      var router = express.Router();
+
+      router.get('/user', function(req, res, next) {
+        res.send('this is bbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+      });
+
+      router.post('/user', function(req, res, next) {
+        res.send('this is bbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+      });
+
+      app.use('/', router)
     }
     // https: {
     //   cert: fs.readFileSync("./localhost+4.pem"),

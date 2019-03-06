@@ -15,13 +15,13 @@ const vuexLocal = new VuexPersistence({
 
 function generOption(options) {
   options['mutations'] = options['mutations'] || {}
-  options['mutations']['MUT:SET'] = function (state, payload) {
+  options['mutations']['STORE:SET'] = function (state, payload) {
     Vue.set(state, payload.key, payload.value);
   }
-  options['mutations']['MUT:ASSIGN'] = function (state, payload) {
+  options['mutations']['STORE:ASSIGN'] = function (state, payload) {
     Object.assign(state, payload)
   }
-  options['mutations']['MUT:QS'] = function (state, payload) {
+  options['mutations']['STORE:QS'] = function (state, payload) {
     payload = Qs.parse(payload, {
       depth: 10,
       allowDots: true
@@ -80,7 +80,7 @@ class Store extends Vuex.Store {
       overrideMethod(instance)
       storeProxy = genProxy(instance);
 
-      Vue.prototype.$store = instance;
+      // Vue.prototype.$store = instance;
       Storeinstance = instance;
     }
 
@@ -91,7 +91,7 @@ class Store extends Vuex.Store {
   }
 
   setItem(key, value) {
-    commit(`${_namespace}MUT:SET`, {
+    commit(`${_namespace}STORE:SET`, {
       key,
       value
     })
@@ -99,12 +99,12 @@ class Store extends Vuex.Store {
   }
 
   assign(payload) {
-    commit(`${_namespace}MUT:ASSIGN`, payload)
+    commit(`${_namespace}STORE:ASSIGN`, payload)
     _namespace = ''
   }
 
   qs(payload) {
-    commit(`${_namespace}MUT:QS`, payload)
+    commit(`${_namespace}STORE:QS`, payload)
     _namespace = ''
   }
 }

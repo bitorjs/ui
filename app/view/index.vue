@@ -26,13 +26,13 @@ export default {
     next();
   },
   mounted() {
-    this.$bitor.ctx.get("/api/data").then(res => {});
+    this.ctx.get("/api/data").then(res => {});
   },
   methods: {
     go(url, label) {
-      // this.$bitor.store.ttt.commit("increment");
-      // this.$bitor.store.ttt.dispatch("increment");
-      this.$bitor.redirect(`/${url}`);
+      this.ctx.$store.ttt.commit("increment");
+      this.ctx.$store.ttt.dispatch("increment");
+      this.ctx.app.redirect(`/${url}`);
     }
   }
 };

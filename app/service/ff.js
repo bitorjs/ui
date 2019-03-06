@@ -4,9 +4,6 @@ import {
 
 @Service('ff')
 export default class {
-  constructor(ctx) {
-    this.ctx = ctx;
-  }
   async aa() {
     // console.log(this.ctx.axios)
     console.warn('09998')

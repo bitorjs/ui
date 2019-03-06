@@ -1,7 +1,7 @@
 <template>
   <PageRootContainer>
-    <NavBar :title="$store.state.title||title" :left-arrow="back" @click-left="onClickLeft"/>
-    <webview-container></webview-container>
+    <NavBar :title="ctx.$store.state.title||title" :left-arrow="back" @click-left="onClickLeft"/>
+    <router-view></router-view>
   </PageRootContainer>
 </template>
 <script>
@@ -14,11 +14,11 @@ export default {
   methods: {
     onClickLeft() {
       // this.$bitor.store.root.setItem("title", "所有组件");
-      this.$bitor.redirect("/");
+      this.ctx.app.redirect("/");
     }
   },
   watch: {
-    "$store.state.title"(oldTitle, newTitle) {
+    "ctx.$store.state.title"(oldTitle, newTitle) {
       // document.title = newTitle;
     }
   }
