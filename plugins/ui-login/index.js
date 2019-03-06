@@ -1,6 +1,6 @@
 
 export default (app, options) =>{
-
+  
   app.login = login;
 }
 

@@ -10,7 +10,6 @@
       @mounted="onMounted"
       @codeChange="onCodeChange"
     ></MonacoEditor>
-
     <pre>{{ret}}</pre>
     <button style="position:fixed;left:0;top:0;">保存</button>
   </Flex>

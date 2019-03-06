@@ -14,7 +14,7 @@ export default (app, option) => {
   setHeaders(instance)
   requestIntercptor(instance);
   responceIntercptor(instance);
-  app.ajax = app.ctx.ajax = instance;
+  app.$ajax = app.ctx.$ajax = instance;
 }
 
 function setHeaders(axios) {

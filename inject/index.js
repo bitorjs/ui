@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'
+import compose from 'koa-compose';
 import directives from './directive';
 import Vuex from './vuex';
 
 const _filters = [];
 const _services = [];
 const _webstore = [];
+const _middlewares = {};
 export default class extends Application {
   constructor(options = {}) {
     super(options)
@@ -118,19 +120,19 @@ export default class extends Application {
     this.startServer()
   }
 
-  registerFilter(name, filter) {
-    if (_filters.indexOf(name) === -1) {
-      _filters.push(name)
-      Vue.filter(name, filter)
+  registerFilter(filename, filter) {
+    if (_filters.indexOf(filename) === -1) {
+      _filters.push(filename)
+      Vue.filter(filename, filter)
     } else {
-      throw new Error(`Fliter [${name}] has been declared`)
+      throw new Error(`Fliter [${filename}] has been declared`)
     }
   }
 
   registerService(filename, service) {
     const instance = new service(this.ctx);
     instance.ctx = this.ctx;
-    let name = decorators.getServiceName(service);
+    let name = decorators.getService(service);
     if (name) {
       if (_services.indexOf(name) === -1) {
         _services.push(name)
@@ -152,7 +154,7 @@ export default class extends Application {
   }
 
 
-  registerController(controller) {
+  registerController(filename, controller) {
     const instance = new controller(this.ctx)
     instance.ctx = this.ctx;
     decorators.iterator(controller, (prefix, subroute) => {
@@ -166,9 +168,32 @@ export default class extends Application {
       }
 
       console.log(path)
-      this.registerRoute(path, {
-        method: subroute.method.toLowerCase()
-      }, instance[subroute.prototype].bind(instance))
+
+      let middlewares =decorators.getMiddleware(instance,subroute.prototype)
+      if(middlewares) {
+        let r = [];
+        for (let index = 0; index < middlewares.length; index++) {
+          const name = middlewares[index];
+
+          if(_middlewares[name]) r.push(_middlewares[name]);
+        }
+
+        debugger
+        r.push(
+          instance[subroute.prototype].bind(instance)
+        )
+
+        const fn = compose(r);
+        this.registerRoute(path, {
+          method: subroute.method.toLowerCase()
+        }, fn)
+      } else {
+        this.registerRoute(path, {
+                method: subroute.method.toLowerCase()
+              }, instance[subroute.prototype].bind(instance))
+      }
+
+      
     })
   }
 
@@ -184,10 +209,12 @@ export default class extends Application {
 
   }
 
-  registerMiddleware(fn) {
-    if (typeof fn !== 'function') throw new TypeError('middleware must be a function!');
-    this.middleware.unshift(fn);
-    return this;
+  registerMiddleware(filename, middleware) {
+    if (_middlewares.hasOwnProperty(filename)===false) {
+      _middlewares[filename] = middleware;
+    } else {
+      throw new Error(`Fliter [${filename}] has been declared`)
+    }
   }
 
   watch(requireContext) {
@@ -197,13 +224,13 @@ export default class extends Application {
       let c = m.default || m;
       let filename = key.replace(/(.*\/)*([^.]+).*/ig, "$2");
       if (key.match(/\/component\/.*\.vue$/) != null) {
-        this.registerComponent(c);
+        this.registerComponent(filename,c);
       } else if (key.match(/\/filter\/.*\.js$/) != null) {
         this.registerFilter(filename, c)
       } else if (key.match(/\/middleware\/.*\.js$/) != null) {
-        this.registerMiddleware(c)
+        this.registerMiddleware(filename, c)
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
-        this.registerController(c);
+        this.registerController(filename,c);
       } else if (key.match(/\/service\/.*\.js$/) != null && this.config && this.config.mock !== true) {
         this.registerService(filename, c);
       } else if (key.match(/\/mock\/.*\.js$/) != null && this.config && this.config.mock === true) {
@@ -214,12 +241,12 @@ export default class extends Application {
     })
   }
 
-  registerComponent(component) {
+  registerComponent(filename, component) {
     if (!(component instanceof Object)) {
       throw new TypeError('component must be Vue instance')
     }
 
-    Vue.component(component.name, component);
+    Vue.component(component.name||filename, component);
   }
 
   registerPlugin(plugin) {

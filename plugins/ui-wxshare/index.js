@@ -1,24 +1,5 @@
 import wx from 'weixin-js-sdk';
 
-const path = require('path')
-
-console.log('*** share start ***');
-
-console.log('***      module.id = ' + module.id + ' ***', path.relative(path.dirname(module.id),'./'));
-console.log('***           __filename = ' + __filename + ' ***');
-console.log('***            __dirname = ' + __dirname + ' ***');
-console.log('***        process.cwd() = ' + process.cwd() + ' ***');
-console.log('*** require.main.filename= ' + require.main.filename + ' ***');
-console.log('*** require.main.is= ' , require.main );
-// console.log(require.resolve(`${path.relative(path.dirname(module.id),'./')}/config/a.js`))
-console.log('*** share end ***');
-
-// let t = import(`./${path.relative(module.id,'./')}/test/test-qs.js`);
-// import('./../../config/a.js')
-
-// console.log(require.resolve('/config/a.js'))
-// console.log(require.resolve(process.cwd()))
-
 export default (app, options)=>{
     console.log(require.cache, require.main.filename, process.installPrefix)
   //wx是引入的微信sdk
