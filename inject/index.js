@@ -5,21 +5,17 @@ import compose from 'koa-compose';
 import directives from './directive';
 import Vuex from './vuex';
 
-const _filters = [];
-const _services = [];
-const _webstore = [];
-const _middlewares = {};
+const _filters = new Map();
+const _services = new Map();
+const _webstore = new Map();
+const _controllers = [];
+const _middlewares = new Map();
 export default class extends Application {
   constructor(options = {}) {
     super(options)
 
     this.ctx.$config = {}
     this.$config = this.ctx.$config;
-
-    // this.ctx.$post = this.post;
-    // this.ctx.$post = this.post;
-    // this.ctx.$post = this.post;
-    // this.ctx.$post = this.post;
 
     this.mountVue();
     this.createDirectives(this, Vue);
@@ -56,7 +52,7 @@ export default class extends Application {
       this.$vue.__update = 0;
     }
     decorators.methods.forEach((method) => {
-      this.ctx[method] = Vue.prototype[method] = (url) => {
+      this.ctx[`$${method}`] = Vue.prototype[`$${method}`] = (url) => {
         let routes = this.match(url, method);
         console.log(routes)
         let route = routes[0];
@@ -114,6 +110,13 @@ export default class extends Application {
   start(client, vueRootComponent, htmlElementId) {
     htmlElementId = htmlElementId || '#root';
     this.registerPlugin(client)
+
+
+    _controllers.map(ctrl=>{
+      this.registerController( ctrl)
+    })
+    
+
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
     this.emit('ready');
     console.warn('app ready')
@@ -121,8 +124,8 @@ export default class extends Application {
   }
 
   registerFilter(filename, filter) {
-    if (_filters.indexOf(filename) === -1) {
-      _filters.push(filename)
+    if (_filters.get(filename) === undefined) {
+      _filters.set(filename, filter)
       Vue.filter(filename, filter)
     } else {
       throw new Error(`Fliter [${filename}] has been declared`)
@@ -134,18 +137,18 @@ export default class extends Application {
     instance.ctx = this.ctx;
     let name = decorators.getService(service);
     if (name) {
-      if (_services.indexOf(name) === -1) {
-        _services.push(name)
-        this.ctx.Service = this.ctx.Service || {};
-        this.ctx.Service[name] = instance;
+      if (_services.get(name) === undefined) {
+        _services.set(name, service)
+        this.ctx.$service = this.ctx.$service || {};
+        this.ctx.$service[name] = instance;
       } else {
         throw new Error(`Service [${name}] has been declared`)
       }
     } else {
-      if (_services.indexOf(filename) === -1) {
-        _services.push(filename)
-        this.ctx.Service = this.ctx.Service || {};
-        this.ctx.Service[filename] = instance;
+      if (_services.get(filename) === undefined) {
+        _services.set(filename, service)
+        this.ctx.$service = this.ctx.$service || {};
+        this.ctx.$service[filename] = instance;
         console.warn('Service ', service, 'use @Service(name)')
       } else {
         throw new Error(`Service [${filename}] has been declared`)
@@ -154,7 +157,7 @@ export default class extends Application {
   }
 
 
-  registerController(filename, controller) {
+  registerController( controller) {
     const instance = new controller(this.ctx)
     instance.ctx = this.ctx;
     decorators.iterator(controller, (prefix, subroute) => {
@@ -175,10 +178,15 @@ export default class extends Application {
         for (let index = 0; index < middlewares.length; index++) {
           const name = middlewares[index];
 
-          if(_middlewares[name]) r.push(_middlewares[name]);
+          if(Object.prototype.toString.call(name)==="[object String]") {
+            if(_middlewares.has(name)) r.push(_middlewares.get(name));
+          } else {
+            // 直接注入中间件函数
+            r.push(name)
+          }
+          
         }
 
-        debugger
         r.push(
           instance[subroute.prototype].bind(instance)
         )
@@ -198,8 +206,8 @@ export default class extends Application {
   }
 
   registerStore(name, store) {
-    if (_webstore.indexOf(name) === -1) {
-      _webstore.push(name)
+    if (_webstore.get(name) === undefined) {
+      _webstore.set(name, store)
       let vuxStore = new Vuex.Store(store, name);
       this.$store = vuxStore;
       this.ctx.$store = vuxStore;
@@ -210,8 +218,8 @@ export default class extends Application {
   }
 
   registerMiddleware(filename, middleware) {
-    if (_middlewares.hasOwnProperty(filename)===false) {
-      _middlewares[filename] = middleware;
+    if (_middlewares.get(filename)===undefined) {
+      _middlewares.set(filename, middleware);
     } else {
       throw new Error(`Fliter [${filename}] has been declared`)
     }
@@ -230,7 +238,8 @@ export default class extends Application {
       } else if (key.match(/\/middleware\/.*\.js$/) != null) {
         this.registerMiddleware(filename, c)
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
-        this.registerController(filename,c);
+        // this.registerController(filename,c);
+        _controllers.push( c)
       } else if (key.match(/\/service\/.*\.js$/) != null && this.config && this.config.mock !== true) {
         this.registerService(filename, c);
       } else if (key.match(/\/mock\/.*\.js$/) != null && this.config && this.config.mock === true) {

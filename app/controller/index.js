@@ -9,6 +9,10 @@ import index from '../view/index';
 export default class {
   @Get('/')
   @Middleware('forbidden')
+  @Middleware((ctx,next)=>{
+    console.error("yyyy")
+    next()
+  })
   icon() {
     this.ctx.render(index, {
       data: this.ctx.$store.state.ttt.data
@@ -17,7 +21,7 @@ export default class {
 
   @Get('/api/data')
   async b() {
-    console.info('$$$$--',await this.ctx.Service.ff.aa())
+    console.info('$$$$--',await this.ctx.$service.ff.aa())
     return this.ctx.$store.state.ttt.data;
   }
 }

@@ -9,7 +9,7 @@ import Toast from '../../packages/Toast';
 export default class {
   @Get('/:page?')
   async a(...params) {
-    let r = await this.ctx.Service.ff.aa();
+    let r = await this.ctx.$service.ff.aa();
     console.log(r)
     const data = this.ctx.$store.state.ttt.data;
     const asyncView = import(`../view/src/${this.ctx.params.page}`)

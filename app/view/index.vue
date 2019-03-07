@@ -26,7 +26,7 @@ export default {
     next();
   },
   mounted() {
-    this.ctx.get("/api/data").then(res => {});
+    this.ctx.$get("/api/data").then(res => {});
   },
   methods: {
     go(url, label) {
