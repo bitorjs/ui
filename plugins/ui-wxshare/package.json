@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "Validator": "^1.0.7",
     "weixin-js-sdk": "^1.4.0-test"
   }
 }

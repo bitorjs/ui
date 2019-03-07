@@ -61,10 +61,10 @@ module.exports = WebpackMerge(base, {
         IS_DEV: true,
       },
     }),
-    new vConsolePlugin({
-      filter: [],  // 需要过滤的入口文件
-      enable: true // 发布代码前记得改回 false
-    }),
+    // new vConsolePlugin({
+    //   filter: [],  // 需要过滤的入口文件
+    //   enable: true // 发布代码前记得改回 false
+    // }),
     new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: 'eval',

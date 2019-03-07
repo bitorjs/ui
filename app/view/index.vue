@@ -27,6 +27,13 @@ export default {
   },
   mounted() {
     this.ctx.$get("/api/data").then(res => {});
+    this.ctx.$ajax.get('/user').then(res => {
+      console.log(res)
+    })
+
+    this.ctx.$ajax.post('/user').then(res => {
+      console.log(res)
+    })
   },
   methods: {
     go(url, label) {
