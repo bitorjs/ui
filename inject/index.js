@@ -10,6 +10,7 @@ const _services = new Map();
 const _webstore = new Map();
 const _controllers = [];
 const _middlewares = new Map();
+const _modules = [];
 export default class extends Application {
   constructor(options = {}) {
     super(options)
@@ -110,12 +111,14 @@ export default class extends Application {
   start(client, vueRootComponent, htmlElementId) {
     htmlElementId = htmlElementId || '#root';
     this.registerMainClient(client)
-
-
+    
     _controllers.map(ctrl=>{
       this.registerController( ctrl)
     })
-    
+
+    _modules.forEach(m => {
+      m.module(this, m)
+    })
 
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
     this.emit('ready');
@@ -137,21 +140,22 @@ export default class extends Application {
     instance.ctx = this.ctx;
     let name = decorators.getService(service);
     if (name) {
-      if (_services.get(name) === undefined) {
+      
+      if (_services.has(name)) {
+        throw new Error(`Service [${name}] has been declared`)
+      } else { 
         _services.set(name, service)
         this.ctx.$service = this.ctx.$service || {};
         this.ctx.$service[name] = instance;
-      } else {
-        throw new Error(`Service [${name}] has been declared`)
       }
     } else {
-      if (_services.get(filename) === undefined) {
+      if (_services.has(filename)) {
+        throw new Error(`Service [${filename}] has been declared`)
+      } else {
         _services.set(filename, service)
         this.ctx.$service = this.ctx.$service || {};
         this.ctx.$service[filename] = instance;
         console.warn('Service ', service, 'use @Service(name)')
-      } else {
-        throw new Error(`Service [${filename}] has been declared`)
       }
     }
   }
@@ -240,12 +244,26 @@ export default class extends Application {
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
         // this.registerController(filename,c);
         _controllers.push( c)
-      } else if (key.match(/\/service\/.*\.js$/) != null && this.config && this.config.mock !== true) {
+      } else if (key.match(/\/service\/.*\.js$/) != null && this.$config && this.$config.mock !== true) {
         this.registerService(filename, c);
-      } else if (key.match(/\/mock\/.*\.js$/) != null && this.config && this.config.mock === true) {
+      } else if (key.match(/\/mock\/.*\.js$/) != null && this.$config && this.$config.mock === true) {
         this.registerService(filename, c);
       } else if (key.match(/\/store\/.*\.js$/) != null) {
         this.registerStore(filename, c);
+      } else if (key.match(/\/plugin\.config\.js$/) != null) {
+        c.forEach(item => {
+          if (item.enable === true) _modules.push(item);
+        })
+      } else if (key.match(/\/development\.config\.js$/) != null) {
+        if (this.$config.env === 'development') {
+          this.$config = Object.assign(this.$config, c)
+        }
+      } else if (key.match(/\/production\.config\.js$/) != null) {
+        if (this.$config.env === 'production') {
+          this.$config = Object.assign(this.$config, c)
+        }
+      } else if (key.match(/\/app\.config\.js$/) != null) {
+        this.$config = Object.assign(this.$config, c)
       }
     })
   }
@@ -258,35 +276,10 @@ export default class extends Application {
     Vue.component(component.name||filename, component);
   }
 
-  registerMainClient(plugin) {
-    const modules = [];
-
-    this.config = this.config || {};
-    const configs = require.context('../config', false, /\.js$/)
-    configs.keys().map(key => {
-      let m = configs(key);
-      let c = m.default || m;
-      if (key.match(/\/plugin\.js$/) != null) {
-        c.forEach(item => {
-          if (item.enable === true) modules.push(item);
-        })
-
-      } else if (key.match(/\/development\.js$/) != null) {
-        if (process.env.IS_DEV === true) {
-          this.config = Object.assign(this.config, c)
-        }
-      } else if (key.match(/\/production\.js$/) != null) {
-        if (process.env.IS_DEV === false) {
-          this.config = Object.assign(this.config, c)
-        }
-      } else {
-        console.log(c)
-        this.config = Object.assign(this.config, c)
-      }
-    })
-    plugin(this);
-    modules.forEach(m => {
-      m.module(this, m)
-    })
+  registerMainClient(mainClient) {
+    
+ 
+    mainClient(this);
+   
   }
 }

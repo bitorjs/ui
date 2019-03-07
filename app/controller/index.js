@@ -10,7 +10,7 @@ export default class {
   @Get('/')
   @Middleware('forbidden')
   @Middleware((ctx,next)=>{
-    console.error("yyyy")
+    console.warn("yyyy")
     next()
   })
   icon() {

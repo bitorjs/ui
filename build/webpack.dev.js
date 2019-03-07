@@ -67,11 +67,12 @@ module.exports = WebpackMerge(base, {
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
+  devtool: 'eval',
   devServer: {
     contentBase: path.join(cwd, 'dist'),
     open: true,
     host: '0.0.0.0',
-    port: 9011,
+    port: 8100,
     hot: true,
     compress: false,
     inline: true,

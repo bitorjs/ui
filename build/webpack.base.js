@@ -9,7 +9,6 @@ const babel = require(path.join(cwd, '.babelrc.js'));
 module.exports = {
   entry: {
     app: './app.js',
-    admin: './admin.js',
     nginx: './nginx.js',
   },
   externals: [{
@@ -45,33 +44,21 @@ module.exports = {
         minifyJS: true, // 压缩html中script
       }
     }),
-    new htmlPlugin({
-      filename: 'admin.html',
-      template: path.resolve(cwd, 'index.html'),
-      title: "admin",
-      chunks: ['admin'],
-      minify: {
-        removeComments: true, // 清除注释
-        collapseWhitespace: true, // 清除空格和换行符
-        minifyCSS: true, // 压缩html中的css
-        minifyJS: true, // 压缩html中script
-      }
-    }),
     new VueLoaderPlugin(),
     autoprefixer
   ],
 
   resolve: {
     extensions: ['.js', '.vue', '.json'],
-    alias: {
-      'vue': 'vue/dist/vue.js'
-    }
+    // alias: {
+    //   'vue': 'vue/dist/vue.js'
+    // }
   },
 
   module: {
     rules: [{
         test: /\.js$/,
-        // exclude: /node_modules/,
+        exclude: /node_modules/,
         loader: "babel-loader",
         options: babel
       },

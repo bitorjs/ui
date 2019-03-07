@@ -4,12 +4,10 @@ import index from '../view/index';
 
 
 @D.Controller('/plugin')
-class Controller {
+export default class {
 
   @D.Get('/')
   icon() {
     this.ctx.render(index)
   }
 }
-
-export default Controller;

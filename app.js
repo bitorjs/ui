@@ -6,7 +6,9 @@ import ui from './packages';
 Vue.use(ui);
 
 let client = app => {
+  app.watch(require.context('./config', false, /\.js$/))
   app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
+  
   
   // app.beforeEach((to, from, next) => {
   //   Toast.loading({ mask: true, message: "loading" + "..." });
