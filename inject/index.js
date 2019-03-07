@@ -109,7 +109,7 @@ export default class extends Application {
 
   start(client, vueRootComponent, htmlElementId) {
     htmlElementId = htmlElementId || '#root';
-    this.registerPlugin(client)
+    this.registerMainClient(client)
 
 
     _controllers.map(ctrl=>{
@@ -258,7 +258,7 @@ export default class extends Application {
     Vue.component(component.name||filename, component);
   }
 
-  registerPlugin(plugin) {
+  registerMainClient(plugin) {
     const modules = [];
 
     this.config = this.config || {};
