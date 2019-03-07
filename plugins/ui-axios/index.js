@@ -14,6 +14,7 @@ export default (app, option) => {
   setHeaders(instance)
   requestIntercptor(instance);
   responceIntercptor(instance);
+  debugger
   app.$ajax = app.ctx.$ajax = instance;
 }
 

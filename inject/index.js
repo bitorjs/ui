@@ -111,18 +111,22 @@ export default class extends Application {
   start(client, vueRootComponent, htmlElementId) {
     htmlElementId = htmlElementId || '#root';
     this.registerMainClient(client)
-    
-    _controllers.map(ctrl=>{
-      this.registerController( ctrl)
-    })
+
 
     _modules.forEach(m => {
       m.module(this, m)
     })
 
+    this.emit('AppDidSetup')
+
+
+    this.emit("ControllerWillMount")
+     _controllers.map(ctrl=>{
+      this.registerController( ctrl)
+    })
+    this.emit("ControllerMounted")
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
     this.emit('ready');
-    console.warn('app ready')
     this.startServer()
   }
 
@@ -277,9 +281,7 @@ export default class extends Application {
   }
 
   registerMainClient(mainClient) {
-    
- 
     mainClient(this);
-   
+    this.emit("did-mainclient")
   }
 }
