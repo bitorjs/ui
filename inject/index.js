@@ -24,14 +24,15 @@ export default class extends Application {
     this.createDirectives(this, Vue);
 
     this.use((ctx, next) => {
-      ctx.params = {};
+      const request = {};
+      request.params = {}
       let arr = ctx.url.split('?')
       let routes = this.match(arr[0]);
       console.log(routes)
       let route = routes[0];
       if (route) {
-        ctx.params = route.params;
-        route.handle(ctx, next)
+        request.params = route.params;
+        route.handle(request, next)
       }
     })
 
@@ -56,26 +57,28 @@ export default class extends Application {
     }
     decorators.methods.forEach((method) => {
       this.ctx[`$${method}`] = Vue.prototype[`$${method}`] = (url, params) => {
-        this.ctx.params = {}
-        this.ctx.query = {}
-        this.ctx.body = {}
+
+        const request = {};
+        request.params = {}
+        request.query = {}
+        request.body = {}
         let urlParts = url.split("?")
         let routes = this.match(urlParts[0], method);
         console.log(routes)
         let route = routes[0];
         if (route && !route.params['0']) {
-          this.ctx.params = route.params;
+          request.params = route.params;
           
           if(urlParts[1]){
-            this.ctx.query = Object.assign(this.ctx.query, qs.parse(urlParts[1]))
+            request.query = Object.assign(request.query, qs.parse(urlParts[1]))
           }
 
           if(method === "get"){
-            this.ctx.query = Object.assign(this.ctx.query, params);
+            request.query = Object.assign(request.query, params);
           } else if(method === "post") {
-            this.ctx.body = Object.assign(this.ctx.body, params);
+            request.body = Object.assign(request.body, params);
           }
-          return route.handle(this.ctx)
+          return route.handle(request)
         } else {
           return Promise.reject(`未找到路由[${url}]`);
         }

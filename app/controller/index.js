@@ -19,23 +19,26 @@ export default class {
     console.warn("yyyy")
     next()
   })
-  icon(a, b, c) {
+  async icon(a, b, c) {
     console.warn(a, b, c)
+
+    let r = await this.ctx.$post("/api/data/2/3");
+    debugger
     this.ctx.render(index, {
       data: this.ctx.$store.state.ttt.data
     })
   }
 
   @Post('/api/data/:id/:user')
-  @Middleware((ctx,next)=>{
+  @Middleware((req,next)=>{
     console.warn("bbbbb...")
-    ctx.params = Object.assign(ctx.params, {
+    req.params = Object.assign(req.params, {
       test:1
     })
     next()
   })
-  async b(a, b) {
-    console.warn('eeee...')
+  async b(req) {
+    console.warn('eeee...', req)
     console.info('$$$$--',await this.ctx.$service.ff.aa())
     return this.ctx.$store.state.ttt.data;
   }
