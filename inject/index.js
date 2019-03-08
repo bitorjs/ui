@@ -5,6 +5,8 @@ import compose from 'koa-compose';
 import directives from './directive';
 import Vuex from './vuex';
 
+var qs = require('qs');
+
 const _filters = new Map();
 const _services = new Map();
 const _webstore = new Map();
@@ -21,7 +23,7 @@ export default class extends Application {
     this.mountVue();
     this.createDirectives(this, Vue);
 
-    this.use((ctx) => {
+    this.use((ctx, next) => {
       ctx.params = {};
       let arr = ctx.url.split('?')
       let routes = this.match(arr[0]);
@@ -29,7 +31,7 @@ export default class extends Application {
       let route = routes[0];
       if (route) {
         ctx.params = route.params;
-        route.handle(route.params, ctx.url)
+        route.handle(ctx, next)
       }
     })
 
@@ -53,14 +55,29 @@ export default class extends Application {
       this.$vue.__update = 0;
     }
     decorators.methods.forEach((method) => {
-      this.ctx[`$${method}`] = Vue.prototype[`$${method}`] = (url) => {
-        let routes = this.match(url, method);
+      this.ctx[`$${method}`] = Vue.prototype[`$${method}`] = (url, params) => {
+        this.ctx.params = {}
+        this.ctx.query = {}
+        this.ctx.body = {}
+        let urlParts = url.split("?")
+        let routes = this.match(urlParts[0], method);
         console.log(routes)
         let route = routes[0];
         if (route && !route.params['0']) {
-          return route.handle(route.params, url, method)
+          this.ctx.params = route.params;
+          
+          if(urlParts[1]){
+            this.ctx.query = Object.assign(this.ctx.query, qs.parse(urlParts[1]))
+          }
+
+          if(method === "get"){
+            this.ctx.query = Object.assign(this.ctx.query, params);
+          } else if(method === "post") {
+            this.ctx.body = Object.assign(this.ctx.body, params);
+          }
+          return route.handle(this.ctx)
         } else {
-          return null;
+          return Promise.reject(`未找到路由[${url}]`);
         }
       }
     })
@@ -168,6 +185,21 @@ export default class extends Application {
   registerController( controller) {
     const instance = new controller(this.ctx)
     instance.ctx = this.ctx;
+
+    let controllMiddlewares = decorators.getMiddleware(controller);
+    controllMiddlewares = controllMiddlewares || [];
+    controllMiddlewares.reverse();
+    
+    const preMiddlewares = [];
+    for (let index = 0; index < controllMiddlewares.length; index++) {
+      let middleware = controllMiddlewares[index];
+      if(Object.prototype.toString.call(middleware)==="[object String]") {
+        if(_middlewares.has(middleware)) preMiddlewares.push(_middlewares.get(middleware));
+      } else {
+        // 直接注入中间件函数
+        preMiddlewares.push(middleware)
+      }
+    }
     decorators.iterator(controller, (prefix, subroute) => {
       let path;
       if (prefix.path && prefix.path.length > 1) {
@@ -181,35 +213,30 @@ export default class extends Application {
       console.log(path)
 
       let middlewares =decorators.getMiddleware(instance,subroute.prototype)
-      if(middlewares) {
-        let r = [];
-        for (let index = 0; index < middlewares.length; index++) {
-          const name = middlewares[index];
+      middlewares = middlewares ||[];
+      middlewares.reverse();
 
-          if(Object.prototype.toString.call(name)==="[object String]") {
-            if(_middlewares.has(name)) r.push(_middlewares.get(name));
+      if(middlewares.length>0||preMiddlewares.length>0) {
+        let controllerMiddlewares = [].concat(preMiddlewares);
+        for (let index = 0; index < middlewares.length; index++) {
+          let middleware = middlewares[index];
+          if(Object.prototype.toString.call(middleware)==="[object String]") {
+            if(_middlewares.has(middleware)) controllerMiddlewares.push(_middlewares.get(middleware));
           } else {
             // 直接注入中间件函数
-            r.push(name)
+            controllerMiddlewares.push(middleware)
           }
-          
         }
 
-        r.push(
+        controllerMiddlewares.push(
           instance[subroute.prototype].bind(instance)
         )
 
-        const fn = compose(r);
-        this.registerRoute(path, {
-          method: subroute.method.toLowerCase()
-        }, fn)
+        const fn = compose(controllerMiddlewares);
+        this.registerRoute(path, { method: subroute.method.toLowerCase()}, fn)
       } else {
-        this.registerRoute(path, {
-                method: subroute.method.toLowerCase()
-              }, instance[subroute.prototype].bind(instance))
+        this.registerRoute(path, { method: subroute.method.toLowerCase() }, instance[subroute.prototype].bind(instance))
       }
-
-      
     })
   }
 

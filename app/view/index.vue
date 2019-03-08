@@ -26,7 +26,14 @@ export default {
     next();
   },
   mounted() {
-    this.ctx.$get("/api/data").then(res => {});
+    this.ctx.$post("/api/data/1/5?a=1&b=3",{
+      params: {  
+       id: 12345,
+       name: 'xiaohuang'
+      }
+    }).then(res => {}).catch(err=>{
+      console.log(err)
+    })
     this.ctx.$ajax.get('/user').then(res => {
       console.log(res)
     })
