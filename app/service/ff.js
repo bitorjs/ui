@@ -9,11 +9,11 @@ export default class {
     // console.log(this.ctx.axios)
     console.warn('09998')
     this.ctx.$ajax.get('/user').then(res => {
-      console.log(res)
+      console.warn(res)
     })
 
     this.ctx.$ajax.post('/user').then(res => {
-      console.log(res)
+      console.warn(res)
     })
 
     const res = await this.ctx.$ajax.get('/');

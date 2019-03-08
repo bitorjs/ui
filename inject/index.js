@@ -6,23 +6,34 @@ import directives from './directive';
 import Vuex from './vuex';
 
 var qs = require('qs');
+var HashMap = require('hashmap');
 
 const _filters = new Map();
 const _services = new Map();
 const _webstore = new Map();
-const _controllers = [];
 const _middlewares = new Map();
 const _modules = [];
+const _controllers = []
+
+const _componentHashMap = new HashMap();
+const _filterHashMap = new HashMap();
+const _middlewareHashMap = new HashMap();
+const _serviceHashMap = new HashMap();
+const _mockHashMap = new HashMap();
+const _webstoreHashMap = new HashMap();
+const _controllerHashMap = new HashMap();
+
 export default class extends Application {
   constructor(options = {}) {
     super(options)
-
+    console.info("实例化y应用程序")
     this.ctx.$config = {}
     this.$config = this.ctx.$config;
 
     this.mountVue();
     this.createDirectives(this, Vue);
 
+    console.info("处理 路由查找中间件")
     this.use((ctx, next) => {
       const request = {};
       request.params = {}
@@ -47,6 +58,7 @@ export default class extends Application {
   }
 
   mountVue() {
+    console.info("处理 vue 及 ctx上的渲染及虚拟请求方法")
     Vue.prototype.ctx = this.ctx;
     this.ctx.render = (webview, props) => {
       props = props || {}
@@ -87,7 +99,7 @@ export default class extends Application {
   }
 
   createVueRoot(vueRootComponent, htmlElementId) {
-
+    console.info("挂载 vue 到 DOM")
     const innerPage = {
       name: 'router-view',
       render(h) {
@@ -125,6 +137,7 @@ export default class extends Application {
   }
 
   createDirectives(app, Vue) {
+    console.info("处理 vue 路由指令")
     directives(app, Vue);
   }
 
@@ -132,21 +145,48 @@ export default class extends Application {
     htmlElementId = htmlElementId || '#root';
     this.registerMainClient(client)
 
-
+    console.info("挂载其它插件")
     _modules.forEach(m => {
+      console.info("插件-", m.name)
       m.module(this, m)
     })
-
     this.emit('AppDidSetup')
-
-
+    console.info("配置分析完成")
+    console.info("注册所有全局组件")
+    _componentHashMap.forEach((m, filename) => {
+      this.registerComponent(filename, m);
+    })
+    console.info("注册所有过滤器")
+    _filterHashMap.forEach((m, filename) => {
+        this.registerFilter(filename, m);
+    })
+    console.info("注册所有存储服务")
+    _webstoreHashMap.forEach((m, filename) => {
+      this.registerStore(filename, m)
+    })
+    console.info("注册所有中间件")
+    _middlewareHashMap.forEach((m, filename) => {
+      this.registerMiddleware(filename, m);
+    })
+    console.info("注册所有实际请求服务")
+    if(this.$config && this.$config.mock !== true) {
+      _serviceHashMap.forEach((m, filename) => {
+          this.registerService(filename, m)
+        })
+    } else {
+      _mockHashMap.forEach((m, filename) => {
+        this.registerService(filename, m)
+      })
+    }
+    console.info("注册所有请求路由控制器")
     this.emit("ControllerWillMount")
      _controllers.map(ctrl=>{
-      this.registerController( ctrl)
+      this.registerController('', ctrl)
     })
     this.emit("ControllerMounted")
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
     this.emit('ready');
+    console.info("启动路由监听服务")
     this.startServer()
   }
 
@@ -185,7 +225,7 @@ export default class extends Application {
   }
 
 
-  registerController( controller) {
+  registerController(filename, controller) {
     const instance = new controller(this.ctx)
     instance.ctx = this.ctx;
 
@@ -263,27 +303,42 @@ export default class extends Application {
     }
   }
 
+  registerComponent(filename, component) {
+    if (!(component instanceof Object)) {
+      throw new TypeError('component must be Vue instance')
+    }
+
+    Vue.component(component.name||filename, component);
+  }
+
+  registerMainClient(mainClient) {
+    console.info("挂载根插件")
+    mainClient(this);
+    this.emit("did-mainclient")
+  }
+
   watch(requireContext) {
+    console.info("监听插件目录")
     return requireContext.keys().map(key => {
       console.log(key)
       let m = requireContext(key);
       let c = m.default || m;
       let filename = key.replace(/(.*\/)*([^.]+).*/ig, "$2");
       if (key.match(/\/component\/.*\.vue$/) != null) {
-        this.registerComponent(filename,c);
+        _componentHashMap.set(filename, c)
       } else if (key.match(/\/filter\/.*\.js$/) != null) {
-        this.registerFilter(filename, c)
+        _filterHashMap.set(filename, c)
       } else if (key.match(/\/middleware\/.*\.js$/) != null) {
-        this.registerMiddleware(filename, c)
+        _middlewareHashMap.set(filename, c)
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
-        // this.registerController(filename,c);
         _controllers.push( c)
-      } else if (key.match(/\/service\/.*\.js$/) != null && this.$config && this.$config.mock !== true) {
-        this.registerService(filename, c);
-      } else if (key.match(/\/mock\/.*\.js$/) != null && this.$config && this.$config.mock === true) {
-        this.registerService(filename, c);
+        // _controllerHashMap.set(filename, c)
+      } else if (key.match(/\/service\/.*\.js$/) != null) {
+        _serviceHashMap.set(filename, c)
+      } else if (key.match(/\/mock\/.*\.js$/) != null) {
+        _mockHashMap.set(filename, c)
       } else if (key.match(/\/store\/.*\.js$/) != null) {
-        this.registerStore(filename, c);
+        _webstoreHashMap.set(filename, c)
       } else if (key.match(/\/plugin\.config\.js$/) != null) {
         c.forEach(item => {
           if (item.enable === true) _modules.push(item);
@@ -302,16 +357,5 @@ export default class extends Application {
     })
   }
 
-  registerComponent(filename, component) {
-    if (!(component instanceof Object)) {
-      throw new TypeError('component must be Vue instance')
-    }
-
-    Vue.component(component.name||filename, component);
-  }
-
-  registerMainClient(mainClient) {
-    mainClient(this);
-    this.emit("did-mainclient")
-  }
+  
 }

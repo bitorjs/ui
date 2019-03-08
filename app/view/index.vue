@@ -32,14 +32,14 @@ export default {
        name: 'xiaohuang'
       }
     }).then(res => {}).catch(err=>{
-      console.log(err)
+      console.error(err)
     })
     this.ctx.$ajax.get('/user').then(res => {
-      console.log(res)
+      console.warn(res)
     })
 
     this.ctx.$ajax.post('/user').then(res => {
-      console.log(res)
+      console.warn(res)
     })
   },
   methods: {

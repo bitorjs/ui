@@ -2,9 +2,15 @@ import UINI from 'ui-nipi';
 import uiAxios from 'ui-axios';
 import uiWX from 'ui-wxshare';
 import uiTest from 'ui-test';
+import uiLogin from 'ui-login';
 
 
 export default [
+  {
+    name: 'ui-login',
+    module: uiLogin,
+    enable: true
+  },
   {
     name: 'ui-nipi',
     module: UINI,

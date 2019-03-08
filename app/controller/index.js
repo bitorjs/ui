@@ -23,7 +23,6 @@ export default class {
     console.warn(a, b, c)
 
     let r = await this.ctx.$post("/api/data/2/3");
-    debugger
     this.ctx.render(index, {
       data: this.ctx.$store.state.ttt.data
     })
@@ -39,7 +38,7 @@ export default class {
   })
   async b(req) {
     console.warn('eeee...', req)
-    console.info('$$$$--',await this.ctx.$service.ff.aa())
+    console.warn('$$$$--',await this.ctx.$service.ff.aa())
     return this.ctx.$store.state.ttt.data;
   }
 }

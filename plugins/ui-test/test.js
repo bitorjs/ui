@@ -4,7 +4,6 @@ const client = (app, options) => {
 
   app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
   app.on('ready', () => {
-    console.log('test ready')
     app.$store.gggg.setItem('ip', ip || '192.168.1.1')
     app.$store.gggg.setItem('user1', 1)
     app.$store.gggg.setItem('user2', 2)
@@ -19,7 +18,7 @@ const client = (app, options) => {
         c: 1
       }
     })
-    console.log('updateIp', app.$store.gggg.getters.updateIp)
+    console.warn('updateIp', app.$store.gggg.getters.updateIp)
     app.$store.gggg.dispatch('setIp', '192.168.2.2')
   })
 }

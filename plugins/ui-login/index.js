@@ -1,4 +1,13 @@
+// var HashMap = require('hashmap');
 
+// var map = new HashMap();
+// map.set("1", "string one");
+// map.set(1, "number one");
+// map.forEach(function(value, key) {
+//   console.log(key + " : " + value);
+// });
+
+// debugger
 export default (app, options) =>{
   
   app.login = login;
