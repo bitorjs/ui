@@ -3,9 +3,15 @@ import uiAxios from 'ui-axios';
 import uiWX from 'ui-wxshare';
 import uiTest from 'ui-test';
 import uiLogin from 'ui-login';
+import uiMain from 'ui-main';
 
 
 export default [
+  {
+    name: 'ui-main',
+    module: uiMain,
+    enable: true
+  },
   {
     name: 'ui-login',
     module: uiLogin,

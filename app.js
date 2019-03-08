@@ -1,13 +1,13 @@
 import "normalize.css";
 import Vue from 'vue';
 import VueApplication from './inject';
-import Start from './app/view/start';
+import Start from './app.vue';
 import ui from './packages';
 Vue.use(ui);
 
 let client = app => {
   app.watch(require.context('./config', false, /\.js$/))
-  app.watch(require.context('./app', true, /^((?!\/view\/).)+\.(vue|js)$/));
+  
   
   
   // app.beforeEach((to, from, next) => {

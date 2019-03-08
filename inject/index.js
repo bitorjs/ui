@@ -141,55 +141,6 @@ export default class extends Application {
     directives(app, Vue);
   }
 
-  start(client, vueRootComponent, htmlElementId) {
-    htmlElementId = htmlElementId || '#root';
-    this.registerMainClient(client)
-
-    console.info("挂载其它插件")
-    _modules.forEach(m => {
-      console.info("插件-", m.name)
-      m.module(this, m)
-    })
-    this.emit('AppDidSetup')
-    console.info("配置分析完成")
-    console.info("注册所有全局组件")
-    _componentHashMap.forEach((m, filename) => {
-      this.registerComponent(filename, m);
-    })
-    console.info("注册所有过滤器")
-    _filterHashMap.forEach((m, filename) => {
-        this.registerFilter(filename, m);
-    })
-    console.info("注册所有存储服务")
-    _webstoreHashMap.forEach((m, filename) => {
-      this.registerStore(filename, m)
-    })
-    console.info("注册所有中间件")
-    _middlewareHashMap.forEach((m, filename) => {
-      this.registerMiddleware(filename, m);
-    })
-    console.info("注册所有实际请求服务")
-    if(this.$config && this.$config.mock !== true) {
-      _serviceHashMap.forEach((m, filename) => {
-          this.registerService(filename, m)
-        })
-    } else {
-      _mockHashMap.forEach((m, filename) => {
-        this.registerService(filename, m)
-      })
-    }
-    console.info("注册所有请求路由控制器")
-    this.emit("ControllerWillMount")
-     _controllers.map(ctrl=>{
-      this.registerController('', ctrl)
-    })
-    this.emit("ControllerMounted")
-    this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
-    this.emit('ready');
-    console.info("启动路由监听服务")
-    this.startServer()
-  }
-
   registerFilter(filename, filter) {
     if (_filters.get(filename) === undefined) {
       _filters.set(filename, filter)
@@ -318,7 +269,7 @@ export default class extends Application {
   }
 
   watch(requireContext) {
-    console.info("监听插件目录")
+    console.info("分析收集插件目录")
     return requireContext.keys().map(key => {
       console.log(key)
       let m = requireContext(key);
@@ -357,5 +308,52 @@ export default class extends Application {
     })
   }
 
-  
+  start(client, vueRootComponent, htmlElementId) {
+    htmlElementId = htmlElementId || '#root';
+    this.registerMainClient(client)
+
+    console.info("挂载其它插件")
+    _modules.forEach(m => {
+      console.info("插件-", m.name)
+      m.module(this, m)
+    })
+    this.emit('AppDidSetup')
+    console.info("配置分析完成")
+    console.info("注册所有全局组件")
+    _componentHashMap.forEach((m, filename) => {
+      this.registerComponent(filename, m);
+    })
+    console.info("注册所有过滤器")
+    _filterHashMap.forEach((m, filename) => {
+        this.registerFilter(filename, m);
+    })
+    console.info("注册所有存储服务")
+    _webstoreHashMap.forEach((m, filename) => {
+      this.registerStore(filename, m)
+    })
+    console.info("注册所有中间件")
+    _middlewareHashMap.forEach((m, filename) => {
+      this.registerMiddleware(filename, m);
+    })
+    console.info("注册所有实际请求服务")
+    if(this.$config && this.$config.mock !== true) {
+      _serviceHashMap.forEach((m, filename) => {
+          this.registerService(filename, m)
+        })
+    } else {
+      _mockHashMap.forEach((m, filename) => {
+        this.registerService(filename, m)
+      })
+    }
+    console.info("注册所有请求路由控制器")
+    this.emit("ControllerWillMount")
+     _controllers.map(ctrl=>{
+      this.registerController('', ctrl)
+    })
+    this.emit("ControllerMounted")
+    this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
+    this.emit('ready');
+    console.info("启动路由监听服务")
+    this.startServer()
+  }
 }

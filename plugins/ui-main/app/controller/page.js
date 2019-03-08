@@ -3,7 +3,7 @@ import {
   Get,
   Post
 } from 'bitorjs-decorators';
-import Toast from '../../packages/Toast';
+// import Toast from '../../packages/Toast';
 
 @Controller('/')
 export default class {
@@ -20,7 +20,7 @@ export default class {
       // this.ctx.Store.root.setItem("title", items[0].label);
       this.ctx.render(res.default)
     }).catch(res => {
-      Toast.fail('未找到页面')
+      // Toast.fail('未找到页面')
       this.ctx.app.redirect('/')
     })
   }

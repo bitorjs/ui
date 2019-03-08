@@ -1,7 +1,9 @@
 <template>
   <PageRootContainer>
     <NavBar :title="ctx.$store.state.title||title" :left-arrow="back" @click-left="onClickLeft"/>
-    <router-view></router-view>
+    <transition name="fade" mode="out-in">
+        <router-view></router-view>
+    </transition>
   </PageRootContainer>
 </template>
 <script>
