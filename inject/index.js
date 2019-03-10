@@ -4,9 +4,8 @@ import Application from 'bitorjs-application'
 import compose from 'koa-compose';
 import directives from './directive';
 import Vuex from './vuex';
-
-var qs = require('qs');
-var HashMap = require('hashmap');
+import qs from "qs";
+import HashMap from 'hashmap';
 
 const _filters = new Map();
 const _services = new Map();
