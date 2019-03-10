@@ -34,6 +34,7 @@
     "object-assign": "^4.1.1",
     "qs": "^6.6.0",
     "reflect-metadata": "^0.1.13",
+    "test-browser": "file:plugins/test-browser",
     "ui-axios": "file:plugins/ui-axios",
     "ui-login": "file:plugins/ui-login",
     "ui-main": "file:plugins/ui-main",
