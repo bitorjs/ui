@@ -4,7 +4,7 @@
 
 <script>
 import * as monaco from "monaco-editor";
-var debounce = require("lodash.debounce");
+var debounce = require("lodash/debounce");
 import nginx from "../lib/nginx";
 import completion from "../lib/completion";
 

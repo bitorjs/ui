@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import decorators from 'bitorjs-decorators';
 import Application from 'bitorjs-application'
+import Router from 'bitorjs-router';
 import compose from 'koa-compose';
 import directives from './directive';
 import Vuex from './vuex';
@@ -21,6 +22,8 @@ const _mockHashMap = new HashMap();
 const _webstoreHashMap = new HashMap();
 const _controllerHashMap = new HashMap();
 
+const router = new Router();
+
 export default class extends Application {
   constructor(options = {}) {
     super(options)
@@ -36,7 +39,7 @@ export default class extends Application {
       const request = {};
       request.params = {}
       let arr = ctx.url.split('?')
-      let routes = this.match(arr[0]);
+      let routes = router.match(arr[0]);
       console.log(routes)
       let route = routes[0];
       if (route) {
@@ -73,7 +76,7 @@ export default class extends Application {
         request.query = {}
         request.body = {}
         let urlParts = url.split("?")
-        let routes = this.match(urlParts[0], method);
+        let routes = router.match(urlParts[0], method);
         console.log(routes)
         let route = routes[0];
         if (route && !route.params['0']) {
@@ -225,9 +228,9 @@ export default class extends Application {
         )
 
         const fn = compose(controllerMiddlewares);
-        this.registerRoute(path, { method: subroute.method.toLowerCase()}, fn)
+        router.register(path, { method: subroute.method.toLowerCase()}, fn)
       } else {
-        this.registerRoute(path, { method: subroute.method.toLowerCase() }, instance[subroute.prototype].bind(instance))
+        router.register(path, { method: subroute.method.toLowerCase() }, instance[subroute.prototype].bind(instance))
       }
     })
   }

@@ -5,7 +5,7 @@ import Start from './app.vue';
 import ui from './packages';
 Vue.use(ui);
 
-import HashMap from 'hashmap';
+import HashMap from './inject/hashmap';
 var map = new HashMap();
 map.set("key1", "val1");
 map.set("key1", "val2");
