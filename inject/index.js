@@ -85,7 +85,7 @@ export default class extends Application {
 
           if(method === "get"){
             request.query = Object.assign(request.query, params);
-          } else if(method === "post") {
+          } else {// if(method === "post")
             request.body = Object.assign(request.body, params);
           }
           return route.handle(request)
