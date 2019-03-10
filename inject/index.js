@@ -250,13 +250,13 @@ export default class extends Application {
     if (_middlewares.get(filename)===undefined) {
       _middlewares.set(filename, middleware);
     } else {
-      throw new Error(`Fliter [${filename}] has been declared`)
+      throw new Error(`Middleware [${filename}] has been declared`)
     }
   }
 
   registerComponent(filename, component) {
     if (!(component instanceof Object)) {
-      throw new TypeError('component must be Vue instance')
+      throw new TypeError('Component must be Vue instance')
     }
 
     Vue.component(component.name||filename, component);
