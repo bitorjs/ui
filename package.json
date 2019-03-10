@@ -25,7 +25,6 @@
   "dependencies": {
     "bitorjs-decorators": "^1.0.2",
     "canvas-exif-orientation": "^0.4.0",
-    "hashmap": "^2.3.0",
     "koa-compose": "^4.1.0",
     "lodash": "^4.17.11",
     "monaco-editor": "^0.15.6",
