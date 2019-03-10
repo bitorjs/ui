@@ -5,14 +5,13 @@ import compose from 'koa-compose';
 import directives from './directive';
 import Vuex from './vuex';
 import qs from "qs";
-import HashMap from 'hashmap';
+import HashMap from './hashmap';
 
 const _filters = new Map();
 const _services = new Map();
 const _webstore = new Map();
 const _middlewares = new Map();
 const _modules = [];
-const _controllers = []
 
 const _componentHashMap = new HashMap();
 const _filterHashMap = new HashMap();
@@ -281,8 +280,7 @@ export default class extends Application {
       } else if (key.match(/\/middleware\/.*\.js$/) != null) {
         _middlewareHashMap.set(filename, c)
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
-        _controllers.push( c)
-        // _controllerHashMap.set(filename, c)
+        _controllerHashMap.set(filename, c)
       } else if (key.match(/\/service\/.*\.js$/) != null) {
         _serviceHashMap.set(filename, c)
       } else if (key.match(/\/mock\/.*\.js$/) != null) {
@@ -324,7 +322,7 @@ export default class extends Application {
     })
     console.info("注册所有过滤器")
     _filterHashMap.forEach((m, filename) => {
-        this.registerFilter(filename, m);
+      this.registerFilter(filename, m);
     })
     console.info("注册所有存储服务")
     _webstoreHashMap.forEach((m, filename) => {
@@ -346,8 +344,8 @@ export default class extends Application {
     }
     console.info("注册所有请求路由控制器")
     this.emit("ControllerWillMount")
-     _controllers.map(ctrl=>{
-      this.registerController('', ctrl)
+    _controllerHashMap.forEach((m, filename)=>{
+      this.registerController(filename, m)
     })
     this.emit("ControllerMounted")
     this.$vue = this.createVueRoot(vueRootComponent, htmlElementId)
