@@ -34,6 +34,10 @@ export default  class {
     return false;
   }
 
+  remove(){
+    return 1;
+  }
+
   get size(){
     
     return Object.getOwnPropertySymbols(this._cache).length;
