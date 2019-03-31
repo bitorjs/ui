@@ -28,6 +28,7 @@ export default class extends Application {
   constructor(options = {}) {
     super(options)
     console.info("实例化y应用程序")
+    global.context = this.ctx;
     this.ctx.$config = {}
     this.$config = this.ctx.$config;
 
@@ -81,12 +82,12 @@ export default class extends Application {
         let route = routes[0];
         if (route && !route.params['0']) {
           request.params = route.params;
-          
-          if(urlParts[1]){
+
+          if (urlParts[1]) {
             request.query = Object.assign(request.query, qs.parse(urlParts[1]))
           }
 
-          if(method === "get"){
+          if (method === "get") {
             request.query = Object.assign(request.query, params);
           } else {// if(method === "post")
             request.body = Object.assign(request.body, params);
@@ -151,28 +152,51 @@ export default class extends Application {
     }
   }
 
-  registerService(filename, service) {
-    const instance = new service(this.ctx);
-    instance.ctx = this.ctx;
-    let name = decorators.getService(service);
-    if (name) {
-      
-      if (_services.has(name)) {
-        throw new Error(`Service [${name}] has been declared`)
-      } else { 
-        _services.set(name, service)
-        this.ctx.$service = this.ctx.$service || {};
-        this.ctx.$service[name] = instance;
+  registerService(filename, allService) {
+    let serviceName = undefined;
+    const defaultService = allService.default;
+    if (defaultService) {
+      // console.log(allService, defaultService)
+      let instance;
+      try {
+        instance = new defaultService(this.ctx);
+      } catch (error) {
+        console.log(defaultService, error)
+      } finally {
+        // console.log(defaultService.constructor)
       }
-    } else {
-      if (_services.has(filename)) {
-        throw new Error(`Service [${filename}] has been declared`)
+      instance.ctx = this.ctx;
+      let name = decorators.getService(defaultService);
+      if (name) {
+        serviceName = name;
+        if (_services.has(serviceName)) {
+          throw new Error(`Service [${serviceName}] has been declared`)
+        }
       } else {
-        _services.set(filename, service)
-        this.ctx.$service = this.ctx.$service || {};
-        this.ctx.$service[filename] = instance;
-        console.warn('Service ', service, 'use @Service(name)')
+        serviceName = filename;
+        if (_services.has(serviceName)) {
+          throw new Error(`Service [${serviceName}] has been declared`)
+        } else {
+          console.warn('Service ', serviceName, 'use @Service(name)')
+        }
       }
+
+      _services.set(serviceName, defaultService)
+      this.ctx.$service = this.ctx.$service || {};
+      this.ctx.$service[serviceName] = instance;
+    }
+
+    delete allService.default;
+    let extraServices = Object.keys(allService);
+    if (extraServices.length > 0) {
+      if (serviceName === undefined) {
+        this.context.$service[serviceName] = {};
+      }
+      extraServices.forEach(key => {
+        let extraService = allService[key];
+        extraService.bind(this.context);
+        this.context.$service[serviceName][key] = extraService;
+      })
     }
   }
 
@@ -184,12 +208,12 @@ export default class extends Application {
     let controllMiddlewares = decorators.getMiddleware(controller);
     controllMiddlewares = controllMiddlewares || [];
     controllMiddlewares.reverse();
-    
+
     const preMiddlewares = [];
     for (let index = 0; index < controllMiddlewares.length; index++) {
       let middleware = controllMiddlewares[index];
-      if(Object.prototype.toString.call(middleware)==="[object String]") {
-        if(_middlewares.has(middleware)) preMiddlewares.push(_middlewares.get(middleware));
+      if (Object.prototype.toString.call(middleware) === "[object String]") {
+        if (_middlewares.has(middleware)) preMiddlewares.push(_middlewares.get(middleware));
       } else {
         // 直接注入中间件函数
         preMiddlewares.push(middleware)
@@ -207,16 +231,16 @@ export default class extends Application {
 
       console.log(path)
 
-      let middlewares =decorators.getMiddleware(instance,subroute.prototype)
-      middlewares = middlewares ||[];
+      let middlewares = decorators.getMiddleware(instance, subroute.prototype)
+      middlewares = middlewares || [];
       middlewares.reverse();
 
-      if(middlewares.length>0||preMiddlewares.length>0) {
+      if (middlewares.length > 0 || preMiddlewares.length > 0) {
         let controllerMiddlewares = [].concat(preMiddlewares);
         for (let index = 0; index < middlewares.length; index++) {
           let middleware = middlewares[index];
-          if(Object.prototype.toString.call(middleware)==="[object String]") {
-            if(_middlewares.has(middleware)) controllerMiddlewares.push(_middlewares.get(middleware));
+          if (Object.prototype.toString.call(middleware) === "[object String]") {
+            if (_middlewares.has(middleware)) controllerMiddlewares.push(_middlewares.get(middleware));
           } else {
             // 直接注入中间件函数
             controllerMiddlewares.push(middleware)
@@ -228,7 +252,7 @@ export default class extends Application {
         )
 
         const fn = compose(controllerMiddlewares);
-        router.register(path, { method: subroute.method.toLowerCase()}, fn)
+        router.register(path, { method: subroute.method.toLowerCase() }, fn)
       } else {
         router.register(path, { method: subroute.method.toLowerCase() }, instance[subroute.prototype].bind(instance))
       }
@@ -248,7 +272,7 @@ export default class extends Application {
   }
 
   registerMiddleware(filename, middleware) {
-    if (_middlewares.get(filename)===undefined) {
+    if (_middlewares.get(filename) === undefined) {
       _middlewares.set(filename, middleware);
     } else {
       throw new Error(`Middleware [${filename}] has been declared`)
@@ -260,7 +284,7 @@ export default class extends Application {
       throw new TypeError('Component must be Vue instance')
     }
 
-    Vue.component(component.name||filename, component);
+    Vue.component(component.name || filename, component);
   }
 
   registerMainClient(mainClient) {
@@ -285,9 +309,11 @@ export default class extends Application {
       } else if (key.match(/\/controller\/.*\.js$/) != null) {
         _controllerHashMap.set(filename, c)
       } else if (key.match(/\/service\/.*\.js$/) != null) {
-        _serviceHashMap.set(filename, c)
+        const allService = requireContext(key);
+        _serviceHashMap.set(filename, allService)
       } else if (key.match(/\/mock\/.*\.js$/) != null) {
-        _mockHashMap.set(filename, c)
+        const allService = requireContext(key);
+        _mockHashMap.set(filename, allService)
       } else if (key.match(/\/store\/.*\.js$/) != null) {
         _webstoreHashMap.set(filename, c)
       } else if (key.match(/\/plugin\.config\.js$/) != null) {
@@ -336,10 +362,10 @@ export default class extends Application {
       this.registerMiddleware(filename, m);
     })
     console.info("注册所有实际请求服务")
-    if(this.$config && this.$config.mock !== true) {
+    if (this.$config && this.$config.mock !== true) {
       _serviceHashMap.forEach((m, filename) => {
-          this.registerService(filename, m)
-        })
+        this.registerService(filename, m)
+      })
     } else {
       _mockHashMap.forEach((m, filename) => {
         this.registerService(filename, m)
@@ -347,7 +373,7 @@ export default class extends Application {
     }
     console.info("注册所有请求路由控制器")
     this.emit("ControllerWillMount")
-    _controllerHashMap.forEach((m, filename)=>{
+    _controllerHashMap.forEach((m, filename) => {
       this.registerController(filename, m)
     })
     this.emit("ControllerMounted")
